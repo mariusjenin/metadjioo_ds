@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Metadjioo_DS</string>
+    <string name="content_description">FILLER</string>
+    <!-- Home -->
+    <string name="click_to_start">Click anywhere to start the experiment</string>
+    <string name="welcome">Welcome!</string>
+    <!-- Identification -->
+    <!-- Config -->
+    <!-- MainPage -->
 </resources>
