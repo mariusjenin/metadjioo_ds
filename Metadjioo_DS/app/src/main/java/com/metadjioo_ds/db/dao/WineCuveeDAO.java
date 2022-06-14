@@ -8,7 +8,6 @@ import androidx.room.Query;
 
 import com.metadjioo_ds.db.entity.WineCuvee;
 
-import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -20,7 +19,7 @@ public interface WineCuveeDAO {
     void insert(WineCuvee wineCuvee);
 
     @Insert(onConflict = ABORT)
-    void insertAll(List<WineCuvee> wineCuvees);
+    List<Long> insertAll(List<WineCuvee> wineCuvees);
 
     @Query("DELETE FROM WineCuvee")
     void clear();

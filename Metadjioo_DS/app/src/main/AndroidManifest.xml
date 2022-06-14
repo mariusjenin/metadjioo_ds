@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MDS"
-        tools:ignore="RtlEnabled">
+
+    tools:ignore="RtlEnabled">
 
         <activity
             android:name=".view.activity.used.HomeActivity"
@@ -22,6 +23,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".view.activity.used.LogInActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
         </activity>
 
     </application>

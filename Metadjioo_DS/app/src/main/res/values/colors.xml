@@ -14,7 +14,10 @@
     <color name="gray900">#212121</color>
 
 
-    <color name="wine">#B63A74</color>
-    <color name="lightWine">#BF7464</color>
+    <color name="pink">#B63A74</color>
+    <color name="pink_orange">#CC7C6B</color>
     <color name="orange">#FFB74A</color>
+
+
+    <color name="light_pink">#E1478F</color>
 </resources>

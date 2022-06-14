@@ -4,6 +4,8 @@
     <!-- Home -->
     <string name="click_to_start">Click anywhere to start the experiment</string>
     <string name="welcome">Welcome!</string>
+    <string name="set_up_experience">Set up the experience</string>
+    <string name="launch_experience">Launch the experience</string>
     <!-- Identification -->
     <!-- Config -->
     <!-- MainPage -->

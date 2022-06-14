@@ -6,21 +6,21 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.metadjioo_ds.db.entity.Wine;
+import com.metadjioo_ds.db.entity.Video;
 
 import java.util.List;
 
 @Dao
-public interface WineDAO {
-    @Query("SELECT * FROM Wine WHERE Wine.id_wine = :id LIMIT 1")
-    Wine get(int id);
+public interface VideoDAO {
+    @Query("SELECT * FROM Video WHERE Video.id_video = :id LIMIT 1")
+    Video get(int id);
 
     @Insert(onConflict = ABORT)
-    void insert(Wine wine);
+    void insert(Video video);
 
     @Insert(onConflict = ABORT)
-    List<Long> insertAll(List<Wine> wines);
+    List<Long> insertAll(List<Video> videos);
 
-    @Query("DELETE FROM Wine")
+    @Query("DELETE FROM Video")
     void clear();
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.metadjioo_ds.MDSApp;
@@ -31,7 +32,11 @@ public abstract class MDSActivity extends AppCompatActivity {
 
         final View decorView = getWindow().getDecorView();
         mFullScreenBehavior = new FullScreenBehavior(decorView);
-//        Log.e("Activity","1");
+
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.hide();
+
 
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
                 {
@@ -42,7 +47,6 @@ public abstract class MDSActivity extends AppCompatActivity {
                         if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
                         {
                             mFullScreenBehavior.doFullScreen();
-//                            Log.e("Activity","2");
                         }
                     }
                 });
@@ -52,13 +56,16 @@ public abstract class MDSActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus)
     {
         mFullScreenBehavior.doFullScreen();
-//        Log.e("Activity","3");
     }
 
     public void showProgress() {
         mProgDialog = ProgressDialog.show(this, null, null, false, false);
         mProgDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mProgDialog.setContentView(R.layout.progress_bar);
+    }
+
+    public boolean isPresentationAvailable(){
+        return mPresentation != null;
     }
 
     public void hideProgress() {
