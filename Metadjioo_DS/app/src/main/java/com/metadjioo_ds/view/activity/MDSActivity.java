@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
+import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.view.FullScreenBehavior;
 import com.metadjioo_ds.view.presentation.MDSPresentation;
 
@@ -23,12 +24,14 @@ public abstract class MDSActivity extends AppCompatActivity {
     private ProgressDialog mProgDialog;
     private FullScreenBehavior mFullScreenBehavior;
     protected MDSPresentation mPresentation;
+    protected AppDatabase appDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MDSApp.setCurrentAct(this);
 
+        appDatabase = AppDatabase.getInstance(this);
 
         final View decorView = getWindow().getDecorView();
         mFullScreenBehavior = new FullScreenBehavior(decorView);

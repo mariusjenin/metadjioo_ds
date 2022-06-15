@@ -4,37 +4,41 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.view.activity.MDSActivity;
 import com.metadjioo_ds.view.presentation.EmptyPresentation;
 
-public class LogInActivity extends MDSActivity {
+public class ExperienceActivity extends MDSActivity {
+
+    public static final int SCROLL_DELTA = 300;
+
+    private HorizontalScrollView scrollView;
+    private ImageButton btnScrollLeft;
+    private ImageButton buttonScrollRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logging_in);
+        setContentView(R.layout.experience);
         initSecondMonitor();
 
-        Button btnConnect = findViewById(R.id.log_in);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
+        scrollView = findViewById(R.id.experience_scroll_view);
+        btnScrollLeft = findViewById(R.id.scroll_left);
+        buttonScrollRight = findViewById(R.id.scroll_right);
+        btnScrollLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                appDatabase.clear();
-                appDatabase.fill();
-                Toast.makeText(LogInActivity.this, "Database loaded", Toast.LENGTH_SHORT).show();
+                scrollLeft();
             }
         });
 
-        ImageButton btnGoBack = findViewById(R.id.go_back);
-        btnGoBack.setOnClickListener(new View.OnClickListener() {
+        buttonScrollRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogInActivity.this.finish();
+                scrollRight();
             }
         });
     }
@@ -50,5 +54,15 @@ public class LogInActivity extends MDSActivity {
                 mPresentation.show();
             }
         }
+    }
+
+    private void scrollRight(){
+        int new_x = this.scrollView.getScrollX()+SCROLL_DELTA;
+        this.scrollView.scrollTo(new_x, this.scrollView.getScrollY());
+    }
+
+    private void scrollLeft(){
+        int new_x = this.scrollView.getScrollX()-SCROLL_DELTA;
+        this.scrollView.scrollTo(new_x, this.scrollView.getScrollY());
     }
 }

@@ -20,11 +20,21 @@ public class HomeActivity extends MDSActivity {
         initSecondMonitor();
 
         Button btn_setup = findViewById(R.id.setup_experience);
+        Button btn_launch = findViewById(R.id.launch_experience);
         btn_setup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
                 HomeActivity.this.startActivity(intent);
+            }
+        });
+
+        btn_launch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, ExperienceActivity.class);
+                HomeActivity.this.startActivity(intent);
+                finish();
             }
         });
     }

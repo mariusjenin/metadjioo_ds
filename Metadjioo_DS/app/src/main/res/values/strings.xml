@@ -6,6 +6,11 @@
     <string name="welcome">Welcome!</string>
     <string name="set_up_experience">Set up the experience</string>
     <string name="launch_experience">Launch the experience</string>
+    <string name="join_our_community">Join our community</string>
+    <string name="logging_in">Logging in</string>
+    <string name="log_in">Log in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <!-- Identification -->
     <!-- Config -->
     <!-- MainPage -->

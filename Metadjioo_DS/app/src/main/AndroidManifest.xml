@@ -32,6 +32,12 @@
             android:screenOrientation="landscape">
         </activity>
 
+        <activity
+            android:name=".view.activity.used.ExperienceActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
+        </activity>
+
     </application>
 
 </manifest>
