@@ -15,7 +15,7 @@
     tools:ignore="RtlEnabled">
 
         <activity
-            android:name=".view.activity.used.HomeActivity"
+            android:name=".app.activity.used.HomeActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -27,13 +27,13 @@
 
 
         <activity
-            android:name=".view.activity.used.LogInActivity"
+            android:name=".app.activity.used.LogInActivity"
             android:exported="true"
             android:screenOrientation="landscape">
         </activity>
 
         <activity
-            android:name=".view.activity.used.ExperienceActivity"
+            android:name=".app.activity.used.ExperienceActivity"
             android:exported="true"
             android:screenOrientation="landscape">
         </activity>

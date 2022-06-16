@@ -1,6 +1,6 @@
 package com.metadjioo_ds.middleware;
 
-import com.metadjioo_ds.view.activity.MiddlewareActivity;
+import com.metadjioo_ds.app.activity.MiddlewareActivity;
 import com.metadjioo_ds.manager.ConnectionManager;
 
 /**

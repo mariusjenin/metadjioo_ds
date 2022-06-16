@@ -1,4 +1,4 @@
-package com.metadjioo_ds.view.presentation;
+package com.metadjioo_ds.app.presentation;
 
 import android.content.Context;
 import android.os.Bundle;

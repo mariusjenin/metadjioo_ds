@@ -19,9 +19,17 @@ public class Language implements Serializable {
     @ColumnInfo(name = "country_flag", typeAffinity = ColumnInfo.BLOB)
     public byte[] country_flag;
 
-    public Language(@NonNull String country_code, String country_name, byte[] country_flag) {
+    @ColumnInfo(name = "lang_default")
+    public boolean lang_default;
+
+    @ColumnInfo(name = "lang_selected")
+    public boolean lang_selected;
+
+    public Language(@NonNull String country_code, String country_name, byte[] country_flag, boolean lang_default, boolean lang_selected) {
         this.country_code = country_code;
         this.country_name = country_name;
         this.country_flag = country_flag;
+        this.lang_default = lang_default;
+        this.lang_selected = lang_selected;
     }
 }

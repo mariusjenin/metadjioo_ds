@@ -1,10 +1,9 @@
-package com.metadjioo_ds.view.activity;
+package com.metadjioo_ds.app.activity;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -14,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.db.AppDatabase;
-import com.metadjioo_ds.view.FullScreenBehavior;
-import com.metadjioo_ds.view.presentation.MDSPresentation;
+import com.metadjioo_ds.app.FullScreenBehavior;
+import com.metadjioo_ds.app.presentation.MDSPresentation;
 
 /**
  * Activity of Metadjioo Display Stand App

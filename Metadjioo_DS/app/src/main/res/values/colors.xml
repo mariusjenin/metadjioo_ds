@@ -21,6 +21,8 @@
 
     <color name="light_pink">#E1478F</color>
     <color name="light_yellow">#FFECCF</color>
-    <color name="light_yellow_translucent">#9AFFECCF</color>
+    <color name="light_yellow_translucent_1">#9AFFECCF</color>
+    <color name="light_yellow_translucent_2">#4FFFECCF</color>
+    <color name="translucent">#00FFFFFF</color>
 
 </resources>

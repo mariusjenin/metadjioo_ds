@@ -1,16 +1,12 @@
-package com.metadjioo_ds.view.presentation;
+package com.metadjioo_ds.app.presentation;
 
 import android.app.Presentation;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.metadjioo_ds.R;
-import com.metadjioo_ds.view.FullScreenBehavior;
+import com.metadjioo_ds.app.FullScreenBehavior;
 
 public abstract class MDSPresentation extends Presentation {
     private FullScreenBehavior mFullScreenBehavior;

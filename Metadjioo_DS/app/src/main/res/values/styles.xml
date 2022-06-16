@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="TerminalThemeTranslucent" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MDSThemeTranslucent" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>

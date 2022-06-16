@@ -1,9 +1,14 @@
 package com.metadjioo_ds.db.entity;
 
+import android.graphics.Bitmap;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.metadjioo_ds.MDSApp;
+import com.metadjioo_ds.utils.ImgSaver;
 
 import java.io.Serializable;
 
@@ -27,10 +32,18 @@ public class WineCuvee implements Serializable {
     @ColumnInfo(name = "acidity_rate")
     public float acidity_rate;
 
-    public WineCuvee(int id_wine, float ph_rate, float alcohol_level, float acidity_rate) {
+    @ColumnInfo(name = "img_directory")
+    public String img_directory;
+
+    @ColumnInfo(name = "img_name")
+    public String img_name;
+
+    public WineCuvee(int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name) {
         this.id_wine = id_wine;
         this.ph_rate = ph_rate;
         this.alcohol_level = alcohol_level;
         this.acidity_rate = acidity_rate;
+        this.img_directory = img_directory;
+        this.img_name = img_name;
     }
 }

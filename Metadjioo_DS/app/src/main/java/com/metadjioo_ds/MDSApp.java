@@ -6,7 +6,7 @@ import android.content.Context;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-import com.metadjioo_ds.view.activity.MDSActivity;
+import com.metadjioo_ds.app.activity.MDSActivity;
 
 
 /**
@@ -24,7 +24,7 @@ public class MDSApp extends Application implements LifecycleObserver {
     }
 
     public static Context getContext() {
-        return getApplication().getApplicationContext();
+        return getCurrentAct().getApplicationContext();
     }
 
     public static MDSActivity getCurrentAct() {

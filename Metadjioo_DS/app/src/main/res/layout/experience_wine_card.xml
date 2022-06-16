@@ -2,103 +2,112 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_width="190dp"
-    android:layout_height="250dp"
-    android:background="@drawable/round_translucent_white_roundless"
-    android:padding="5dp"
     tools:layout_editor_absoluteX="5dp">
 
-    <TextView
-        android:id="@+id/wine_title"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="210dp"
+        android:layout_height="290dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/round_translucent_white_roundless"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="7dp"
-        android:background="@drawable/round_translucent_white_roundless"
-        android:elevation="2dp"
-        android:gravity="center"
-        android:text="Wine title"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="7dp"
-        android:background="@drawable/button_round_white_roundless"
-        app:layout_constraintBottom_toTopOf="@+id/wine_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="5dp">
-
-        <ImageView
-            android:id="@+id/wine_img"
+        <TextView
+            android:id="@+id/wine_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/content_description"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/wine_bottle"
-            tools:ignore="ImageContrastCheck" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:paddingStart="7dp"
-            android:paddingEnd="14dp"
+            android:layout_height="60dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/round_translucent_white_roundless"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="Wine title"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="7dp"
+            android:background="@drawable/button_round_white_roundless"
+            app:layout_constraintBottom_toTopOf="@+id/wine_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/wine_datasheet"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/wine_img"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="7dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_round_white_roundless"
+                android:layout_margin="10dp"
                 android:contentDescription="@string/content_description"
-                android:cropToPadding="true"
-                android:elevation="2dp"
-                android:padding="10dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_baseline_play_arrow_200"
-                app:tint="@color/gray800"
-                tools:ignore="SpeakableTextPresentCheck" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/wine_bottle_1"
+                tools:ignore="ImageContrastCheck" />
 
-            <ImageButton
-                android:id="@+id/start_video_wine"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="14dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_round_white_roundless"
-                android:contentDescription="@string/content_description"
-                android:elevation="2dp"
-                android:padding="10dp"
-                app:srcCompat="@android:drawable/ic_dialog_info"
-                app:tint="@color/gray800"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:paddingStart="7dp"
+                android:paddingEnd="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <ImageButton
+                    android:id="@+id/start_video_wine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/button_round_white_roundless"
+                    android:contentDescription="@string/content_description"
+                    android:cropToPadding="true"
+                    android:elevation="2dp"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_baseline_play_arrow_200"
+                    app:tint="@color/gray800"
+                    tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
+
+                <ImageButton
+                    android:id="@+id/wine_datasheet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/button_round_white_roundless"
+                    android:contentDescription="@string/content_description"
+                    android:elevation="2dp"
+                    android:padding="10dp"
+                    app:srcCompat="@android:drawable/ic_dialog_info"
+                    app:tint="@color/gray800"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

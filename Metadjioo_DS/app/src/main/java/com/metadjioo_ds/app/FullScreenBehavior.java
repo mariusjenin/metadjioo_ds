@@ -1,10 +1,6 @@
-package com.metadjioo_ds.view;
+package com.metadjioo_ds.app;
 
-import android.app.Dialog;
 import android.view.View;
-import android.view.WindowInsetsController;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 public class FullScreenBehavior {
     private final View mView;

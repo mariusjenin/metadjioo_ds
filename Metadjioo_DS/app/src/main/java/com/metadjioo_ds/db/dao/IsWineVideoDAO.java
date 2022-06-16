@@ -15,6 +15,9 @@ public interface IsWineVideoDAO {
     @Query("SELECT * FROM IsWineVideo WHERE IsWineVideo.id_video = :id_video and IsWineVideo.id_wine_cuvee = :id_wine_cuvee LIMIT 1")
     IsWineVideo get(int id_video, int id_wine_cuvee);
 
+    @Query("SELECT * FROM IsWineVideo WHERE IsWineVideo.displayed = 1")
+    List<IsWineVideo> getDisplayed();
+
     @Insert(onConflict = ABORT)
     void insert(IsWineVideo isWineVideo);
 

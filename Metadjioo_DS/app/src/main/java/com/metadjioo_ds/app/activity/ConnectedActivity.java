@@ -1,4 +1,4 @@
-package com.metadjioo_ds.view.activity;
+package com.metadjioo_ds.app.activity;
 
 import com.metadjioo_ds.middleware.ConnectedMiddleware;
 

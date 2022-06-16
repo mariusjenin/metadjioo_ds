@@ -23,8 +23,12 @@ public class IsWineVideo implements Serializable {
     @ColumnInfo(name = "id_wine_cuvee", index = true)
     public int id_wine_cuvee;
 
-    public IsWineVideo(int id_video, int id_wine_cuvee) {
+    @ColumnInfo(name = "displayed")
+    public boolean displayed;
+
+    public IsWineVideo(int id_video, int id_wine_cuvee, boolean displayed) {
         this.id_video = id_video;
         this.id_wine_cuvee = id_wine_cuvee;
+        this.displayed = displayed;
     }
 }

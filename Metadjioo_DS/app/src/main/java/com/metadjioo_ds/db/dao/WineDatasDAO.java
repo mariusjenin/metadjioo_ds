@@ -13,8 +13,17 @@ import java.util.List;
 
 @Dao
 public interface WineDatasDAO {
-    @Query("SELECT * FROM WineDatas WHERE WineDatas.id_wine = :id_wine and WineDatas.country_code = :code LIMIT 1")
-    WineDatas get(int id_wine, int code);
+    //    @Query("SELECT * From (SELECT * , 0 sort_order FROM WineDatas " +
+//            "WHERE WineDatas.id_wine = :id_wine and WineDatas.country_code = :code " +
+//            "UNION " +
+//            "SELECT * , 0 sort_order FROM WineDatas " +
+//            "WHERE WineDatas.id_wine = :id_wine and WineDatas.country_code = :default_code) " +
+//            "LIMIT 1")
+    @Query("SELECT * From WineDatas " +
+            "INNER JOIN Language on WineDatas.country_code = Language.country_code " +
+            "WHERE WineDatas.id_wine = :id_wine and (Language.lang_selected = 1 or Language.lang_default = 1) " +
+            "ORDER BY Language.lang_selected DESC, Language.lang_default DESC LIMIT 1")
+    WineDatas get(int id_wine);
 
     @Insert(onConflict = ABORT)
     void insert(WineDatas wineDatas);
