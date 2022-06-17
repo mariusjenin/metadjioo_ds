@@ -27,22 +27,20 @@ import com.metadjioo_ds.db.entity.WineDatas;
 import com.metadjioo_ds.utils.ImgSaver;
 
 public class CardWineFragment extends Fragment {
-    private IsWineVideo isWineVideo;
-    private Wine wine;
-    private WineCuvee wineCuvee;
-    private WineDatas wineDatas;
-    private WineCuveeDatas wineCuveeDatas;
-    private Video video;
+    private final Wine wine; //Atm Wine has no attributes other than its id but it could have one in the future
+    private final WineCuvee wineCuvee;
+    private final WineDatas wineDatas;
+    private final WineCuveeDatas wineCuveeDatas;
+    private final Video video;
 
-    public CardWineFragment(IsWineVideo iwv) {
+    public CardWineFragment(int id_wine_cuvee, int id_video) {
         super(R.layout.experience_wine_card);
-        isWineVideo = iwv;
         AppDatabase apd = AppDatabase.getInstance(getContext());
-        wineCuvee = AppDatabase.getInstance(getContext()).wineCuveeDAO().get(isWineVideo.id_wine_cuvee);
-        wine = AppDatabase.getInstance(getContext()).wineDAO().get(wineCuvee.id_wine);
-        wineDatas = AppDatabase.getInstance(getContext()).wineDatasDAO().get(wine.id_wine);
-        wineCuveeDatas = AppDatabase.getInstance(getContext()).wineCuveeDatasDAO().get(wineCuvee.id_wine_cuvee);
-        video = AppDatabase.getInstance(getContext()).videoDAO().get(isWineVideo.id_video);
+        wineCuvee = apd.wineCuveeDAO().get(id_wine_cuvee);
+        wine = apd.wineDAO().get(wineCuvee.id_wine);
+        wineDatas = apd.wineDatasDAO().get(wineCuvee.id_wine);
+        wineCuveeDatas = apd.wineCuveeDatasDAO().get(id_wine_cuvee);
+        video = apd.videoDAO().get(id_video);
     }
 
     @Override

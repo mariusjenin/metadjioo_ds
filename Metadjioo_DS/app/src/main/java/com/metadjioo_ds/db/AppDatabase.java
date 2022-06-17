@@ -11,7 +11,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.db.dao.IsCompanyVideoDAO;
 import com.metadjioo_ds.db.dao.IsWineVideoDAO;
 import com.metadjioo_ds.db.dao.LanguageDAO;
@@ -93,14 +92,20 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public void fill() {
+        //TODO Remplace this whole function by a call to a distant database
+
         //LANGUAGE
         LanguageDAO languageDAO = languageDAO();
         ArrayList<Language> languages = new ArrayList<>();
-        languages.add(new Language("FR", "France", null,false,true));
-        languages.add(new Language("CN", "China", null,false,false));
-        languages.add(new Language("KR", "Korea", null,false,false));
-        languages.add(new Language("EN", "England", null,true,false));
-        List<Long> id_languages = languageDAO.insertAll(languages);
+        Bitmap fr = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_france_96);
+        Bitmap en = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_great_britain_96);
+        Bitmap cn = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_china_96);
+        Bitmap kr = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_south_korea_96);
+        languages.add(languageDAO.createLanguage(context,"FR", "France", false,false,true,"language","fr",fr));
+        languages.add(languageDAO.createLanguage(context,"CN", "China", false,false,true,"language","cn",cn));
+        languages.add(languageDAO.createLanguage(context,"KR", "Korea", false,true,true,"language","kr",kr));
+        languages.add(languageDAO.createLanguage(context,"EN", "England", true,false,true,"language","en",en));
+        languageDAO.insertAll(languages);
 
         //WINE
         WineDAO wineDAO = wineDAO();
@@ -118,10 +123,10 @@ public abstract class AppDatabase extends RoomDatabase {
         Bitmap wineBottle2 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_2);
         Bitmap wineBottle3 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_3);
         Bitmap wineBottle4 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_4);
-        wineCuvees.add(createWineCuvee(id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f,"companyName","cuvee1",wineBottle1));
-        wineCuvees.add(createWineCuvee(id_wines.get(1).intValue(), 3f, 9.6f, 3.41f,"companyName","cuvee2",wineBottle2));
-        wineCuvees.add(createWineCuvee(id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f,"companyName","cuvee3",wineBottle3));
-        wineCuvees.add(createWineCuvee(id_wines.get(3).intValue(), 4f, 14f, 4.1f,"companyName","cuvee4",wineBottle4));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f,"companyName","cuvee1",wineBottle1));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(1).intValue(), 3f, 9.6f, 3.41f,"companyName","cuvee2",wineBottle2));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f,"companyName","cuvee3",wineBottle3));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(3).intValue(), 4f, 14f, 4.1f,"companyName","cuvee4",wineBottle4));
         List<Long> id_wine_cuvees = wineCuveeDAO.insertAll(wineCuvees);
 
         //WINE DATAS
@@ -196,21 +201,16 @@ public abstract class AppDatabase extends RoomDatabase {
         //COMPANY VIDEO
         IsCompanyVideoDAO isCompanyVideoDAO = isCompanyVideoDAO();
         ArrayList<IsCompanyVideo> isCompanyVideos = new ArrayList<>();
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(10).intValue(), true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(11).intValue(), true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(12).intValue(), true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(13).intValue(), true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(14).intValue(), false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(15).intValue(), false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(16).intValue(), false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(17).intValue(), false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(10).intValue(), true,false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(11).intValue(), true,true));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(12).intValue(), true,false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(13).intValue(), true,false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(14).intValue(), false,false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(15).intValue(), false,false));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(16).intValue(), false,true));
+        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(17).intValue(), false,false));
         isCompanyVideoDAO.insertAll(isCompanyVideos);
     }
 
 
-    public static WineCuvee createWineCuvee(int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name, Bitmap bmp){
-        WineCuvee wc = new WineCuvee(id_wine, ph_rate, alcohol_level, acidity_rate, img_directory, img_name);
-        new ImgSaver(context).setDirectoryName(img_directory).setFileName(img_name).save(bmp);
-        return wc;
-    }
 }

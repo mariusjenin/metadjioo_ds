@@ -16,20 +16,28 @@ public class Language implements Serializable {
     @ColumnInfo(name = "country_name")
     public String country_name;
 
-    @ColumnInfo(name = "country_flag", typeAffinity = ColumnInfo.BLOB)
-    public byte[] country_flag;
-
     @ColumnInfo(name = "lang_default")
     public boolean lang_default;
 
     @ColumnInfo(name = "lang_selected")
     public boolean lang_selected;
 
-    public Language(@NonNull String country_code, String country_name, byte[] country_flag, boolean lang_default, boolean lang_selected) {
+    @ColumnInfo(name = "lang_displayed")
+    public boolean lang_displayed;
+
+    @ColumnInfo(name = "img_directory")
+    public String img_directory;
+
+    @ColumnInfo(name = "img_name")
+    public String img_name;
+
+    public Language(@NonNull String country_code, String country_name, boolean lang_default, boolean lang_selected, boolean lang_displayed, String img_directory, String img_name) {
         this.country_code = country_code;
         this.country_name = country_name;
-        this.country_flag = country_flag;
         this.lang_default = lang_default;
         this.lang_selected = lang_selected;
+        this.lang_displayed = lang_displayed;
+        this.img_directory = img_directory;
+        this.img_name = img_name;
     }
 }

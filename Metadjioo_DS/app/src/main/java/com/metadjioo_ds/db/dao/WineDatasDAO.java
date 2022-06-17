@@ -22,7 +22,7 @@ public interface WineDatasDAO {
     @Query("SELECT * From WineDatas " +
             "INNER JOIN Language on WineDatas.country_code = Language.country_code " +
             "WHERE WineDatas.id_wine = :id_wine and (Language.lang_selected = 1 or Language.lang_default = 1) " +
-            "ORDER BY Language.lang_selected DESC, Language.lang_default DESC LIMIT 1")
+            "ORDER BY Language.lang_selected DESC LIMIT 1")
     WineDatas get(int id_wine);
 
     @Insert(onConflict = ABORT)

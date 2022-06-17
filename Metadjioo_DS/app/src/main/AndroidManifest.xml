@@ -4,6 +4,8 @@
     package="com.metadjioo_ds"
     android:versionCode="1">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MDS"
-
-    tools:ignore="RtlEnabled">
+        tools:ignore="RtlEnabled">
 
         <activity
             android:name=".app.activity.used.HomeActivity"
@@ -25,18 +26,15 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name=".app.activity.used.LogInActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".app.activity.used.ExperienceActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape" />
 
     </application>
 

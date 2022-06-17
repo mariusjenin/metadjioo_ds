@@ -12,9 +12,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by Ilya Gazman on 3/6/2016.
+ * Created by Ilya Gazman on 3/6/2016 and Modified by Marius Jenin on 17/06/2022
  * -> https://stackoverflow.com/questions/17674634/saving-and-reading-bitmaps-images-from-internal-memory-in-android/17674787#17674787
  */
 public class ImgSaver {
@@ -75,6 +78,11 @@ public class ImgSaver {
         }
 
         return new File(directory, fileName);
+    }
+
+    public boolean deleteFile(){
+        File file = createFile();
+        return file.delete();
     }
 
     private File getAlbumStorageDir(String albumName) {

@@ -20,8 +20,12 @@ public class IsCompanyVideo implements Serializable {
     @ColumnInfo(name = "is_teaser")
     public boolean is_teaser;
 
-    public IsCompanyVideo(int id_video, boolean is_teaser) {
+    @ColumnInfo(name = "displayed")
+    public boolean displayed;
+
+    public IsCompanyVideo(int id_video, boolean is_teaser, boolean displayed) {
         this.id_video = id_video;
         this.is_teaser = is_teaser;
+        this.displayed = displayed;
     }
 }
