@@ -106,16 +106,15 @@ public class ExperienceFragment extends Fragment {
         //CLEAR LAYOUT
         LinearLayout wineLayout = act.findViewById(R.id.wine_layout);
         wineLayout.removeAllViews();
-        //RETRIEVE WINE DISPLAYED
-        List<WineVideo> wineVideos = AppDatabase.getInstance(this.getContext()).wineVideoDAO().getDisplayed();
+        //RETRIEVE DATA DISPLAYED
+        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
         //CREATE FRAGMENTS
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        mbtnScrollRight.setEnabled(wineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        mbtnScrollLeft.setEnabled(wineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        for (int i = 0; i < wineVideos.size(); i++) {
-            WineVideo isWineVideo = wineVideos.get(i);
-            HasCategoryWineVideo hasCategoryWineVideo = AppDatabase.getInstance(this.getContext()).hasCategoryWineVideoDAO().getDisplayed(isWineVideo.id_wine_cuvee);
-            CardWineFragment cardWine = new CardWineFragment(isWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+        mbtnScrollRight.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        mbtnScrollLeft.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        for (int i = 0; i < hasCategoryWineVideos.size(); i++) {
+            HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
+            CardWineFragment cardWine = new CardWineFragment(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
             fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
         }
         mActivity.hideProgress();

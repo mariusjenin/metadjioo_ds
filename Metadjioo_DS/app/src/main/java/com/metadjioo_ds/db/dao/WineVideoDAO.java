@@ -20,11 +20,6 @@ public interface WineVideoDAO {
             "ORDER BY Language.lang_selected DESC LIMIT 1")
     WineVideo get(int id_wine_cuvee, int id_category);
 
-    @Query("SELECT WineVideo.* FROM WineVideo " +
-            "inner join HasCategoryWineVideo on HasCategoryWineVideo.id_category_video = WineVideo.id_category_video and HasCategoryWineVideo.id_wine_cuvee = WineVideo.id_wine_cuvee " +
-            "WHERE HasCategoryWineVideo.displayed = 1")
-    List<WineVideo> getDisplayed();
-
     @Insert(onConflict = ABORT)
     void insert(WineVideo wineVideo);
 
