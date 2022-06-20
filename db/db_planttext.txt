@@ -1,0 +1,108 @@
+@startuml
+title Metadjioo Display Stand DataBase
+
+object UserContact{
+    **id_user**
+    email
+}
+
+
+object Administrator{
+	**id_admin**
+	email
+	hash_pwd
+}
+
+object WineCompany{
+	**id_company**
+	name
+}
+
+object UserCompany{
+	**id_user_company**
+	//id_company//
+	email 
+	hash_pwd
+	token_user
+}
+
+object Wine{
+	**id_wine**
+	//id_company//
+	
+}
+
+object WineDatas{
+	**//id_wine//**
+	**//id_language//**
+	name
+	description
+	story
+	vineyard
+	grape_variety
+}
+
+object WineCuvee{
+	**id_wine_cuvee**
+	//id_wine//
+	ph_rate
+	alcohol_level
+	acidity_rate
+}
+
+object WineCuveeDatas{
+	**//id_wine_cuvee//**
+	**//id_language//**
+	name
+	description
+	tasting_details
+	food_pairings
+}
+
+
+
+object Language{
+	**id_language**
+	country_code
+	country_name
+	country_flag
+}
+
+object Video{
+	**id_video **
+	//id_language//
+	path_video
+	title_video
+}
+
+object IsWineVideo{
+	//**id_wine_cuvee**//
+	//**id_video**//
+}
+
+
+object IsCompanyVideo{
+	//**id_company**//
+	//**id_video**//
+	is_teaser
+}
+note bottom
+  A CompanyVideo can be a teaser video 
+  or an additional video. 
+  It is attached to a WineCompany
+end note
+
+UserCompany "*" -- "1" WineCompany
+Wine "*" -- "1" WineCompany
+WineCuvee "*" -- "1" Wine
+Video "*" -- "1" Language
+IsWineVideo "0..1" -- "1" Video
+IsCompanyVideo "0..1" -- "1" Video
+WineCompany "1" -- "*" IsCompanyVideo
+WineCuvee "1" -- "*" IsWineVideo
+Wine "1" -- "*" WineDatas
+WineCuvee "1" -- "*" WineCuveeDatas
+WineDatas "*" -- "1" Language
+WineCuveeDatas "*" -- "1" Language
+
+@enduml
