@@ -6,7 +6,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.metadjioo_ds.db.entity.Video;
 import com.metadjioo_ds.db.entity.WineDatas;
 
 import java.util.List;

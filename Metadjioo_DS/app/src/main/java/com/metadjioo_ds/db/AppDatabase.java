@@ -11,25 +11,26 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.db.dao.IsCompanyVideoDAO;
-import com.metadjioo_ds.db.dao.IsWineVideoDAO;
+import com.metadjioo_ds.db.dao.CategoryWineVideoDAO;
+import com.metadjioo_ds.db.dao.HasCategoryWineVideoDAO;
+import com.metadjioo_ds.db.dao.CompanyVideoDAO;
+import com.metadjioo_ds.db.dao.WineVideoDAO;
 import com.metadjioo_ds.db.dao.LanguageDAO;
 import com.metadjioo_ds.db.dao.UserContactDAO;
-import com.metadjioo_ds.db.dao.VideoDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDatasDAO;
 import com.metadjioo_ds.db.dao.WineDAO;
 import com.metadjioo_ds.db.dao.WineDatasDAO;
-import com.metadjioo_ds.db.entity.IsCompanyVideo;
-import com.metadjioo_ds.db.entity.IsWineVideo;
+import com.metadjioo_ds.db.entity.CategoryWineVideo;
+import com.metadjioo_ds.db.entity.CompanyVideo;
+import com.metadjioo_ds.db.entity.HasCategoryWineVideo;
+import com.metadjioo_ds.db.entity.WineVideo;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.UserContact;
-import com.metadjioo_ds.db.entity.Video;
 import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
 import com.metadjioo_ds.db.entity.WineCuveeDatas;
 import com.metadjioo_ds.db.entity.WineDatas;
-import com.metadjioo_ds.utils.ImgSaver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,29 +39,34 @@ import java.util.List;
  * Singleton class that manage the local database in the whole app
  */
 @Database(entities = {
-        IsCompanyVideo.class,
-        IsWineVideo.class,
+        CategoryWineVideo.class,
+        HasCategoryWineVideo.class,
+        CompanyVideo.class,
+        WineVideo.class,
         Language.class,
         UserContact.class,
-        Video.class,
         Wine.class,
         WineCuvee.class,
         WineCuveeDatas.class,
         WineDatas.class,
-}, version = 2, exportSchema = false)
+}, version = 4, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
+    @SuppressLint("StaticFieldLeak")
     private static AppDatabase INSTANCE = null;
 
-    public abstract IsCompanyVideoDAO isCompanyVideoDAO();
+    public abstract HasCategoryWineVideoDAO hasCategoryWineVideoDAO();
 
-    public abstract IsWineVideoDAO isWineVideoDAO();
+    public abstract CategoryWineVideoDAO categoryWineVideoDAO();
+
+    public abstract CompanyVideoDAO companyVideoDAO();
+
+    public abstract WineVideoDAO wineVideoDAO();
 
     public abstract LanguageDAO languageDAO();
 
     public abstract UserContactDAO userContactDAO();
 
-    public abstract VideoDAO videoDAO();
 
     public abstract WineDAO wineDAO();
 
@@ -72,6 +78,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
+
     public static AppDatabase getInstance(Context applicationContext) {
         if (INSTANCE == null) {
             context = applicationContext;
@@ -81,9 +88,10 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public void clear() {
-        isCompanyVideoDAO().clear();
-        isWineVideoDAO().clear();
-        videoDAO().clear();
+        hasCategoryWineVideoDAO().clear();
+        companyVideoDAO().clear();
+        wineVideoDAO().clear();
+        categoryWineVideoDAO().clear();
         wineCuveeDatasDAO().clear();
         wineDatasDAO().clear();
         wineCuveeDAO().clear();
@@ -97,14 +105,14 @@ public abstract class AppDatabase extends RoomDatabase {
         //LANGUAGE
         LanguageDAO languageDAO = languageDAO();
         ArrayList<Language> languages = new ArrayList<>();
-        Bitmap fr = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_france_96);
-        Bitmap en = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_great_britain_96);
-        Bitmap cn = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_china_96);
-        Bitmap kr = BitmapFactory.decodeResource(context.getResources(),R.drawable.icons8_south_korea_96);
-        languages.add(languageDAO.createLanguage(context,"FR", "France", false,false,true,"language","fr",fr));
-        languages.add(languageDAO.createLanguage(context,"CN", "China", false,false,true,"language","cn",cn));
-        languages.add(languageDAO.createLanguage(context,"KR", "Korea", false,true,true,"language","kr",kr));
-        languages.add(languageDAO.createLanguage(context,"EN", "England", true,false,true,"language","en",en));
+        Bitmap fr = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_france_96);
+        Bitmap en = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_great_britain_96);
+        Bitmap cn = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_china_96);
+        Bitmap kr = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_south_korea_96);
+        languages.add(languageDAO.createLanguage(context, "FR", "France", false, false, true, "language", "fr", fr));
+        languages.add(languageDAO.createLanguage(context, "CN", "China", false, false, true, "language", "cn", cn));
+        languages.add(languageDAO.createLanguage(context, "KR", "Korea", false, true, true, "language", "kr", kr));
+        languages.add(languageDAO.createLanguage(context, "EN", "England", true, false, true, "language", "en", en));
         languageDAO.insertAll(languages);
 
         //WINE
@@ -119,14 +127,14 @@ public abstract class AppDatabase extends RoomDatabase {
         //WINE CUVEE
         WineCuveeDAO wineCuveeDAO = wineCuveeDAO();
         ArrayList<WineCuvee> wineCuvees = new ArrayList<>();
-        Bitmap wineBottle1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_1);
-        Bitmap wineBottle2 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_2);
-        Bitmap wineBottle3 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_3);
-        Bitmap wineBottle4 = BitmapFactory.decodeResource(context.getResources(),R.drawable.wine_bottle_4);
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f,"companyName","cuvee1",wineBottle1));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(1).intValue(), 3f, 9.6f, 3.41f,"companyName","cuvee2",wineBottle2));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f,"companyName","cuvee3",wineBottle3));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context,id_wines.get(3).intValue(), 4f, 14f, 4.1f,"companyName","cuvee4",wineBottle4));
+        Bitmap wineBottle1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_1);
+        Bitmap wineBottle2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_2);
+        Bitmap wineBottle3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_3);
+        Bitmap wineBottle4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_4);
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f, "companyName", "cuvee1", wineBottle1));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(1).intValue(), 3f, 9.6f, 3.41f, "companyName", "cuvee2", wineBottle2));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f, "companyName", "cuvee3", wineBottle3));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(3).intValue(), 4f, 14f, 4.1f, "companyName", "cuvee4", wineBottle4));
         List<Long> id_wine_cuvees = wineCuveeDAO.insertAll(wineCuvees);
 
         //WINE DATAS
@@ -159,57 +167,53 @@ public abstract class AppDatabase extends RoomDatabase {
         wineCuveeDatas.add(new WineCuveeDatas(id_wine_cuvees.get(3).intValue(), "EN", "Wine 4 Cuvee 1 EN", "Description Wine 4 Cuvee 1 EN", "Tasting details Wine 4 Cuvee 1 EN", "food pairings Wine 4 Cuvee 1 EN"));
         wineCuveeDatasDAO.insertAll(wineCuveeDatas);
 
-        //VIDEO
-        VideoDAO videoDAO = videoDAO();
-        ArrayList<Video> videos = new ArrayList<>();
-        videos.add(new Video("FR", "path/video/wine/1/cuvee/1/fr", "Video Wine 1 Cuvee 1 fr"));
-        videos.add(new Video("CN", "path/video/wine/1/cuvee/1/cn", "Video Wine 1 Cuvee 1 cn"));
-        videos.add(new Video("EN", "path/video/wine/1/cuvee/1/en", "Video Wine 1 Cuvee 1 en"));
-        videos.add(new Video("CN", "path/video/wine/2/cuvee/1/cn", "Video Wine 2 Cuvee 1 cn"));
-        videos.add(new Video("KR", "path/video/wine/2/cuvee/1/kr", "Video Wine 2 Cuvee 1 kr"));
-        videos.add(new Video("EN", "path/video/wine/2/cuvee/1/en", "Video Wine 2 Cuvee 1 en"));
-        videos.add(new Video("CN", "path/video/wine/3/cuvee/1/cn", "Video Wine 3 Cuvee 1 cn"));
-        videos.add(new Video("EN", "path/video/wine/3/cuvee/1/en", "Video Wine 3 Cuvee 1 en"));
-        videos.add(new Video("FR", "path/video/wine/4/cuvee/1/fr", "Video Wine 4 Cuvee 1 fr"));
-        videos.add(new Video("EN", "path/video/wine/4/cuvee/1/en", "Video Wine 4 Cuvee 1 en"));
-
-        videos.add(new Video("EN", "path/video/teaser/1/en", "Video teaser 1 en"));
-        videos.add(new Video("CN", "path/video/teaser/1/cn", "Video teaser 1 cn"));
-        videos.add(new Video("EN", "path/video/teaser/2/en", "Video teaser 2 en"));
-        videos.add(new Video("CN", "path/video/teaser/2/cn", "Video teaser 2 cn"));
-        videos.add(new Video("EN", "path/video/global/3/en", "Video global 3 en"));
-        videos.add(new Video("CN", "path/video/global/3/cn", "Video global 3 cn"));
-        videos.add(new Video("EN", "path/video/global/4/en", "Video global 4 en"));
-        videos.add(new Video("CN", "path/video/global/4/cn", "Video global 4 cn"));
-        List<Long> id_videos = videoDAO.insertAll(videos);
+        //CATEGORY WINE VIDEO
+        CategoryWineVideoDAO categoryWineVideoDAO = categoryWineVideoDAO();
+        ArrayList<CategoryWineVideo> categoriesWineVideo = new ArrayList<>();
+        categoriesWineVideo.add(new CategoryWineVideo("Event pro 1"));
+        categoriesWineVideo.add(new CategoryWineVideo("Event pro 2"));
+        categoriesWineVideo.add(new CategoryWineVideo("Event public 1"));
+        categoriesWineVideo.add(new CategoryWineVideo("Event public 2"));
+        List<Long> id_categories_video = categoryWineVideoDAO.insertAll(categoriesWineVideo);
 
         //WINE VIDEO
-        IsWineVideoDAO isWineVideoDAO = isWineVideoDAO();
-        ArrayList<IsWineVideo> isWineVideos = new ArrayList<>();
-        isWineVideos.add(new IsWineVideo(id_videos.get(0).intValue(), id_wine_cuvees.get(0).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(1).intValue(), id_wine_cuvees.get(0).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(2).intValue(), id_wine_cuvees.get(0).intValue(),true));
-        isWineVideos.add(new IsWineVideo(id_videos.get(3).intValue(), id_wine_cuvees.get(1).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(4).intValue(), id_wine_cuvees.get(1).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(5).intValue(), id_wine_cuvees.get(1).intValue(),true));
-        isWineVideos.add(new IsWineVideo(id_videos.get(6).intValue(), id_wine_cuvees.get(2).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(7).intValue(), id_wine_cuvees.get(2).intValue(),true));
-        isWineVideos.add(new IsWineVideo(id_videos.get(8).intValue(), id_wine_cuvees.get(3).intValue(),false));
-        isWineVideos.add(new IsWineVideo(id_videos.get(9).intValue(), id_wine_cuvees.get(3).intValue(),true));
-        isWineVideoDAO.insertAll(isWineVideos);
+        WineVideoDAO wineVideoDAO = wineVideoDAO();
+        ArrayList<WineVideo> wineVideos = new ArrayList<>();
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/1/cuvee/1/fr", "Video Wine 1 Cuvee 1 fr"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/1/cuvee/1/cn", "Video Wine 1 Cuvee 1 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/1/cuvee/1/en", "Video Wine 1 Cuvee 1 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/2/cuvee/1/cn", "Video Wine 2 Cuvee 1 cn"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"KR", "path/video/wine/2/cuvee/1/kr", "Video Wine 2 Cuvee 1 kr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/2/cuvee/1/en", "Video Wine 2 Cuvee 1 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/3/cuvee/1/cn", "Video Wine 3 Cuvee 1 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/3/cuvee/1/en", "Video Wine 3 Cuvee 1 en"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/4/cuvee/1/fr", "Video Wine 4 Cuvee 1 fr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/4/cuvee/1/en", "Video Wine 4 Cuvee 1 en"));
+        wineVideoDAO.insertAll(wineVideos);
+
 
         //COMPANY VIDEO
-        IsCompanyVideoDAO isCompanyVideoDAO = isCompanyVideoDAO();
-        ArrayList<IsCompanyVideo> isCompanyVideos = new ArrayList<>();
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(10).intValue(), true,false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(11).intValue(), true,true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(12).intValue(), true,false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(13).intValue(), true,false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(14).intValue(), false,false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(15).intValue(), false,false));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(16).intValue(), false,true));
-        isCompanyVideos.add(new IsCompanyVideo(id_videos.get(17).intValue(), false,false));
-        isCompanyVideoDAO.insertAll(isCompanyVideos);
+        CompanyVideoDAO companyVideoDAO = companyVideoDAO();
+        ArrayList<CompanyVideo> companyVideos = new ArrayList<>();
+        companyVideos.add(new CompanyVideo("EN", "path/video/teaser/1/en", "Video teaser 1 en", true, false));
+        companyVideos.add(new CompanyVideo("CN", "path/video/teaser/1/cn", "Video teaser 1 cn", true, true));
+        companyVideos.add(new CompanyVideo("EN", "path/video/teaser/2/en", "Video teaser 2 en", true, false));
+        companyVideos.add(new CompanyVideo("CN", "path/video/teaser/2/cn", "Video teaser 2 cn", true, false));
+        companyVideos.add(new CompanyVideo("EN", "path/video/global/3/en", "Video global 3 en", false, false));
+        companyVideos.add(new CompanyVideo("CN", "path/video/global/3/cn", "Video global 3 cn", false, false));
+        companyVideos.add(new CompanyVideo("EN", "path/video/global/4/en", "Video global 4 en", false, true));
+        companyVideos.add(new CompanyVideo("CN", "path/video/global/4/cn", "Video global 4 cn", false, false));
+        companyVideoDAO.insertAll(companyVideos);
+
+        //HAS CATEGORY WINE VIDEO
+        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = hasCategoryWineVideoDAO();
+        ArrayList<HasCategoryWineVideo> hasCategoryWineVideos = new ArrayList<>();
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideoDAO.insertAll(hasCategoryWineVideos);
+
     }
 
 

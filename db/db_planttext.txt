@@ -68,22 +68,31 @@ object Language{
 	country_flag
 }
 
-object Video{
-	**id_video **
-	//id_language//
+object CategoryWineVideo{
+	**id_category_video**
+	name
+}
+
+object HasCategoryWineVideo{
+	//**id_wine_cuvee**//
+	//**id_category_video**//
+}
+
+object WineVideo{
+	//**id_wine_cuvee**//
+	//**id_category_video**//
+	//**id_language**//
+	//id_video//
 	path_video
 	title_video
 }
 
-object IsWineVideo{
-	//**id_wine_cuvee**//
-	//**id_video**//
-}
-
-
-object IsCompanyVideo{
-	//**id_company**//
-	//**id_video**//
+object CompanyVideo{
+  **id_company_video**
+	//id_company//
+	//id_language//
+	path_video
+	title_video
 	is_teaser
 }
 note bottom
@@ -95,11 +104,13 @@ end note
 UserCompany "*" -- "1" WineCompany
 Wine "*" -- "1" WineCompany
 WineCuvee "*" -- "1" Wine
-Video "*" -- "1" Language
-IsWineVideo "0..1" -- "1" Video
-IsCompanyVideo "0..1" -- "1" Video
-WineCompany "1" -- "*" IsCompanyVideo
-WineCuvee "1" -- "*" IsWineVideo
+CompanyVideo "*" -- "1" Language
+WineVideo "*" -- "1" Language
+WineCompany "1" -- "*" CompanyVideo
+WineCuvee "1" -- "*" WineVideo
+CategoryWineVideo "1" -- "*" WineVideo
+WineCuvee "1" -- "*" HasCategoryWineVideo
+CategoryWineVideo "1" -u- "*" HasCategoryWineVideo
 Wine "1" -- "*" WineDatas
 WineCuvee "1" -- "*" WineCuveeDatas
 WineDatas "*" -- "1" Language

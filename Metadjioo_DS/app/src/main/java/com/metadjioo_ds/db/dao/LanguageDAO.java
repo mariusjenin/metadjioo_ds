@@ -11,7 +11,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.metadjioo_ds.db.entity.Language;
-import com.metadjioo_ds.db.entity.Video;
 import com.metadjioo_ds.utils.ImgSaver;
 
 import java.util.List;

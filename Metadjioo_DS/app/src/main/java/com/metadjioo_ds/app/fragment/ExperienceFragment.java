@@ -1,11 +1,9 @@
 package com.metadjioo_ds.app.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -26,7 +24,8 @@ import com.metadjioo_ds.app.adapter.ImageArrayAdapter;
 import com.metadjioo_ds.app.presentation.MDSPresentation;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.LanguageDAO;
-import com.metadjioo_ds.db.entity.IsWineVideo;
+import com.metadjioo_ds.db.entity.HasCategoryWineVideo;
+import com.metadjioo_ds.db.entity.WineVideo;
 import com.metadjioo_ds.db.entity.Language;
 
 import java.util.List;
@@ -108,14 +107,15 @@ public class ExperienceFragment extends Fragment {
         LinearLayout wineLayout = act.findViewById(R.id.wine_layout);
         wineLayout.removeAllViews();
         //RETRIEVE WINE DISPLAYED
-        List<IsWineVideo> isWineVideos = AppDatabase.getInstance(this.getContext()).isWineVideoDAO().getDisplayed();
+        List<WineVideo> wineVideos = AppDatabase.getInstance(this.getContext()).wineVideoDAO().getDisplayed();
         //CREATE FRAGMENTS
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        mbtnScrollRight.setEnabled(isWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        mbtnScrollLeft.setEnabled(isWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        for (int i = 0; i < isWineVideos.size(); i++) {
-            IsWineVideo isWineVideo = isWineVideos.get(i);
-            CardWineFragment cardWine = new CardWineFragment(isWineVideo.id_wine_cuvee, isWineVideo.id_video);
+        mbtnScrollRight.setEnabled(wineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        mbtnScrollLeft.setEnabled(wineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        for (int i = 0; i < wineVideos.size(); i++) {
+            WineVideo isWineVideo = wineVideos.get(i);
+            HasCategoryWineVideo hasCategoryWineVideo = AppDatabase.getInstance(this.getContext()).hasCategoryWineVideoDAO().getDisplayed(isWineVideo.id_wine_cuvee);
+            CardWineFragment cardWine = new CardWineFragment(isWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
             fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
         }
         mActivity.hideProgress();

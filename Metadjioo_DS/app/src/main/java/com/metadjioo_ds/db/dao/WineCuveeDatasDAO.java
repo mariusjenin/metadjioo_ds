@@ -20,7 +20,7 @@ public interface WineCuveeDatasDAO {
 //            "INNER JOIN Language on WineCuveeDatas.country_code = Language.country_code " +
 //            "WHERE WineCuveeDatas.id_wine_cuvee = :id_wine_cuvee and Language.lang_selected = 1) " +
 //            "LIMIT 1")
-@Query("SELECT * From WineCuveeDatas " +
+@Query("SELECT WineCuveeDatas.* From WineCuveeDatas " +
         "INNER JOIN Language on WineCuveeDatas.country_code = Language.country_code " +
         "WHERE WineCuveeDatas.id_wine_cuvee = :id_wine_cuvee and (Language.lang_selected = 1 or Language.lang_default = 1) " +
         "ORDER BY Language.lang_selected DESC LIMIT 1")
