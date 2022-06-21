@@ -14,15 +14,17 @@
     <color name="gray900">#212121</color>
 
 
-    <color name="pink">#B63A74</color>
-    <color name="pink_orange">#CC7C6B</color>
-    <color name="orange">#FFB74A</color>
+    <color name="translucent_white">#80FFFFFF</color>
+    <color name="translucent_white_2">#33FFFFFF</color>
 
+    <color name="dark_wine">#2C0211</color>
+    <color name="wine">#681036</color>
+    <color name="light_wine">#C62D58</color>
 
-    <color name="light_pink">#E1478F</color>
-    <color name="light_yellow">#FFECCF</color>
-    <color name="light_yellow_translucent_1">#9AFFECCF</color>
-    <color name="light_yellow_translucent_2">#4FFFECCF</color>
+    <color name="dark_wine_translucent_1">#9A2C0211</color>
+    <color name="dark_wine_translucent_2">#432C0211</color>
+    <color name="light_wine_translucent_1">#B5DD6587</color>
+    <color name="light_wine_translucent_2">#4BDD6587</color>
     <color name="translucent">#00FFFFFF</color>
 
 </resources>

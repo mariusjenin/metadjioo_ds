@@ -3,7 +3,7 @@
     <!-- background color -->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/gray200"/>
+            <solid android:color="@color/dark_wine_translucent_1"/>
             <corners android:radius="50dp"/>
         </shape>
     </item>
@@ -11,7 +11,7 @@
 
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/gray200"/>
+            <solid android:color="@color/dark_wine_translucent_2"/>
             <corners android:radius="50dp"/>
         </shape>
     </item>
@@ -19,7 +19,7 @@
 
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/dark_wine"/>
             <corners android:radius="50dp"/>
         </shape>
     </item>

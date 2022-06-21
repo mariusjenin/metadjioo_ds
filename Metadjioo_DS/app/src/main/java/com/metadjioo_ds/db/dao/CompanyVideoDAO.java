@@ -12,8 +12,12 @@ import java.util.List;
 
 @Dao
 public interface CompanyVideoDAO {
-    @Query("SELECT * FROM CompanyVideo WHERE CompanyVideo.id_company_video = :id LIMIT 1")
-    CompanyVideo get(int id);
+    @Query("SELECT CompanyVideo.* FROM CompanyVideo " +
+            "inner join Language on Language.country_code= CompanyVideo.country_code " +
+            "WHERE CompanyVideo.is_teaser = :is_teaser and " +
+            "(Language.lang_selected = 1 or Language.lang_default = 1) " +
+            "ORDER BY Language.lang_selected DESC LIMIT 1")
+    CompanyVideo getDisplayed(boolean is_teaser);
 
     @Insert(onConflict = ABORT)
     void insert(CompanyVideo companyVideo);

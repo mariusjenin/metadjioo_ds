@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
+import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
 import com.metadjioo_ds.db.AppDatabase;
+import com.metadjioo_ds.db.entity.CategoryWineVideo;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
@@ -24,32 +26,54 @@ import com.metadjioo_ds.db.entity.WineVideo;
 import com.metadjioo_ds.utils.ImgSaver;
 
 public class CardWineFragment extends Fragment {
-    private final Wine wine; //Atm Wine has no attributes other than its id but it could have one in the future
-    private final WineCuvee wineCuvee;
-    private final WineDatas wineDatas;
-    private final WineCuveeDatas wineCuveeDatas;
-    private final WineVideo video;
+    protected VideoDataSheetPresentation mPresentation;
+    private View mView;
+    private int id_wine_cuvee;
+    private int id_category;
+    private boolean selected;
+    private boolean displayVideo;
 
-    public CardWineFragment(int id_wine_cuvee, int id_category) {
+    public CardWineFragment(VideoDataSheetPresentation presentation, int id_wc, int id_categ) {
         super(R.layout.experience_wine_card);
-        AppDatabase apd = AppDatabase.getInstance(getContext());
-        wineCuvee = apd.wineCuveeDAO().get(id_wine_cuvee);
-        wine = apd.wineDAO().get(wineCuvee.id_wine);
-        wineDatas = apd.wineDatasDAO().get(wineCuvee.id_wine);
-        wineCuveeDatas = apd.wineCuveeDatasDAO().get(id_wine_cuvee);
-        video = apd.wineVideoDAO().get(id_wine_cuvee,id_category);
+        mPresentation = presentation;
+        init(id_wc,id_categ);
+    }
+    public CardWineFragment(int id_wc, int id_categ) {
+        super(R.layout.experience_wine_card);
+        init(id_wc,id_categ);
+    }
+    private void init(int id_wc, int id_categ){
+        id_wine_cuvee = id_wc;
+        id_category = id_categ;
+        selected = false;
+        displayVideo = true;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageButton btnPlay = view.findViewById(R.id.start_video_wine);
-        ImageButton btnInfo = view.findViewById(R.id.wine_datasheet);
-        ImageView datasheetLanguageImgView = view.findViewById(R.id.datasheet_language_img);
-        ImageView wineVideoLanguageImgView = view.findViewById(R.id.wine_video_language_img);
-        ImageView wineImg = view.findViewById(R.id.wine_img);
+        mView = view;
+        updateDisplay(id_wine_cuvee,id_category);
+    }
+
+    public void updateDisplay(int id_wc, int id_categ){
+        //Entity
+        AppDatabase apd = AppDatabase.getInstance(getContext());
+        WineCuvee wineCuvee = apd.wineCuveeDAO().get(id_wine_cuvee);
+        Wine wine = apd.wineDAO().get(wineCuvee.id_wine);
+        WineDatas wineDatas = apd.wineDatasDAO().get(wineCuvee.id_wine);
+        WineCuveeDatas wineCuveeDatas = apd.wineCuveeDatasDAO().get(id_wine_cuvee);
+        WineVideo video = apd.wineVideoDAO().get(id_wc,id_categ);
+
+        //view
+        ImageButton btnPlay = mView.findViewById(R.id.start_video_wine);
+        ImageButton btnInfo = mView.findViewById(R.id.wine_datasheet);
+        ImageView datasheetLanguageImgView = mView.findViewById(R.id.datasheet_language_img);
+        ImageView wineVideoLanguageImgView = mView.findViewById(R.id.wine_video_language_img);
+        ImageView wineImg = mView.findViewById(R.id.wine_img);
+
+        //bitmap
         Bitmap bmpWineImg = new ImgSaver(MDSApp.getContext()).setDirectoryName(wineCuvee.img_directory).setFileName(wineCuvee.img_name).load();
-        AppDatabase apd = AppDatabase.getInstance(MDSApp.getContext());
         Language wineVideoLanguage = apd.languageDAO().get(video.country_code);
         Language datasheetLanguage = apd.languageDAO().get(wineCuveeDatas.country_code);
         Bitmap datasheetLanguageImg = new ImgSaver(MDSApp.getContext()).setDirectoryName(datasheetLanguage.img_directory).setFileName(datasheetLanguage.img_name).load();
@@ -60,16 +84,42 @@ public class CardWineFragment extends Fragment {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Play "+video.title_video, Toast.LENGTH_SHORT).show();
+                displayVideo = true;
+                if(mPresentation !=null){
+                    mPresentation.setCardWineFragment(CardWineFragment.this);
+                    mPresentation.setVideo(video.path_video, false);
+                }
             }
         });
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), wineDatas.name+" infos", Toast.LENGTH_SHORT).show();
+                displayVideo = false;
+                if(mPresentation !=null){
+                    mPresentation.setCardWineFragment(CardWineFragment.this);
+                    mPresentation.setDataSheet(wine,wineCuvee,wineDatas,wineCuveeDatas);
+                }
             }
         });
-        TextView wine_title = view.findViewById(R.id.wine_title);
+        TextView wine_title = mView.findViewById(R.id.wine_title);
         wine_title.setText(wineCuveeDatas.name);
+
+        if(mPresentation !=null) {
+            if (selected) {
+                if (displayVideo) {
+                    mPresentation.setVideo(video.path_video, false);
+                } else {
+                    mPresentation.setDataSheet(wine, wineCuvee, wineDatas, wineCuveeDatas);
+                }
+            }
+        }
+    }
+
+    public void select(){
+        selected = true;
+    }
+
+    public void unselect(){
+        selected = false;
     }
 }

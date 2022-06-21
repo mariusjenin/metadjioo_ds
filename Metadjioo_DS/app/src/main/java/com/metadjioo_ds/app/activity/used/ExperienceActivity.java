@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.activity.MDSActivity;
 import com.metadjioo_ds.app.fragment.ExperienceFragment;
-import com.metadjioo_ds.app.presentation.EmptyPresentation;
+import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
 
 public class ExperienceActivity extends MDSActivity {
 
@@ -22,7 +22,8 @@ public class ExperienceActivity extends MDSActivity {
         setContentView(R.layout.experience_activity);
         initSecondMonitor();
 
-        experience = new ExperienceFragment(this,mPresentation);
+        experience = new ExperienceFragment(this);
+        experience.setPresentation((VideoDataSheetPresentation) mPresentation);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.root_experience_activity, experience,null).commit();
     }
@@ -31,6 +32,7 @@ public class ExperienceActivity extends MDSActivity {
     protected void onResume() {
         super.onResume();
         experience.updateWineCards();
+        experience.updateAdditionnalVideo();
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ExperienceActivity extends MDSActivity {
             Display[] displays = dm.getDisplays();
             if(displays.length>0){
                 Display display = displays[1];
-                mPresentation = new EmptyPresentation(this, display);
+                mPresentation = new VideoDataSheetPresentation(this, display);
                 mPresentation.show();
             }
         }

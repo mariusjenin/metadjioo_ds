@@ -82,7 +82,6 @@ object WineVideo{
 	//**id_wine_cuvee**//
 	//**id_category_video**//
 	//**id_language**//
-	//id_video//
 	path_video
 	title_video
 }

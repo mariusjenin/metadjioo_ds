@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/gradient_background"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_translucent_white"
+        android:background="@drawable/round_translucent_white_2"
         android:orientation="vertical"
         android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,11 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/button_round_white"
-            android:backgroundTint="@color/gray800"
+            android:background="@drawable/button_round_dark_wine_round"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:padding="8dp"
+            android:padding="10dp"
             android:text="@string/log_in"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -82,6 +82,6 @@
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/button_arrow_left_yellow_translucent" />
+        app:srcCompat="@drawable/button_arrow_left_light_wine_translucent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

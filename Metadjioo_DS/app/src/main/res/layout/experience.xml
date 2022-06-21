@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:scrollbarSize="6dp"
             android:scrollbarStyle="outsideInset"
-            android:scrollbarThumbHorizontal="@color/light_yellow_translucent_1"
+            android:scrollbarThumbHorizontal="@color/light_wine_translucent_1"
             android:verticalScrollbarPosition="defaultPosition"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
-            android:layout_height="85dp"
+            android:layout_height="100dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2"
@@ -71,7 +71,6 @@
                     android:background="@drawable/round_translucent_white_roundless"
                     android:elevation="2dp"
                     android:gravity="center"
-                    android:text="Additionnal video 1"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -104,10 +103,11 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_round_light_yellow_roundless"
+                android:background="@drawable/button_round_dark_wine_roundless"
                 android:elevation="2dp"
                 android:text="@string/join_our_community"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -126,7 +126,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/button_arrow_left_yellow_translucent"
+        app:srcCompat="@drawable/button_arrow_left_light_wine_translucent"
         tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <ImageButton
@@ -143,7 +143,7 @@
         app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.518"
-        app:srcCompat="@drawable/button_arrow_right_yellow_translucent"
+        app:srcCompat="@drawable/button_arrow_right_light_wine_translucent"
         tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
     <Spinner
