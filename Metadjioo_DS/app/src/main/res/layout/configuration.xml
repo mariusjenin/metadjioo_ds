@@ -1,7 +1,898 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/refresh_database"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/button_refresh_light_wine_translucent" />
+
+            <ImageButton
+                android:id="@+id/go_back"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/button_arrow_left_light_wine_translucent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/title_configuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set up the experience"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_white"
+                    android:paddingStart="40dp"
+                    android:paddingTop="30dp"
+                    android:paddingEnd="40dp"
+                    android:paddingBottom="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_configuration">
+
+                    <TextView
+                        android:id="@+id/title_part_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="Choice of teaser video"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioGroup
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/title_part_1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:background="@null"
+                                    android:scaleType="fitCenter"
+                                    app:srcCompat="@drawable/black" />
+
+                                <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="RadioButton" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:background="@null"
+                                    android:scaleType="fitCenter"
+                                    app:srcCompat="@drawable/black" />
+
+                                <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="RadioButton" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:background="@null"
+                                    android:scaleType="fitCenter"
+                                    app:srcCompat="@drawable/black" />
+
+                                <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="RadioButton" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageButton
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:background="@null"
+                                    android:scaleType="fitCenter"
+                                    app:srcCompat="@drawable/black" />
+
+                                <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="RadioButton" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </RadioGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_white"
+                    android:paddingStart="40dp"
+                    android:paddingTop="30dp"
+                    android:paddingEnd="40dp"
+                    android:paddingBottom="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+                    <TextView
+                        android:id="@+id/title_part_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="Choice of products presented"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:divider="@drawable/table_divider"
+                        android:dividerPadding="15dp"
+                        android:showDividers="middle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/title_part_2">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/table_divider"
+                            android:gravity="center"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:id="@+id/image_wine"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Image"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/name_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Name"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/display_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Display"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/choice_video"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Choose video"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/language_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:gravity="center"
+                                android:padding="10dp"
+                                android:text="Language"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/table_divider"
+                            android:gravity="center"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="100dp"
+                                android:layout_height="150dp"
+                                android:adjustViewBounds="false"
+                                android:padding="10dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/wine_bottle_1" />
+
+                            <TextView
+                                android:id="@+id/name_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="center"
+                                android:text="Wine cuvee 1"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1">
+
+                                <Switch
+                                    android:id="@+id/display_wine"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <RadioGroup
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:padding="15dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="Video_public_event" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Video_pro_event" />
+
+                            </RadioGroup>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="FR"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_france_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="CN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_china_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="KR"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_south_korea_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="EN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_great_britain_96" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/table_divider"
+                            android:gravity="center"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="100dp"
+                                android:layout_height="150dp"
+                                android:adjustViewBounds="false"
+                                android:padding="10dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/wine_bottle_2" />
+
+                            <TextView
+                                android:id="@+id/name_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="center"
+                                android:text="Wine cuvee 2"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1">
+
+                                <Switch
+                                    android:id="@+id/display_wine"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <RadioGroup
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:padding="15dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="Video_public_event" />
+
+                            </RadioGroup>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="FR"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_france_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="CN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_china_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="EN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_great_britain_96" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/table_divider"
+                            android:gravity="center"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="100dp"
+                                android:layout_height="150dp"
+                                android:adjustViewBounds="false"
+                                android:padding="10dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/wine_bottle_3" />
+
+                            <TextView
+                                android:id="@+id/name_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="center"
+                                android:text="Wine cuvee 3"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1">
+
+                                <Switch
+                                    android:id="@+id/display_wine"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <RadioGroup
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:padding="15dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="Video_pro_event" />
+
+                            </RadioGroup>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="CN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_china_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="KR"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_south_korea_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="EN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_great_britain_96" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/table_divider"
+                            android:gravity="center"
+                            android:showDividers="middle">
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="100dp"
+                                android:layout_height="150dp"
+                                android:adjustViewBounds="false"
+                                android:padding="10dp"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/wine_bottle_4" />
+
+                            <TextView
+                                android:id="@+id/name_wine"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.4"
+                                android:gravity="center"
+                                android:text="Wine cuvee 4"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1">
+
+                                <Switch
+                                    android:id="@+id/display_wine"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <RadioGroup
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:padding="15dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="Video_public_event" />
+
+                                <RadioButton
+                                    android:id="@+id/radioButton2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Video_pro_event" />
+
+                            </RadioGroup>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="CN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_china_96" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/textView6"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="right"
+                                        android:text="EN"
+                                        android:textSize="24sp" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="30dp"
+                                        android:layout_margin="5dp"
+                                        android:layout_weight="0.5"
+                                        android:scaleType="fitStart"
+                                        app:srcCompat="@drawable/icons8_great_britain_96" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

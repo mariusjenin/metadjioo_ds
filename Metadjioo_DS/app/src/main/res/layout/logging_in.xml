@@ -75,11 +75,9 @@
         android:id="@+id/go_back"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
         android:background="@null"
         android:contentDescription="@string/content_description"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/button_arrow_left_light_wine_translucent" />

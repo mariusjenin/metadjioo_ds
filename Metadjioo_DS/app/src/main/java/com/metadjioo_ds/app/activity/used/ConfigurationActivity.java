@@ -1,6 +1,5 @@
 package com.metadjioo_ds.app.activity.used;
 
-import android.content.Intent;
 import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.Display;
@@ -13,21 +12,22 @@ import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.activity.MDSActivity;
 import com.metadjioo_ds.app.presentation.EmptyPresentation;
 
-public class LogInActivity extends MDSActivity {
+public class ConfigurationActivity extends MDSActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logging_in);
+        setContentView(R.layout.configuration);
         initSecondMonitor();
-
-        Button btnConnect = findViewById(R.id.log_in);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
+        ImageButton refreshDatabase = findViewById(R.id.refresh_database);
+        refreshDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO verify the user
-                Intent intent = new Intent(LogInActivity.this, ConfigurationActivity.class);
-                LogInActivity.this.startActivity(intent);
+                showProgress();
+                appDatabase.clear();
+                appDatabase.fill();
+                Toast.makeText(ConfigurationActivity.this, "Database loaded", Toast.LENGTH_SHORT).show();
+                hideProgress();
             }
         });
 
@@ -35,7 +35,7 @@ public class LogInActivity extends MDSActivity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogInActivity.this.finish();
+                ConfigurationActivity.this.finish();
             }
         });
     }

@@ -36,6 +36,11 @@
             android:exported="true"
             android:screenOrientation="landscape" />
 
+        <activity
+            android:name=".app.activity.used.ConfigurationActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

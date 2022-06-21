@@ -118,7 +118,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_baseline_play_arrow_200"
+                        app:srcCompat="@drawable/ic_play_arrow"
                         app:tint="@color/gray800"
                         tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
