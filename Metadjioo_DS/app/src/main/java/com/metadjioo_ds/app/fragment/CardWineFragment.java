@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,6 @@ import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
 import com.metadjioo_ds.db.AppDatabase;
-import com.metadjioo_ds.db.entity.CategoryWineVideo;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
@@ -58,7 +56,7 @@ public class CardWineFragment extends Fragment {
 
     public void updateDisplay(int id_wc, int id_categ){
         //Entity
-        AppDatabase apd = AppDatabase.getInstance(getContext());
+        AppDatabase apd = AppDatabase.getInstance1(getContext());
         WineCuvee wineCuvee = apd.wineCuveeDAO().get(id_wine_cuvee);
         Wine wine = apd.wineDAO().get(wineCuvee.id_wine);
         WineDatas wineDatas = apd.wineDatasDAO().get(wineCuvee.id_wine);

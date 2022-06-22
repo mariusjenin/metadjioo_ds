@@ -3,11 +3,9 @@ package com.metadjioo_ds.app.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
@@ -22,12 +20,14 @@ import java.util.List;
 
 public class ImageArrayAdapter extends ArrayAdapter<Language> {
     private final List<Language> languages;
-    LayoutInflater inflter;
+    private LayoutInflater inflter;
+    private int layout;
 
-    public ImageArrayAdapter(Context context, List<Language> languages) {
+    public ImageArrayAdapter(Context context, List<Language> languages, int l) {
         super(context, android.R.layout.simple_spinner_item, languages);
         this.languages = languages;
         inflter = (LayoutInflater.from(getContext()));
+        layout = l;
     }
 
     @Override
@@ -45,7 +45,6 @@ public class ImageArrayAdapter extends ArrayAdapter<Language> {
         for(Language l: languages){
             assert item != null;
             if(item.country_code.equals(l.country_code)){
-                Log.e(item.country_code,l.country_code);
                 return super.getPosition(l);
             }
         }
@@ -56,7 +55,7 @@ public class ImageArrayAdapter extends ArrayAdapter<Language> {
         Language l = languages.get(position);
         Bitmap bmp = new ImgSaver(getContext()).setDirectoryName(l.img_directory).setFileName(l.img_name).load();
 
-        @SuppressLint("InflateParams") View view = inflter.inflate(R.layout.language_item_spinner, null);
+        @SuppressLint("InflateParams") View view = inflter.inflate(layout, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.flag_img);
         imageView.setImageBitmap(bmp);
         return view;

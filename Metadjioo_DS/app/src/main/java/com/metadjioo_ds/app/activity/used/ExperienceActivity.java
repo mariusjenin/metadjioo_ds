@@ -19,13 +19,13 @@ public class ExperienceActivity extends MDSActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.experience_activity);
+        setContentView(R.layout.empty_layout);
         initSecondMonitor();
 
         experience = new ExperienceFragment(this);
         experience.setPresentation((VideoDataSheetPresentation) mPresentation);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.root_experience_activity, experience,null).commit();
+        fragmentManager.beginTransaction().add(R.id.root, experience,null).commit();
     }
 
     @Override

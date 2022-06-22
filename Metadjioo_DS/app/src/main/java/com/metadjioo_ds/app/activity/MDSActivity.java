@@ -24,13 +24,15 @@ public abstract class MDSActivity extends AppCompatActivity {
     private FullScreenBehavior mFullScreenBehavior;
     protected MDSPresentation mPresentation;
     protected AppDatabase appDatabase;
+    protected AppDatabase appDatabaseCopy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MDSApp.setCurrentAct(this);
 
-        appDatabase = AppDatabase.getInstance(this);
+        appDatabase = AppDatabase.getInstance1(this);
+        appDatabaseCopy = AppDatabase.getInstance2(this);
 
         final View decorView = getWindow().getDecorView();
         mFullScreenBehavior = new FullScreenBehavior(decorView);

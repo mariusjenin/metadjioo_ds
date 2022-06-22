@@ -26,32 +26,38 @@
             android:gravity="center"
             android:text="@string/logging_in"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="TextContrastCheck"
+            android:importantForAutofill="no"/>
 
-        <TextView
+        <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/round_white"
             android:hint="@string/email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:paddingTop="5dp"
             android:paddingEnd="15dp"
             android:paddingBottom="5dp"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/pasword_identification"
+        <EditText
+            android:id="@+id/password_identification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/round_white"
             android:hint="@string/password"
+            android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingTop="5dp"
             android:paddingEnd="15dp"
             android:paddingBottom="5dp"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck,TouchTargetSizeCheck"
+            android:importantForAutofill="no" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/log_in"

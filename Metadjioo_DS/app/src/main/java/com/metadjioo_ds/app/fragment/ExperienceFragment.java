@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -47,7 +45,7 @@ public class ExperienceFragment extends Fragment {
     private ImageButton mBtnScrollRight;
     private TextView mAdditionnalVideoTitle;
     private ImageButton mBtnStartAdditionnalVideo;
-    private List<CardWineFragment> cardWineFragments;
+    private final List<CardWineFragment> cardWineFragments;
 
     public ExperienceFragment(MDSActivity act){
         mActivity = act;
@@ -90,12 +88,12 @@ public class ExperienceFragment extends Fragment {
                         mBtnScrollLeft.setEnabled(mScrollView.canScrollHorizontally(-1));
                     }
                 });
-        ImageArrayAdapter adapter = new ImageArrayAdapter(this.getContext(), AppDatabase.getInstance(this.getContext()).languageDAO().getAll());
+        ImageArrayAdapter adapter = new ImageArrayAdapter(this.getContext(), AppDatabase.getInstance1(this.getContext()).languageDAO().getAllDisplayed(),R.layout.language_item_spinner_experience);
         spinnerLanguage.setAdapter(adapter);
 
-        LanguageDAO languageDAO = AppDatabase.getInstance(getContext()).languageDAO();
+        LanguageDAO languageDAO = AppDatabase.getInstance1(getContext()).languageDAO();
         Language languageSelected = languageDAO.getSelectedDefault();
-        Log.e("",""+adapter.getPosition(languageSelected));
+
         spinnerLanguage.setSelection(adapter.getPosition(languageSelected));
         spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -129,7 +127,7 @@ public class ExperienceFragment extends Fragment {
         wineLayout.removeAllViews();
         cardWineFragments.clear();
         //RETRIEVE DATA DISPLAYED
-        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
+        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance1(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
         //CREATE FRAGMENTS
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         mBtnScrollRight.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
@@ -152,7 +150,7 @@ public class ExperienceFragment extends Fragment {
     public void updateWineCards() {
         mActivity.showProgress();
         //RETRIEVE DATA DISPLAYED
-        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
+        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance1(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
         //CREATE FRAGMENTS
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         for (int i = 0; i < hasCategoryWineVideos.size(); i++) {
@@ -167,7 +165,7 @@ public class ExperienceFragment extends Fragment {
 
     public void updateAdditionnalVideo() {
         //Get the video
-        CompanyVideo companyVideo = AppDatabase.getInstance(this.getContext()).companyVideoDAO().getDisplayed(false);
+        CompanyVideo companyVideo = AppDatabase.getInstance1(this.getContext()).companyVideoDAO().getDisplayed(false);
         mAdditionnalVideoTitle.setText(companyVideo.title_video);
 
         if(mPresentation != null) {

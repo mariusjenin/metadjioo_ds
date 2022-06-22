@@ -8,8 +8,10 @@ import android.graphics.Bitmap;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.Transaction;
 
+import com.metadjioo_ds.db.entity.HasCategoryWineVideo;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.utils.ImgSaver;
 
@@ -20,10 +22,20 @@ public interface LanguageDAO {
     @Query("SELECT * FROM Language WHERE Language.country_code = :code LIMIT 1")
     Language get(String code);
 
-    @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1")
+    @Query("SELECT * FROM Language")
     List<Language> getAll();
 
-    @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1 and (Language.lang_selected = 1 or Language.lang_default = 1) order by lang_selected DESC LIMIT 1")
+    @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1")
+    List<Language> getAllDisplayed();
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT Language.* , count(*) as n_lang FROM Language " +
+            "inner join WineCuveeDatas on Language.country_code = WineCuveeDatas.country_code " +
+            "inner join WineVideo on Language.country_code = WineVideo.country_code and WineCuveeDatas.country_code = WineVideo.country_code " +
+            "group by Language.country_code order by n_lang DESC")
+    List<Language> getAllDefaultSettable();
+
+    @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1 and (Language.lang_selected = 1 or Language.lang_default = 1) order by lang_default DESC LIMIT 1")
     Language getSelectedDefault();
 
     @Query("UPDATE Language SET lang_selected = :is_selected")

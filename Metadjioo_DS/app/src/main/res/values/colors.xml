@@ -17,6 +17,9 @@
     <color name="translucent_white">#80FFFFFF</color>
     <color name="translucent_white_2">#33FFFFFF</color>
 
+    <color name="translucent_gray800">#80424242</color>
+    <color name="translucent_gray800_2">#33424242</color>
+
     <color name="dark_wine">#2C0211</color>
     <color name="wine">#681036</color>
     <color name="light_wine">#C62D58</color>

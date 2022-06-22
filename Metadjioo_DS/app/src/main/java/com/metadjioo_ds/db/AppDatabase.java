@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -49,11 +50,13 @@ import java.util.List;
         WineCuvee.class,
         WineCuveeDatas.class,
         WineDatas.class,
-}, version = 4, exportSchema = false)
+}, version = 3, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     @SuppressLint("StaticFieldLeak")
-    private static AppDatabase INSTANCE = null;
+    private static AppDatabase INSTANCE1 = null;
+    @SuppressLint("StaticFieldLeak")
+    private static AppDatabase INSTANCE2 = null;
 
     public abstract HasCategoryWineVideoDAO hasCategoryWineVideoDAO();
 
@@ -67,7 +70,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserContactDAO userContactDAO();
 
-
     public abstract WineDAO wineDAO();
 
     public abstract WineCuveeDAO wineCuveeDAO();
@@ -79,12 +81,39 @@ public abstract class AppDatabase extends RoomDatabase {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    public static AppDatabase getInstance(Context applicationContext) {
-        if (INSTANCE == null) {
+    public static AppDatabase getInstance1(Context applicationContext) {
+        if (INSTANCE1 == null) {
             context = applicationContext;
-            INSTANCE = Room.databaseBuilder(applicationContext, AppDatabase.class, "db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+            INSTANCE1 = Room.databaseBuilder(applicationContext, AppDatabase.class, "db1").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         }
-        return INSTANCE;
+        return INSTANCE1;
+    }
+    public static AppDatabase getInstance2(Context applicationContext) {
+        if (INSTANCE2 == null) {
+            context = applicationContext;
+            INSTANCE2 = Room.databaseBuilder(applicationContext, AppDatabase.class, "db2").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        }
+        return INSTANCE2;
+    }
+
+    public static boolean isInstance1Filled(){
+        return !INSTANCE1.languageDAO().getAll().isEmpty();
+    }
+
+    public static boolean isInstance2Filled(){
+        return !INSTANCE2.languageDAO().getAll().isEmpty();
+    }
+
+    public static void copyDB1ToDB2(){
+        INSTANCE2.languageDAO().insertAll(INSTANCE1.languageDAO().getAll());
+        INSTANCE2.wineDAO().insertAll(INSTANCE1.wineDAO().getAll());
+        INSTANCE2.wineCuveeDAO().insertAll(INSTANCE1.wineCuveeDAO().getAll());
+        INSTANCE2.wineDatasDAO().insertAll(INSTANCE1.wineDatasDAO().getAll());
+        INSTANCE2.wineCuveeDatasDAO().insertAll(INSTANCE1.wineCuveeDatasDAO().getAll());
+        INSTANCE2.categoryWineVideoDAO().insertAll(INSTANCE1.categoryWineVideoDAO().getAll());
+        INSTANCE2.wineVideoDAO().insertAll(INSTANCE1.wineVideoDAO().getAll());
+        INSTANCE2.companyVideoDAO().insertAll(INSTANCE1.companyVideoDAO().getAll());
+        INSTANCE2.hasCategoryWineVideoDAO().insertAll(INSTANCE1.hasCategoryWineVideoDAO().getAll());
     }
 
     public void clear() {

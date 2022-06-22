@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.metadjioo_ds.db.entity.CategoryWineVideo;
+import com.metadjioo_ds.db.entity.Language;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ import java.util.List;
 public interface CategoryWineVideoDAO {
     @Query("SELECT * FROM CategoryWineVideo WHERE CategoryWineVideo.id_category_video = :id LIMIT 1")
     CategoryWineVideo get(int id);
+
+    @Query("SELECT * FROM CategoryWineVideo")
+    List<CategoryWineVideo> getAll();
 
     @Insert(onConflict = ABORT)
     void insert(CategoryWineVideo categoryWineVideo);

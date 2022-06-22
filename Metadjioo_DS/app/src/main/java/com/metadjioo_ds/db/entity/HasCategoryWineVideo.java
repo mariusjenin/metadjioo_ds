@@ -23,7 +23,7 @@ public class HasCategoryWineVideo implements Serializable {
     @ColumnInfo(name = "id_wine_cuvee", index = true)
     public int id_wine_cuvee;
 
-    @ColumnInfo(name = "id_category_video")
+    @ColumnInfo(name = "id_category_video", index = true)
     public int id_category_video;
 
     @ColumnInfo(name = "displayed")

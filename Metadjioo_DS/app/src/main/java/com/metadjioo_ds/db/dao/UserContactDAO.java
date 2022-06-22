@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.UserContact;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface UserContactDAO {
     @Query("SELECT * FROM UserContact WHERE UserContact.id_user_contact = :id LIMIT 1")
     UserContact get(int id);
+
+    @Query("SELECT * FROM UserContact")
+    List<UserContact> getAll();
 
     @Insert(onConflict = ABORT)
     long insert(UserContact userContact);

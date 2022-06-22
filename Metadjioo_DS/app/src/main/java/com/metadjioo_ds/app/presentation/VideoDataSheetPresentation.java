@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -108,7 +107,6 @@ public class VideoDataSheetPresentation extends MDSPresentation {
 
     private void stopTimer() {
         mTimerRunning = false;
-        Log.e("T", "false");
         mTimer.cancel();
         mTimer.purge();
         mTimer = new Timer();
@@ -116,13 +114,11 @@ public class VideoDataSheetPresentation extends MDSPresentation {
 
     private void putTimer() {
         mTimerRunning = true;
-        Log.e("T", "true");
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 reinitPresentation();
                 mTimerRunning = false;
-                Log.e("T", "false");
             }
         }, DELAY_BEFORE_REINIT);
     }
@@ -138,7 +134,7 @@ public class VideoDataSheetPresentation extends MDSPresentation {
         if(mCardWineFragment !=null){
             mCardWineFragment.unselect();
         }
-        CompanyVideo mVideoTeaser = AppDatabase.getInstance(getContext()).companyVideoDAO().getDisplayed(true);
+        CompanyVideo mVideoTeaser = AppDatabase.getInstance1(getContext()).companyVideoDAO().getDisplayed(true);
         //TODO
 //      mVideoView.setVideoPath(mVideoTeaser.path_video);
         mIsVideo = true;

@@ -12,6 +12,7 @@ import androidx.room.Transaction;
 
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.db.entity.Language;
+import com.metadjioo_ds.db.entity.UserContact;
 import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
 import com.metadjioo_ds.utils.ImgSaver;
@@ -22,6 +23,9 @@ import java.util.List;
 public interface WineCuveeDAO {
     @Query("SELECT * FROM WineCuvee WHERE WineCuvee.id_wine_cuvee = :id LIMIT 1")
     WineCuvee get(int id);
+
+    @Query("SELECT * FROM WineCuvee")
+    List<WineCuvee> getAll();
 
     @Transaction
     default WineCuvee createWineCuvee(Context context, int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name, Bitmap bmp){
