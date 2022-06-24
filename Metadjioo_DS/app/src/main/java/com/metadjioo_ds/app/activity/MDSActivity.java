@@ -10,11 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.app.FullScreenBehavior;
-import com.metadjioo_ds.app.presentation.MDSPresentation;
 
 /**
  * Activity of Metadjioo Display Stand App
@@ -22,14 +20,12 @@ import com.metadjioo_ds.app.presentation.MDSPresentation;
 public abstract class MDSActivity extends AppCompatActivity {
     private ProgressDialog mProgDialog;
     private FullScreenBehavior mFullScreenBehavior;
-    protected MDSPresentation mPresentation;
     protected AppDatabase appDatabase;
     protected AppDatabase appDatabaseCopy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MDSApp.setCurrentAct(this);
 
         appDatabase = AppDatabase.getInstance1(this);
         appDatabaseCopy = AppDatabase.getInstance2(this);
@@ -66,10 +62,6 @@ public abstract class MDSActivity extends AppCompatActivity {
         mProgDialog = ProgressDialog.show(this, null, null, false, false);
         mProgDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mProgDialog.setContentView(R.layout.progress_bar);
-    }
-
-    public boolean isPresentationAvailable(){
-        return mPresentation != null;
     }
 
     public void hideProgress() {

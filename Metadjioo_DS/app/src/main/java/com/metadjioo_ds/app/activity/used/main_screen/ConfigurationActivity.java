@@ -1,52 +1,66 @@
-package com.metadjioo_ds.app.activity.used;
+package com.metadjioo_ds.app.activity.used.main_screen;
 
-import android.hardware.display.DisplayManager;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentContainerView;
 
+import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.app.activity.MDSActivity;
+import com.metadjioo_ds.app.ConfigObserver;
+import com.metadjioo_ds.app.activity.MDSActivityMainScreen;
+import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
+import com.metadjioo_ds.app.activity.used.second_screen.ExperiencePreviewActivity;
 import com.metadjioo_ds.app.fragment.ChoiceDefaultLanguageFragment;
 import com.metadjioo_ds.app.fragment.ChoiceProductsDisplayedFragment;
 import com.metadjioo_ds.app.fragment.ChoiceTeaserVideoFragment;
-import com.metadjioo_ds.app.fragment.ConfigFragment;
-import com.metadjioo_ds.app.presentation.EmptyPresentation;
-import com.metadjioo_ds.app.presentation.ExperiencePreviewPresentation;
+import com.metadjioo_ds.app.fragment.ExperienceFragment;
 import com.metadjioo_ds.db.AppDatabase;
+import com.metadjioo_ds.utils.Utils;
 
-public class ConfigurationActivity extends MDSActivity implements ConfigObserver {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConfigurationActivity extends MDSActivityMainScreen implements ConfigObserver {
 
     private FragmentContainerView fcvChoiceLanguage;
     private FragmentContainerView fcvChoiceTeaserVideo;
     private FragmentContainerView fcvChoiceProductsDisplayed;
+    private List<ConfigObserver> configObservers;
     private TextView databaseEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
-        initSecondMonitor();
+        configObservers = new ArrayList<>();
+
         ImageButton refreshDatabase = findViewById(R.id.refresh_database);
+        databaseEmpty = findViewById(R.id.database_empty);
+
+        //Get the Fragment Container view
         fcvChoiceLanguage = findViewById(R.id.choice_language);
         fcvChoiceTeaserVideo = findViewById(R.id.choice_teaser_video);
         fcvChoiceProductsDisplayed = findViewById(R.id.choice_products_displayed);
-        databaseEmpty = findViewById(R.id.database_empty);
+
+        //Get the fragments
         ChoiceDefaultLanguageFragment choiceLanguage = (ChoiceDefaultLanguageFragment) getSupportFragmentManager().findFragmentById(R.id.choice_language);
         ChoiceTeaserVideoFragment choiceTeaserVideo = (ChoiceTeaserVideoFragment) getSupportFragmentManager().findFragmentById(R.id.choice_teaser_video);
         ChoiceProductsDisplayedFragment choiceProductsDisplayed = (ChoiceProductsDisplayedFragment) getSupportFragmentManager().findFragmentById(R.id.choice_products_displayed);
+
+        //Add to the list of observers
+        configObservers.add(choiceLanguage);
+        configObservers.add(choiceTeaserVideo);
+        configObservers.add(choiceProductsDisplayed);
+
         assert choiceLanguage != null;
-        assert choiceTeaserVideo != null;
-        assert choiceProductsDisplayed != null;
         choiceLanguage.setConfigObserver(this);
+        assert choiceTeaserVideo != null;
         choiceTeaserVideo.setConfigObserver(this);
+        assert choiceProductsDisplayed != null;
         choiceProductsDisplayed.setConfigObserver(this);
         refreshDisplay();
         refreshDatabase.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +72,7 @@ public class ConfigurationActivity extends MDSActivity implements ConfigObserver
                 appDatabase.fill();
                 AppDatabase.copyDB1ToDB2();
                 refreshDisplay();
-                choiceLanguage.refreshDisplayOnReload();
-                choiceTeaserVideo.refreshDisplayOnReload();
-                choiceProductsDisplayed.refreshDisplayOnReload();
+                onDatabaseReload();
                 Toast.makeText(ConfigurationActivity.this, "Database loaded", Toast.LENGTH_SHORT).show();
                 hideProgress();
             }
@@ -75,21 +87,27 @@ public class ConfigurationActivity extends MDSActivity implements ConfigObserver
         });
     }
 
-    public void initSecondMonitor(){
-        DisplayManager dm = (DisplayManager) getSystemService(DISPLAY_SERVICE);
-        if (dm != null)
-        {
-            Display[] displays = dm.getDisplays();
-            if(displays.length>0){
-                Display display = displays[1];
-                mPresentation = new ExperiencePreviewPresentation(this, display);
-                mPresentation.show();
-            }
+    @Override
+    public void initSecondScreen() {
+//        TODO remove
+//         AppDatabase.getInstance1(this).clear();
+//         AppDatabase.getInstance2(this).clear();
+//         AppDatabase.getInstance1(this).fill();
+//         AppDatabase.copyDB1ToDB2();
+        Utils.launchActivityOnSecondScreen(ExperiencePreviewActivity.class);
+    }
+
+    @Override
+    protected void onSecondScreenReady() {
+        super.onSecondScreenReady();
+        MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
+        if(activitySecondScreen instanceof ExperiencePreviewActivity){
+            configObservers.add(((ExperiencePreviewActivity)activitySecondScreen).getExperience());
         }
     }
 
-    public void refreshDisplay(){
-        if(!AppDatabase.isInstance1Filled() || !AppDatabase.isInstance2Filled()){
+    public void refreshDisplay() {
+        if (!AppDatabase.isInstance1Filled() || !AppDatabase.isInstance2Filled()) {
             fcvChoiceLanguage.setVisibility(View.GONE);
             fcvChoiceTeaserVideo.setVisibility(View.GONE);
             fcvChoiceProductsDisplayed.setVisibility(View.GONE);
@@ -104,26 +122,50 @@ public class ConfigurationActivity extends MDSActivity implements ConfigObserver
 
     @Override
     public void onDefaultLanguageModified() {
-        //TODO
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onDefaultLanguageModified();
+        }
     }
 
     @Override
     public void onTeaserModified() {
-        //TODO
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onTeaserModified();
+        }
     }
 
     @Override
     public void onProductsModified() {
-        //TODO
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onProductsModified();
+        }
     }
 
     @Override
     public void onOrderProductsModified() {
-        //TODO
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onOrderProductsModified();
+        }
+    }
+
+    @Override
+    public void onAdditionnalVideoModified() {
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onAdditionnalVideoModified();
+        }
     }
 
     @Override
     public void onLanguagesModified() {
-        //TODO
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onLanguagesModified();
+        }
+    }
+
+    @Override
+    public void onDatabaseReload() {
+        for(ConfigObserver configObserver: configObservers){
+            configObserver.onDatabaseReload();
+        }
     }
 }

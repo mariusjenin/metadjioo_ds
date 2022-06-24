@@ -1,6 +1,17 @@
 package com.metadjioo_ds.utils;
 
+import android.app.ActivityOptions;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.display.DisplayManager;
+import android.os.Build;
 import android.util.Log;
+import android.view.Display;
+
+import com.metadjioo_ds.MDSApp;
+import com.metadjioo_ds.app.activity.MDSActivityMainScreen;
+import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
+import com.metadjioo_ds.app.activity.used.second_screen.ExperiencePreviewActivity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -56,23 +67,24 @@ public class Utils {
 
     /**
      * Compute the optimal line size given the size of the elements and the max of the size
-     * @param sizeList size of the elements
+     *
+     * @param sizeList  size of the elements
      * @param maxByLine bound max
      * @return number of elements in one line
      */
     public static int organize(int sizeList, int maxByLine) {
-        if(sizeList==1){
+        if (sizeList == 1) {
             return 1;
         } else {
             int nByLine = -1;
             float score = Float.MAX_VALUE;
             float currScore;
-            for(int i = maxByLine; i >= 2;i--){
+            for (int i = maxByLine; i >= 2; i--) {
                 //Score with the amount of empty places and the number of line
-                int nbEmptyPlace = ((i - (sizeList % i))% i);
-                int nbLine = (int)Math.ceil(sizeList/(float)i);
+                int nbEmptyPlace = ((i - (sizeList % i)) % i);
+                int nbLine = (int) Math.ceil(sizeList / (float) i);
                 currScore = nbEmptyPlace + nbLine;
-                if(currScore < score){
+                if (currScore < score) {
                     score = currScore;
                     nByLine = i;
                 }
@@ -85,13 +97,13 @@ public class Utils {
     /**
      * Generate a value suitable for use in setId.
      * This value will not collide with ID values generated at build time by aapt for R.id.
-     *
+     * <p>
      * by omegasoft7 -> https://gist.github.com/omegasoft7/fdf7225a5b2955a1aba8
      *
      * @return a generated ID value
      */
     public static int generateViewId() {
-        for (;;) {
+        for (; ; ) {
             final int result = sNextGeneratedId.get();
             // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
             int newValue = result + 1;
@@ -100,6 +112,28 @@ public class Utils {
                 return result;
             }
         }
+    }
+
+    public static void launchActivityOnSecondScreen(Class<?> clss) {
+        MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
+        if(activitySecondScreen == null ||activitySecondScreen.getClass() != clss){
+            if(activitySecondScreen != null) activitySecondScreen.finish();
+            Context context = MDSApp.getContext();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
+                if (dm != null) {
+                    Display[] displays = dm.getDisplays();
+                    if (displays.length > 0) {
+                        Intent intent = new Intent(context, clss);
+                        ActivityOptions activityOptions = ActivityOptions.makeBasic();
+                        activityOptions.setLaunchDisplayId(displays[1].getDisplayId());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent, activityOptions.toBundle());
+                    }
+                }
+            }
+        }
+
     }
 
 }

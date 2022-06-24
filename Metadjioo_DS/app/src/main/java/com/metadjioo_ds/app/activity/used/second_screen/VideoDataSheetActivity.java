@@ -1,4 +1,4 @@
-package com.metadjioo_ds.app.presentation;
+package com.metadjioo_ds.app.activity.used.second_screen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
+import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
 import com.metadjioo_ds.app.fragment.CardWineFragment;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.entity.CompanyVideo;
@@ -31,7 +33,7 @@ import com.metadjioo_ds.utils.ImgSaver;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoDataSheetPresentation extends MDSPresentation {
+public class VideoDataSheetActivity extends MDSActivitySecondScreen {
 
     private final static int DELAY_BEFORE_REINIT = 30000;
     private ConstraintLayout mVideoLayout;
@@ -43,14 +45,6 @@ public class VideoDataSheetPresentation extends MDSPresentation {
     private Timer mTimer;
     private CardWineFragment mCardWineFragment;
     private boolean mTimerRunning;
-
-    public VideoDataSheetPresentation(Context outerContext, Display display) {
-        super(outerContext, display);
-        mIsVideo = true;
-        mIsVideoTeaser = true;
-        mTimerRunning = false;
-        mTimer = new Timer();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +80,7 @@ public class VideoDataSheetPresentation extends MDSPresentation {
 //        mVideoView.setVideoPath(path);
         TextView video_placholder = findViewById(R.id.video_placholder);
         video_placholder.setText("Video at : " + path);
-        Toast.makeText(getContext(), "Play " + path, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Play " + path, Toast.LENGTH_SHORT).show();
         mIsVideo = true;
         mIsVideoTeaser = false;
         refreshDisplay();
@@ -134,17 +128,19 @@ public class VideoDataSheetPresentation extends MDSPresentation {
         if(mCardWineFragment !=null){
             mCardWineFragment.unselect();
         }
-        CompanyVideo mVideoTeaser = AppDatabase.getInstance1(getContext()).companyVideoDAO().getDisplayed(true);
+        CompanyVideo mVideoTeaser = AppDatabase.getInstance1(getApplicationContext()).companyVideoDAO().getDisplayed(true);
         //TODO
 //      mVideoView.setVideoPath(mVideoTeaser.path_video);
         mIsVideo = true;
         mIsVideoTeaser = true;
+        mTimer = new Timer();
+        mTimerRunning = false;
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
                 TextView video_placholder = findViewById(R.id.video_placholder);
                 video_placholder.setText("Video at : " + mVideoTeaser.path_video);
-                Toast.makeText(getContext(), "Play " + mVideoTeaser.title_video, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Play " + mVideoTeaser.title_video, Toast.LENGTH_SHORT).show();
                 refreshDisplay();
             }
         });

@@ -20,8 +20,8 @@ import java.util.List;
 
 public class ImageArrayAdapter extends ArrayAdapter<Language> {
     private final List<Language> languages;
-    private LayoutInflater inflter;
-    private int layout;
+    private final LayoutInflater inflter;
+    private final int layout;
 
     public ImageArrayAdapter(Context context, List<Language> languages, int l) {
         super(context, android.R.layout.simple_spinner_item, languages);

@@ -19,11 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
+import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.app.activity.MDSActivity;
+import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
+import com.metadjioo_ds.app.activity.used.second_screen.VideoDataSheetActivity;
 import com.metadjioo_ds.app.adapter.ImageArrayAdapter;
-import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.LanguageDAO;
 import com.metadjioo_ds.db.entity.CompanyVideo;
@@ -33,27 +37,29 @@ import com.metadjioo_ds.db.entity.Language;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceFragment extends Fragment {
+public class ExperienceFragment extends Fragment implements ConfigObserver {
 
     public static final int SCROLL_DELTA = 300;
     public static final int MAX_CARDS_BEFORE_SCROLL = 6;
 
-    protected VideoDataSheetPresentation mPresentation;
     protected MDSActivity mActivity;
+    private Spinner mSpinnerLanguage;
+    private boolean mLanguageChanging;
     private HorizontalScrollView mScrollView;
     private ImageButton mBtnScrollLeft;
     private ImageButton mBtnScrollRight;
     private TextView mAdditionnalVideoTitle;
     private ImageButton mBtnStartAdditionnalVideo;
-    private final List<CardWineFragment> cardWineFragments;
+    private final List<CardWineFragment> mCardWineFragments;
+    private final boolean mIsOnMainScreen;
+    private AppDatabase mDatabase;
 
-    public ExperienceFragment(MDSActivity act){
+    public ExperienceFragment(MDSActivity act, AppDatabase db, boolean ioms){
         mActivity = act;
-        cardWineFragments = new ArrayList<>();
-    }
-
-    public void setPresentation( VideoDataSheetPresentation pres){
-        mPresentation = pres;
+        mDatabase = db;
+        mIsOnMainScreen = ioms;
+        mLanguageChanging = true;
+        mCardWineFragments = new ArrayList<>();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -64,7 +70,7 @@ public class ExperienceFragment extends Fragment {
         mScrollView = view.findViewById(R.id.experience_scroll_view);
         mBtnScrollLeft = view.findViewById(R.id.scroll_left);
         mBtnScrollRight = view.findViewById(R.id.scroll_right);
-        Spinner spinnerLanguage = view.findViewById(R.id.spinner_language);
+        mSpinnerLanguage = view.findViewById(R.id.spinner_language);
         mAdditionnalVideoTitle = view.findViewById(R.id.additionnal_video_title);
         mBtnStartAdditionnalVideo = view.findViewById(R.id.start_additionnal_video);
         mBtnScrollLeft.setOnClickListener(new View.OnClickListener() {
@@ -88,21 +94,17 @@ public class ExperienceFragment extends Fragment {
                         mBtnScrollLeft.setEnabled(mScrollView.canScrollHorizontally(-1));
                     }
                 });
-        ImageArrayAdapter adapter = new ImageArrayAdapter(this.getContext(), AppDatabase.getInstance1(this.getContext()).languageDAO().getAllDisplayed(),R.layout.language_item_spinner_experience);
-        spinnerLanguage.setAdapter(adapter);
-
-        LanguageDAO languageDAO = AppDatabase.getInstance1(getContext()).languageDAO();
-        Language languageSelected = languageDAO.getSelectedDefault();
-
-        spinnerLanguage.setSelection(adapter.getPosition(languageSelected));
-        spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Language language = (Language) spinnerLanguage.getSelectedItem();
-                languageDAO.resetSelected(false);
-                languageDAO.updateSelected(true,language.country_code);
-                updateWineCards();
-                updateAdditionnalVideo();
+                if(!mLanguageChanging){
+                    LanguageDAO languageDAO = mDatabase.languageDAO();
+                    Language language = (Language) mSpinnerLanguage.getSelectedItem();
+                    languageDAO.resetSelected(false);
+                    languageDAO.updateSelected(true,language.country_code);
+                    updateWineCards();
+                    updateAdditionnalVideo();
+                }
             }
 
             @Override
@@ -114,68 +116,16 @@ public class ExperienceFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
+    private void init(){
+        updateLanguage();
+        updateTeaser();
         initWineCards();
-    }
-
-    public void initWineCards() {
-        mActivity.showProgress();
-        Activity act = requireActivity();
-        //CLEAR LAYOUT
-        LinearLayout wineLayout = act.findViewById(R.id.wine_layout);
-        wineLayout.removeAllViews();
-        cardWineFragments.clear();
-        //RETRIEVE DATA DISPLAYED
-        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance1(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
-        //CREATE FRAGMENTS
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        mBtnScrollRight.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        mBtnScrollLeft.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
-        for (int i = 0; i < hasCategoryWineVideos.size(); i++) {
-            HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
-            CardWineFragment cardWine;
-            if(mPresentation == null){
-                cardWine = new CardWineFragment(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
-            } else {
-                cardWine = new CardWineFragment(mPresentation,hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
-            }
-            cardWineFragments.add(cardWine);
-            fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
-        }
-        //Additional video
-        mActivity.hideProgress();
-    }
-
-    public void updateWineCards() {
-        mActivity.showProgress();
-        //RETRIEVE DATA DISPLAYED
-        List<HasCategoryWineVideo> hasCategoryWineVideos = AppDatabase.getInstance1(this.getContext()).hasCategoryWineVideoDAO().getDisplayed();
-        //CREATE FRAGMENTS
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        for (int i = 0; i < hasCategoryWineVideos.size(); i++) {
-            HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
-            CardWineFragment cardWine = cardWineFragments.get(i);
-            cardWine.updateDisplay(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
-//            fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
-        }
-        //Additional video
-        mActivity.hideProgress();
-    }
-
-    public void updateAdditionnalVideo() {
-        //Get the video
-        CompanyVideo companyVideo = AppDatabase.getInstance1(this.getContext()).companyVideoDAO().getDisplayed(false);
-        mAdditionnalVideoTitle.setText(companyVideo.title_video);
-
-        if(mPresentation != null) {
-            mBtnStartAdditionnalVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mPresentation.setVideo(companyVideo.path_video, false);
-                }
-            });
-        }
+        updateAdditionnalVideo();
     }
 
     private void scrollRight() {
@@ -186,5 +136,123 @@ public class ExperienceFragment extends Fragment {
     private void scrollLeft() {
         int new_x = mScrollView.getScrollX() - ExperienceFragment.SCROLL_DELTA;
         mScrollView.scrollTo(new_x, mScrollView.getScrollY());
+    }
+
+    private void updateLanguage(){
+        mLanguageChanging = true;
+        ImageArrayAdapter adapter = new ImageArrayAdapter(this.getContext(), mDatabase.languageDAO().getAllDisplayed(),R.layout.language_item_spinner_experience);
+        mSpinnerLanguage.setAdapter(adapter);
+
+        LanguageDAO languageDAO = mDatabase.languageDAO();
+        Language languageSelected = languageDAO.getSelectedDefault();
+
+        mSpinnerLanguage.setSelection(adapter.getPosition(languageSelected));
+        mLanguageChanging = false;
+    }
+
+    private void updateTeaser() {
+        //TODO
+    }
+
+    private void initWineCards() {
+        mActivity.showProgress();
+        FragmentManager fragmentManager = mActivity.getSupportFragmentManager();
+
+        //CLEAR FRAGMENTS
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        for(int i = 0; i < mCardWineFragments.size();i++){
+            fragmentTransaction.remove(mCardWineFragments.get(i));
+        }
+        fragmentTransaction.commit();
+        mCardWineFragments.clear();
+        //RETRIEVE DATA DISPLAYED
+        List<HasCategoryWineVideo> hasCategoryWineVideos = mDatabase.hasCategoryWineVideoDAO().getDisplayed();
+        //CREATE FRAGMENTS
+        mBtnScrollRight.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        mBtnScrollLeft.setEnabled(hasCategoryWineVideos.size() > MAX_CARDS_BEFORE_SCROLL);
+        MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
+        for (int i = 0; i < hasCategoryWineVideos.size(); i++) {
+            HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
+            CardWineFragment cardWine;
+            if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
+                cardWine = new CardWineFragment((VideoDataSheetActivity) activitySecondScreen, hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+            } else {
+                cardWine = new CardWineFragment(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+            }
+            mCardWineFragments.add(cardWine);
+            fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
+        }
+        //Additional video
+        mActivity.hideProgress();
+    }
+
+    private void updateWineCards() {
+        //RETRIEVE DATA DISPLAYED
+        List<HasCategoryWineVideo> hasCategoryWineVideos = mDatabase.hasCategoryWineVideoDAO().getDisplayed();  //TODO order
+        int sizeHCWV = hasCategoryWineVideos.size();
+        if(sizeHCWV != mCardWineFragments.size()){
+            initWineCards();
+        } else {
+            mActivity.showProgress();
+            //CREATE FRAGMENTS
+            for (int i = 0; i <sizeHCWV; i++) {
+                HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
+                CardWineFragment cardWine = mCardWineFragments.get(i);
+                cardWine.setIDs(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+                cardWine.refreshDisplay();
+            }
+            mActivity.hideProgress();
+        }
+    }
+
+    private void updateAdditionnalVideo() {
+        //Get the video
+        CompanyVideo companyVideo = mDatabase.companyVideoDAO().getDisplayed(false);
+        mAdditionnalVideoTitle.setText(companyVideo.title_video);
+
+        MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
+        if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
+            mBtnStartAdditionnalVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((VideoDataSheetActivity) activitySecondScreen).setVideo(companyVideo.path_video, false);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDefaultLanguageModified() {
+        updateLanguage();
+    }
+
+    @Override
+    public void onTeaserModified() {
+        updateTeaser();
+    }
+
+    @Override
+    public void onProductsModified() {
+        initWineCards();
+    }
+
+    @Override
+    public void onOrderProductsModified() {
+        updateWineCards();
+    }
+
+    @Override
+    public void onAdditionnalVideoModified() {
+        updateAdditionnalVideo();
+    }
+
+    @Override
+    public void onLanguagesModified() {
+        updateLanguage();
+    }
+
+    @Override
+    public void onDatabaseReload() {
+        init();
     }
 }

@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
+        android:id="@+id/table_layout_wine_displayed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
@@ -64,7 +65,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Display"
@@ -84,7 +85,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Language"
@@ -97,7 +98,8 @@
             android:layout_height="match_parent"
             android:divider="@drawable/table_divider"
             android:gravity="center"
-            android:showDividers="middle">
+            android:showDividers="middle"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -121,7 +123,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1">
+                android:layout_weight="0.15">
 
                 <Switch
                     android:layout_width="wrap_content"
@@ -159,7 +161,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -270,7 +272,8 @@
             android:layout_height="match_parent"
             android:divider="@drawable/table_divider"
             android:gravity="center"
-            android:showDividers="middle">
+            android:showDividers="middle"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -293,7 +296,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1">
+                android:layout_weight="0.15">
 
                 <Switch
                     android:layout_width="wrap_content"
@@ -324,7 +327,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -410,7 +413,8 @@
             android:layout_height="match_parent"
             android:divider="@drawable/table_divider"
             android:gravity="center"
-            android:showDividers="middle">
+            android:showDividers="middle"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -433,7 +437,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1">
+                android:layout_weight="0.15">
 
                 <Switch
                     android:layout_width="wrap_content"
@@ -464,7 +468,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -550,7 +554,8 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/table_divider"
             android:gravity="center"
-            android:showDividers="middle">
+            android:showDividers="middle"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -574,7 +579,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1">
+                android:layout_weight="0.15">
 
                 <Switch
                     android:layout_width="wrap_content"
@@ -610,7 +615,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.15"
                 android:orientation="vertical">
 
                 <LinearLayout

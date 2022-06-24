@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
+import com.metadjioo_ds.app.activity.used.second_screen.VideoDataSheetActivity;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.Wine;
@@ -24,16 +24,16 @@ import com.metadjioo_ds.db.entity.WineVideo;
 import com.metadjioo_ds.utils.ImgSaver;
 
 public class CardWineFragment extends Fragment {
-    protected VideoDataSheetPresentation mPresentation;
+    protected VideoDataSheetActivity mActivitySecondScreen;
     private View mView;
     private int id_wine_cuvee;
     private int id_category;
     private boolean selected;
     private boolean displayVideo;
 
-    public CardWineFragment(VideoDataSheetPresentation presentation, int id_wc, int id_categ) {
+    public CardWineFragment(VideoDataSheetActivity act, int id_wc, int id_categ) {
         super(R.layout.experience_wine_card);
-        mPresentation = presentation;
+        mActivitySecondScreen = act;
         init(id_wc,id_categ);
     }
     public CardWineFragment(int id_wc, int id_categ) {
@@ -51,17 +51,23 @@ public class CardWineFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
-        updateDisplay(id_wine_cuvee,id_category);
+        setIDs(id_wine_cuvee,id_category);
+        refreshDisplay();
     }
 
-    public void updateDisplay(int id_wc, int id_categ){
+    public void setIDs(int id_wc, int id_categ){
+        id_wine_cuvee = id_wc;
+        id_category = id_categ;
+    }
+
+    public void refreshDisplay(){
         //Entity
         AppDatabase apd = AppDatabase.getInstance1(getContext());
         WineCuvee wineCuvee = apd.wineCuveeDAO().get(id_wine_cuvee);
         Wine wine = apd.wineDAO().get(wineCuvee.id_wine);
         WineDatas wineDatas = apd.wineDatasDAO().get(wineCuvee.id_wine);
         WineCuveeDatas wineCuveeDatas = apd.wineCuveeDatasDAO().get(id_wine_cuvee);
-        WineVideo video = apd.wineVideoDAO().get(id_wc,id_categ);
+        WineVideo video = apd.wineVideoDAO().get(id_wine_cuvee,id_category);
 
         //view
         ImageButton btnPlay = mView.findViewById(R.id.start_video_wine);
@@ -83,9 +89,9 @@ public class CardWineFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 displayVideo = true;
-                if(mPresentation !=null){
-                    mPresentation.setCardWineFragment(CardWineFragment.this);
-                    mPresentation.setVideo(video.path_video, false);
+                if(mActivitySecondScreen !=null){
+                    mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
+                    mActivitySecondScreen.setVideo(video.path_video, false);
                 }
             }
         });
@@ -93,21 +99,21 @@ public class CardWineFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 displayVideo = false;
-                if(mPresentation !=null){
-                    mPresentation.setCardWineFragment(CardWineFragment.this);
-                    mPresentation.setDataSheet(wine,wineCuvee,wineDatas,wineCuveeDatas);
+                if(mActivitySecondScreen !=null){
+                    mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
+                    mActivitySecondScreen.setDataSheet(wine,wineCuvee,wineDatas,wineCuveeDatas);
                 }
             }
         });
         TextView wine_title = mView.findViewById(R.id.wine_title);
         wine_title.setText(wineCuveeDatas.name);
 
-        if(mPresentation !=null) {
+        if(mActivitySecondScreen !=null) {
             if (selected) {
                 if (displayVideo) {
-                    mPresentation.setVideo(video.path_video, false);
+                    mActivitySecondScreen.setVideo(video.path_video, false);
                 } else {
-                    mPresentation.setDataSheet(wine, wineCuvee, wineDatas, wineCuveeDatas);
+                    mActivitySecondScreen.setDataSheet(wine, wineCuvee, wineDatas, wineCuveeDatas);
                 }
             }
         }

@@ -16,28 +16,44 @@
         tools:ignore="RtlEnabled">
 
         <activity
-            android:name=".app.activity.used.HomeActivity"
+            android:name=".app.activity.used.main_screen.HomeActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".app.activity.used.LogInActivity"
+            android:name=".app.activity.used.main_screen.LogInActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".app.activity.used.ExperienceActivity"
+            android:name=".app.activity.used.main_screen.ExperienceActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:resizeableActivity="true"
+            tools:targetApi="n" />
+
+        <activity
+            android:name=".app.activity.used.main_screen.ConfigurationActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+
+        <activity android:name=".app.activity.used.second_screen.EmptyActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".app.activity.used.second_screen.ExperiencePreviewActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".app.activity.used.ConfigurationActivity"
+            android:name=".app.activity.used.second_screen.VideoDataSheetActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
 

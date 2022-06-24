@@ -25,7 +25,12 @@ public interface LanguageDAO {
     @Query("SELECT * FROM Language")
     List<Language> getAll();
 
-    @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1")
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT Language.* , count(*) as n_lang FROM Language " +
+            "inner join WineCuveeDatas on Language.country_code = WineCuveeDatas.country_code " +
+            "inner join WineVideo on Language.country_code = WineVideo.country_code and WineCuveeDatas.country_code = WineVideo.country_code " +
+            "WHERE Language.lang_displayed = 1 " +
+            "group by Language.country_code order by n_lang DESC")
     List<Language> getAllDisplayed();
 
     @RewriteQueriesToDropUnusedColumns

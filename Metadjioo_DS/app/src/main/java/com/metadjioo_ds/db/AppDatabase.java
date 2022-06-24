@@ -208,16 +208,27 @@ public abstract class AppDatabase extends RoomDatabase {
         //WINE VIDEO
         WineVideoDAO wineVideoDAO = wineVideoDAO();
         ArrayList<WineVideo> wineVideos = new ArrayList<>();
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/1/cuvee/1/fr", "Video Wine 1 Cuvee 1 fr"));
-        wineVideos.add(new WineVideo( id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/1/cuvee/1/cn", "Video Wine 1 Cuvee 1 cn"));
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/1/cuvee/1/en", "Video Wine 1 Cuvee 1 en"));
-        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/2/cuvee/1/cn", "Video Wine 2 Cuvee 1 cn"));
-        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"KR", "path/video/wine/2/cuvee/1/kr", "Video Wine 2 Cuvee 1 kr"));
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/2/cuvee/1/en", "Video Wine 2 Cuvee 1 en"));
-        wineVideos.add(new WineVideo( id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/3/cuvee/1/cn", "Video Wine 3 Cuvee 1 cn"));
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/3/cuvee/1/en", "Video Wine 3 Cuvee 1 en"));
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/4/cuvee/1/fr", "Video Wine 4 Cuvee 1 fr"));
-        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/4/cuvee/1/en", "Video Wine 4 Cuvee 1 en"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(),"FR", "path/video/wine/1/cuvee/1/categ/1/fr", "Video Wine 1 Cuvee 1 Categ 1 fr"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(),"CN", "path/video/wine/1/cuvee/1/categ/1/cn", "Video Wine 1 Cuvee 1 Categ 1 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(),"EN", "path/video/wine/1/cuvee/1/categ/1/en", "Video Wine 1 Cuvee 1 Categ 1 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(1).intValue(),"CN", "path/video/wine/2/cuvee/1/categ/1/cn", "Video Wine 2 Cuvee 1 Categ 1 cn"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(1).intValue(),"KR", "path/video/wine/2/cuvee/1/categ/1/kr", "Video Wine 2 Cuvee 1 Categ 1 kr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(1).intValue(),"EN", "path/video/wine/2/cuvee/1/categ/1/en", "Video Wine 2 Cuvee 1 Categ 1 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(2).intValue(), id_categories_video.get(1).intValue(),"CN", "path/video/wine/3/cuvee/1/categ/1/cn", "Video Wine 3 Cuvee 1 Categ 1 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(1).intValue(),"EN", "path/video/wine/3/cuvee/1/categ/1/en", "Video Wine 3 Cuvee 1 Categ 1 en"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(1).intValue(),"FR", "path/video/wine/4/cuvee/1/categ/1/fr", "Video Wine 4 Cuvee 1 Categ 1 fr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(1).intValue(),"EN", "path/video/wine/4/cuvee/1/categ/1/en", "Video Wine 4 Cuvee 1 Categ 1 en"));
+
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/1/cuvee/1/categ/2/fr", "Video Wine 1 Cuvee 1 Categ 2 fr"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/1/cuvee/1/categ/2/cn", "Video Wine 1 Cuvee 1 Categ 2 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/1/cuvee/1/categ/2/en", "Video Wine 1 Cuvee 1 Categ 2 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/2/cuvee/1/categ/2/cn", "Video Wine 2 Cuvee 1 Categ 2 cn"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"KR", "path/video/wine/2/cuvee/1/categ/2/kr", "Video Wine 2 Cuvee 1 Categ 2 kr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/2/cuvee/1/categ/2/en", "Video Wine 2 Cuvee 1 Categ 2 en"));
+        wineVideos.add(new WineVideo( id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"CN", "path/video/wine/3/cuvee/1/categ/2/cn", "Video Wine 3 Cuvee 1 Categ 2 cn"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/3/cuvee/1/categ/2/en", "Video Wine 3 Cuvee 1 Categ 2 en"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"FR", "path/video/wine/4/cuvee/1/categ/2/fr", "Video Wine 4 Cuvee 1 Categ 2 fr"));
+        wineVideos.add(new WineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(),"EN", "path/video/wine/4/cuvee/1/categ/2/en", "Video Wine 4 Cuvee 1 Categ 2 en"));
         wineVideoDAO.insertAll(wineVideos);
 
 
@@ -237,10 +248,14 @@ public abstract class AppDatabase extends RoomDatabase {
         //HAS CATEGORY WINE VIDEO
         HasCategoryWineVideoDAO hasCategoryWineVideoDAO = hasCategoryWineVideoDAO();
         ArrayList<HasCategoryWineVideo> hasCategoryWineVideos = new ArrayList<>();
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(), true));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(), true));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(), true));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(), false));
         hasCategoryWineVideoDAO.insertAll(hasCategoryWineVideos);
 
     }

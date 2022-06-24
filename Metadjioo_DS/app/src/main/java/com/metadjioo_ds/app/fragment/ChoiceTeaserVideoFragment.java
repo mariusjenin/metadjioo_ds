@@ -3,20 +3,18 @@ package com.metadjioo_ds.app.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.app.activity.used.ConfigObserver;
+import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.dao.CompanyVideoDAO;
 import com.metadjioo_ds.db.entity.CompanyVideo;
 import com.metadjioo_ds.utils.Utils;
@@ -24,7 +22,7 @@ import com.metadjioo_ds.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChoiceTeaserVideoFragment extends ConfigFragment implements ConfigObserver {
+public class ChoiceTeaserVideoFragment extends ConfigObservableFragment implements ConfigObserver {
 
     private RadioGroup radioGroupTeaser;
     private List<CardCompanyVideoFragment> cardCompanyVideoFragments;
@@ -36,48 +34,12 @@ public class ChoiceTeaserVideoFragment extends ConfigFragment implements ConfigO
         View view = inflater.inflate(R.layout.choice_teaser_video, container, false);
         cardCompanyVideoFragments = new ArrayList<>();
         radioGroupTeaser = view.findViewById(R.id.radio_group_teaser);
-        refreshDisplayOnReload();
+        init();
         return view;
     }
 
     @Override
-    public void updateDatabase() {
-        int nbTeasers = cardCompanyVideoFragments.size();
-        for(int i = 0 ; i < nbTeasers; i++){
-            cardCompanyVideoFragments.get(i).updateDatabase();
-        }
-    }
-
-    @Override
-    public void refreshDisplayOnDefaultLanguageModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnTeaserModified() {
-        int nbTeasers = cardCompanyVideoFragments.size();
-        for(int i = 0 ; i < nbTeasers; i++){
-            cardCompanyVideoFragments.get(i).refreshDisplayOnTeaserModified();
-        }
-    }
-
-    @Override
-    public void refreshDisplayOnProductsModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnOrderProductsModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnLanguagesModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnReload() {
+    protected void init() {
         Context context = getContext();
 
         //Init
@@ -116,32 +78,56 @@ public class ChoiceTeaserVideoFragment extends ConfigFragment implements ConfigO
             cardCompanyVideo.setConfigObserver(this);
             fragmentManager.beginTransaction().add(linearLayout.getId(), cardCompanyVideo, null).commit();
         }
+    }
 
+    @Override
+    public void teaserModified() {
+        mConfigObserver.onTeaserModified();
+    }
+
+    @Override
+    public void updateDatabase() {
+        int nbTeasers = cardCompanyVideoFragments.size();
+        for(int i = 0 ; i < nbTeasers; i++){
+            cardCompanyVideoFragments.get(i).updateDatabase();
+        }
     }
 
     @Override
     public void onDefaultLanguageModified() {
-        //nothing : can't trigger this
+        //nothing : not affected
     }
 
     @Override
     public void onTeaserModified() {
-        mConfigObserver.onTeaserModified();
-        refreshDisplayOnTeaserModified();
+        int nbTeasers = cardCompanyVideoFragments.size();
+        for(int i = 0 ; i < nbTeasers; i++){
+            cardCompanyVideoFragments.get(i).onTeaserModified();
+        }
     }
 
     @Override
     public void onProductsModified() {
-        //nothing : can't trigger this
+        //nothing : not affected
     }
 
     @Override
     public void onOrderProductsModified() {
-        //nothing : can't trigger this
+        //nothing : not affected
+    }
+
+    @Override
+    public void onAdditionnalVideoModified() {
+        //nothing : not affected
     }
 
     @Override
     public void onLanguagesModified() {
-        //nothing : can't trigger this
+        //nothing : not affected
+    }
+
+    @Override
+    public void onDatabaseReload() {
+        init();
     }
 }

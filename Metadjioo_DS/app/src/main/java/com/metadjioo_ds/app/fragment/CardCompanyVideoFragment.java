@@ -2,40 +2,23 @@ package com.metadjioo_ds.app.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
-import com.metadjioo_ds.app.presentation.VideoDataSheetPresentation;
-import com.metadjioo_ds.db.AppDatabase;
+import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.dao.CompanyVideoDAO;
 import com.metadjioo_ds.db.entity.CompanyVideo;
-import com.metadjioo_ds.db.entity.Language;
-import com.metadjioo_ds.db.entity.Wine;
-import com.metadjioo_ds.db.entity.WineCuvee;
-import com.metadjioo_ds.db.entity.WineCuveeDatas;
-import com.metadjioo_ds.db.entity.WineDatas;
-import com.metadjioo_ds.db.entity.WineVideo;
-import com.metadjioo_ds.utils.ImgSaver;
 
-import java.util.Objects;
-
-public class CardCompanyVideoFragment extends ConfigFragment {
+public class CardCompanyVideoFragment extends ConfigObservableFragment implements ConfigObserver {
     private final int mIdCompanyVideo;
     private View mView;
     private ImageView imgTeaser;
@@ -57,59 +40,20 @@ public class CardCompanyVideoFragment extends ConfigFragment {
         super.onViewCreated(view, savedInstanceState);
         radioButton = mView.findViewById(R.id.radio_button);
         imgTeaser = mView.findViewById(R.id.img_company_video);
-        refreshDisplayOnReload();
+        init();
 
         radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if(checked){
-                    CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-                    CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-                    companyVideoDAO.resetDisplayed(false);
-                    companyVideoDAO.updateDisplayed(true,companyVideo.id_company_video);
-                    mConfigObserver.onTeaserModified();
+                    teaserModified();
                 }
             }
         });
     }
 
     @Override
-    public void updateDatabase() {
-        CompanyVideoDAO companyVideoDAO = db.companyVideoDAO();
-        companyVideoDAO.updateDisplayed(true,mIdCompanyVideo);
-    }
-
-    @Override
-    public void refreshDisplayOnDefaultLanguageModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnTeaserModified() {
-        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-
-        radioButton.setText(companyVideo.title_video);
-        radioButton.setChecked(companyVideo.displayed);
-    }
-
-    @Override
-    public void refreshDisplayOnProductsModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnOrderProductsModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnLanguagesModified() {
-        //nothing : can't trigger this
-    }
-
-    @Override
-    public void refreshDisplayOnReload() {
+    protected void init() {
         //Entity
         CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
         CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
@@ -120,6 +64,60 @@ public class CardCompanyVideoFragment extends ConfigFragment {
         Bitmap bm = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.black);
 
         imgTeaser.setImageBitmap(bm);
-        refreshDisplayOnTeaserModified();
+        onTeaserModified();
+    }
+
+    @Override
+    public void updateDatabase() {
+        CompanyVideoDAO companyVideoDAO = db.companyVideoDAO();
+        companyVideoDAO.updateDisplayed(true,mIdCompanyVideo);
+    }
+
+    @Override
+    public void teaserModified() {
+        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
+        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
+        companyVideoDAO.resetDisplayed(false);
+        companyVideoDAO.updateDisplayed(true,companyVideo.id_company_video);
+        mConfigObserver.onTeaserModified();
+    }
+
+    @Override
+    public void onDefaultLanguageModified() {
+        //nothing : not affected
+    }
+
+    @Override
+    public void onTeaserModified() {
+        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
+        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
+
+        radioButton.setText(companyVideo.title_video);
+        radioButton.setChecked(companyVideo.displayed);
+    }
+
+    @Override
+    public void onProductsModified() {
+        //nothing : not affected
+    }
+
+    @Override
+    public void onOrderProductsModified() {
+        //nothing : not affected
+    }
+
+    @Override
+    public void onAdditionnalVideoModified() {
+        //nothing : not affected
+    }
+
+    @Override
+    public void onLanguagesModified() {
+        //nothing : not affected
+    }
+
+    @Override
+    public void onDatabaseReload() {
+        init();
     }
 }
