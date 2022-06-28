@@ -1,8 +1,8 @@
 package com.metadjioo_ds.app.activity.used.main_screen;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +19,11 @@ import com.metadjioo_ds.app.fragment.ChoiceCompanyVideoFragment;
 import com.metadjioo_ds.app.fragment.ChoiceDefaultLanguageFragment;
 import com.metadjioo_ds.app.fragment.ChoiceOrderProductsDisplayedFragment;
 import com.metadjioo_ds.app.fragment.ChoiceProductsDisplayedFragment;
+import com.metadjioo_ds.app.fragment.ConfigDirectFragment;
+import com.metadjioo_ds.app.fragment.ConfigFragment;
+import com.metadjioo_ds.app.fragment.ExperienceFragment;
 import com.metadjioo_ds.db.AppDatabase;
+import com.metadjioo_ds.db.dao.WineCuveeDAO;
 import com.metadjioo_ds.utils.Utils;
 
 import java.util.ArrayList;
@@ -27,29 +31,32 @@ import java.util.List;
 
 public class ConfigurationActivity extends MDSActivityMainScreen implements ConfigObserver {
 
-    private FragmentContainerView fcvChoiceLanguage;
-    private FragmentContainerView fcvChoiceTeaserVideo;
-    private FragmentContainerView fcvChoiceProductsDisplayed;
-    private FragmentContainerView fcvChoiceOrderProductsDisplayed;
-    private FragmentContainerView fcvChoiceAdditionnalVideo;
-    private List<ConfigObserver> configObservers;
+    private FragmentContainerView mFcvChoiceLanguage;
+    private FragmentContainerView mFcvChoiceTeaserVideo;
+    private FragmentContainerView mFcvChoiceProductsDisplayed;
+    private FragmentContainerView mFcvChoiceOrderProductsDisplayed;
+    private FragmentContainerView mFcvChoiceAdditionnalVideo;
+    private List<ConfigDirectFragment> mConfigFragments;
+    private ExperienceFragment mExperience;
     private TextView databaseEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
-        configObservers = new ArrayList<>();
+        mConfigFragments = new ArrayList<>();
 
         ImageButton refreshDatabase = findViewById(R.id.refresh_database);
         databaseEmpty = findViewById(R.id.database_empty);
 
+        Button validateConfig = findViewById(R.id.validate_config);
+
         //Get the Fragment Container view
-        fcvChoiceLanguage = findViewById(R.id.choice_language);
-        fcvChoiceTeaserVideo = findViewById(R.id.choice_teaser_video);
-        fcvChoiceProductsDisplayed = findViewById(R.id.choice_products_displayed);
-        fcvChoiceOrderProductsDisplayed = findViewById(R.id.choice_order_products_displayed);
-        fcvChoiceAdditionnalVideo = findViewById(R.id.choice_additionnal_video);
+        mFcvChoiceLanguage = findViewById(R.id.choice_language);
+        mFcvChoiceTeaserVideo = findViewById(R.id.choice_teaser_video);
+        mFcvChoiceProductsDisplayed = findViewById(R.id.choice_products_displayed);
+        mFcvChoiceOrderProductsDisplayed = findViewById(R.id.choice_order_products_displayed);
+        mFcvChoiceAdditionnalVideo = findViewById(R.id.choice_additionnal_video);
 
         //Get the fragments
         ChoiceDefaultLanguageFragment choiceLanguage = (ChoiceDefaultLanguageFragment) getSupportFragmentManager().findFragmentById(R.id.choice_language);
@@ -59,11 +66,11 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
         ChoiceCompanyVideoFragment choiceAdditionnalVideo = (ChoiceCompanyVideoFragment) getSupportFragmentManager().findFragmentById(R.id.choice_additionnal_video);
 
         //Add to the list of observers
-        configObservers.add(choiceLanguage);
-        configObservers.add(choiceTeaserVideo);
-        configObservers.add(choiceProductsDisplayed);
-        configObservers.add(choiceOrderProductsDisplayed);
-        configObservers.add(choiceAdditionnalVideo);
+        mConfigFragments.add(choiceLanguage);
+        mConfigFragments.add(choiceTeaserVideo);
+        mConfigFragments.add(choiceProductsDisplayed);
+        mConfigFragments.add(choiceOrderProductsDisplayed);
+        mConfigFragments.add(choiceAdditionnalVideo);
 
         assert choiceLanguage != null;
         choiceLanguage.setConfigObserver(this);
@@ -82,37 +89,32 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
         choiceAdditionnalVideo.setConfigObserver(this);
         choiceAdditionnalVideo.setIsTeaser(false);
         refreshDisplay();
-        refreshDatabase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showProgress();
-                appDatabaseCopy.clear();
-                appDatabase.clear();
-                appDatabase.fill();
-                AppDatabase.copyDB1ToDB2();
-                refreshDisplay();
-                onDatabaseReload();
-                Toast.makeText(ConfigurationActivity.this, "Database loaded", Toast.LENGTH_SHORT).show();
-                hideProgress();
-            }
+        refreshDatabase.setOnClickListener(view -> {
+            showProgress();
+            appDatabaseCopy.clear();
+            appDatabase.clear();
+            appDatabase.fill();
+            AppDatabase.copyDB1ToDB2();
+            refreshDisplay();
+            onDatabaseReload();
+            Toast.makeText(ConfigurationActivity.this, "Database loaded", Toast.LENGTH_SHORT).show();
+            hideProgress();
+        });
+
+        validateConfig.setOnClickListener(view -> {
+            ConfigurationActivity.this.showProgress();
+            finish();
+            updateDatabase();
+            Toast.makeText(ConfigurationActivity.this, "Changes validated", Toast.LENGTH_SHORT).show();
+            ConfigurationActivity.this.hideProgress();
         });
 
         ImageButton btnGoBack = findViewById(R.id.go_back);
-        btnGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ConfigurationActivity.this.finish();
-            }
-        });
+        btnGoBack.setOnClickListener(view -> ConfigurationActivity.this.finish());
     }
 
     @Override
     public void initSecondScreen() {
-//        TODO remove
-//         AppDatabase.getInstance1(this).clear();
-//         AppDatabase.getInstance2(this).clear();
-//         AppDatabase.getInstance1(this).fill();
-//         AppDatabase.copyDB1ToDB2();
         Utils.launchActivityOnSecondScreen(ExperiencePreviewActivity.class);
     }
 
@@ -121,74 +123,95 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
         super.onSecondScreenReady();
         MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
         if(activitySecondScreen instanceof ExperiencePreviewActivity){
-            configObservers.add(((ExperiencePreviewActivity)activitySecondScreen).getExperience());
+            mExperience = ((ExperiencePreviewActivity)activitySecondScreen).getExperience();
         }
     }
 
     public void refreshDisplay() {
         if (!AppDatabase.isInstance1Filled() || !AppDatabase.isInstance2Filled()) {
-            fcvChoiceLanguage.setVisibility(View.GONE);
-            fcvChoiceTeaserVideo.setVisibility(View.GONE);
-            fcvChoiceProductsDisplayed.setVisibility(View.GONE);
-            fcvChoiceOrderProductsDisplayed.setVisibility(View.GONE);
-            fcvChoiceAdditionnalVideo.setVisibility(View.GONE);
+            mFcvChoiceLanguage.setVisibility(View.GONE);
+            mFcvChoiceTeaserVideo.setVisibility(View.GONE);
+            mFcvChoiceProductsDisplayed.setVisibility(View.GONE);
+            mFcvChoiceOrderProductsDisplayed.setVisibility(View.GONE);
+            mFcvChoiceAdditionnalVideo.setVisibility(View.GONE);
             databaseEmpty.setVisibility(View.VISIBLE);
+
         } else {
-            fcvChoiceLanguage.setVisibility(View.VISIBLE);
-            fcvChoiceTeaserVideo.setVisibility(View.VISIBLE);
-            fcvChoiceProductsDisplayed.setVisibility(View.VISIBLE);
-            fcvChoiceOrderProductsDisplayed.setVisibility(View.VISIBLE);
-            fcvChoiceAdditionnalVideo.setVisibility(View.VISIBLE);
+            mFcvChoiceLanguage.setVisibility(View.VISIBLE);
+            mFcvChoiceTeaserVideo.setVisibility(View.VISIBLE);
+            mFcvChoiceProductsDisplayed.setVisibility(View.VISIBLE);
+            mFcvChoiceAdditionnalVideo.setVisibility(View.VISIBLE);
             databaseEmpty.setVisibility(View.GONE);
+
+            WineCuveeDAO wineCuveeDAO = AppDatabase.getInstance2(getApplicationContext()).wineCuveeDAO();
+            if(wineCuveeDAO.getDisplayed().size()<=1){
+                mFcvChoiceOrderProductsDisplayed.setVisibility(View.GONE);
+            } else {
+                mFcvChoiceOrderProductsDisplayed.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void updateDatabase(){
+        for(ConfigFragment configFragment: mConfigFragments){
+            configFragment.updateDatabase();
         }
     }
 
     @Override
     public void onDefaultLanguageModified() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onDefaultLanguageModified();
         }
+        if(mExperience!=null)mExperience.onDefaultLanguageModified();
     }
 
     @Override
     public void onTeaserModified() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onTeaserModified();
         }
+        if(mExperience!=null)mExperience.onTeaserModified();
     }
 
     @Override
     public void onProductsModified() {
-        for(ConfigObserver configObserver: configObservers){
+        refreshDisplay();
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onProductsModified();
         }
+        if(mExperience!=null)mExperience.onProductsModified();
     }
 
     @Override
     public void onOrderProductsModified() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onOrderProductsModified();
         }
+        if(mExperience!=null)mExperience.onOrderProductsModified();
     }
 
     @Override
     public void onAdditionnalVideoModified() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onAdditionnalVideoModified();
         }
+        if(mExperience!=null)mExperience.onAdditionnalVideoModified();
     }
 
     @Override
     public void onLanguagesModified() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onLanguagesModified();
         }
+        if(mExperience!=null)mExperience.onLanguagesModified();
     }
 
     @Override
     public void onDatabaseReload() {
-        for(ConfigObserver configObserver: configObservers){
+        for(ConfigObserver configObserver: mConfigFragments){
             configObserver.onDatabaseReload();
         }
+        if(mExperience!=null)mExperience.onDatabaseReload();
     }
 }

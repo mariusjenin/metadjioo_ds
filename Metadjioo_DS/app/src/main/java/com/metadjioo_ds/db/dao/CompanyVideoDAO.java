@@ -1,14 +1,10 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.metadjioo_ds.db.entity.CategoryWineVideo;
 import com.metadjioo_ds.db.entity.CompanyVideo;
-import com.metadjioo_ds.db.entity.UserContact;
 
 import java.util.List;
 
@@ -34,10 +30,10 @@ public interface CompanyVideoDAO {
     @Query("SELECT * FROM CompanyVideo")
     List<CompanyVideo> getAll();
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insert(CompanyVideo companyVideo);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insertAll(List<CompanyVideo> companyVideoList);
 
     @Query("DELETE FROM CompanyVideo")

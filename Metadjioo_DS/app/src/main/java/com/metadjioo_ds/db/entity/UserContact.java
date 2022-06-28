@@ -12,7 +12,7 @@ public class UserContact implements Serializable {
     public int id_user_contact;
 
     @ColumnInfo(name = "email")
-    public String email;
+    public final String email;
 
     public UserContact(String email) {
         this.email = email;

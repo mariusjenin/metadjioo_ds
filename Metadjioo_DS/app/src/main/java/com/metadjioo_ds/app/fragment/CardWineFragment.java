@@ -2,7 +2,6 @@ package com.metadjioo_ds.app.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,7 +31,7 @@ public class CardWineFragment extends Fragment {
     private int id_category;
     private boolean selected;
     private boolean displayVideo;
-    private AppDatabase mDatabase;
+    private final AppDatabase mDatabase;
 
     public CardWineFragment(AppDatabase db, VideoDataSheetActivity act, int id_wc, int id_categ) {
         super(R.layout.experience_wine_card);
@@ -58,7 +57,6 @@ public class CardWineFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
-        Log.e("test", "");
         setIDs(id_wine_cuvee, id_category);
         refreshDisplay();
     }
@@ -94,24 +92,18 @@ public class CardWineFragment extends Fragment {
             wineImg.setImageBitmap(bmpWineImg);
             datasheetLanguageImgView.setImageBitmap(datasheetLanguageImg);
             wineVideoLanguageImgView.setImageBitmap(wineVideoLanguageImg);
-            btnPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    displayVideo = true;
-                    if (mActivitySecondScreen != null) {
-                        mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
-                        mActivitySecondScreen.setVideo(video.path_video, false);
-                    }
+            btnPlay.setOnClickListener(view -> {
+                displayVideo = true;
+                if (mActivitySecondScreen != null) {
+                    mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
+                    mActivitySecondScreen.setVideo(video.path_video, false);
                 }
             });
-            btnInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    displayVideo = false;
-                    if (mActivitySecondScreen != null) {
-                        mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
-                        mActivitySecondScreen.setDataSheet(wine, wineCuvee, wineDatas, wineCuveeDatas);
-                    }
+            btnInfo.setOnClickListener(view -> {
+                displayVideo = false;
+                if (mActivitySecondScreen != null) {
+                    mActivitySecondScreen.setCardWineFragment(CardWineFragment.this);
+                    mActivitySecondScreen.setDataSheet(wine, wineCuvee, wineDatas, wineCuveeDatas);
                 }
             });
             TextView wine_title = mView.findViewById(R.id.wine_title);

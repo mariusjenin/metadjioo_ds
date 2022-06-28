@@ -1,12 +1,9 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.UserContact;
 
 import java.util.List;
@@ -19,10 +16,10 @@ public interface UserContactDAO {
     @Query("SELECT * FROM UserContact")
     List<UserContact> getAll();
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     long insert(UserContact userContact);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insertAll(List<UserContact> userContacts);
 
     @Query("DELETE FROM UserContact")

@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,6 +18,7 @@ import androidx.annotation.Nullable;
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
+import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.CategoryWineVideoDAO;
 import com.metadjioo_ds.db.dao.HasCategoryWineVideoDAO;
 import com.metadjioo_ds.db.dao.LanguageDAO;
@@ -82,12 +81,7 @@ public class WineConfigTupleFragment extends ConfigIndirectFragment implements C
         //Switch
         boolean displayed = wineCuveeDAO.get(mIdWineCuvee).order_display >= 0;
         mSwitchDisplayed.setChecked(displayed);
-        mSwitchDisplayed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                productsModified();
-            }
-        });
+        mSwitchDisplayed.setOnClickListener(view -> productsModified());
 
         //bitmap
         Bitmap bm = new ImgSaver(MDSApp.getContext()).setDirectoryName(wineCuvee.img_directory).setFileName(wineCuvee.img_name).load();
@@ -119,13 +113,10 @@ public class WineConfigTupleFragment extends ConfigIndirectFragment implements C
             radioButton.setEnabled(displayed);
             radioButton.setText(categoryWineVideo.name);
             radioButton.setChecked(i == indexSelected);
-            radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
-                        mCategoryWineVideo = categoryWineVideo;
-                        productsModified();
-                    }
+            radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                if (b) {
+                    mCategoryWineVideo = categoryWineVideo;
+                    productsModified();
                 }
             });
             radioButtons.add(radioButton);
@@ -142,8 +133,7 @@ public class WineConfigTupleFragment extends ConfigIndirectFragment implements C
         int sizeLanguages = languages.size();
         for (int i = 0; i < sizeLanguages; i++) {
             Language language = languages.get(i);
-            View child = getLayoutInflater().inflate(R.layout.language_list_item, null);
-            linearLayoutCountryFlags.addView(child);
+            View child = getLayoutInflater().inflate(R.layout.language_list_item, linearLayoutCountryFlags,true);
             TextView textView = child.findViewById(R.id.country_code);
             textView.setText(language.country_code);
             Bitmap bmp = new ImgSaver(getContext()).setDirectoryName(language.img_directory).setFileName(language.img_name).load();
@@ -152,23 +142,22 @@ public class WineConfigTupleFragment extends ConfigIndirectFragment implements C
         }
     }
 
+    private void updateDatabaseAux(AppDatabase database){
+        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = database.hasCategoryWineVideoDAO();
+        WineCuveeDAO wineCuveeDAO = database.wineCuveeDAO();
+        wineCuveeDAO.updateOrder(mSwitchDisplayed.isChecked()? Math.max(wineCuveeDAO.get(mIdWineCuvee).order_display, 0) :-1,mIdWineCuvee);
+        hasCategoryWineVideoDAO.updateDisplayed(false, mIdWineCuvee);
+        hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mCategoryWineVideo.id_category_video);
+    }
 
     @Override
     public void updateDatabase() {
-        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = db.hasCategoryWineVideoDAO();
-        WineCuveeDAO wineCuveeDAO = db.wineCuveeDAO();
-        wineCuveeDAO.updateOrder(mSwitchDisplayed.isChecked()?wineCuveeDAO.get(mIdWineCuvee).order_display:-1,mIdWineCuvee);
-        hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mCategoryWineVideo.id_category_video);
+        updateDatabaseAux(db);
         mConfigObserver.onProductsModified();
     }
 
     public void productsModified() {
-        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = copyDB.hasCategoryWineVideoDAO();
-        WineCuveeDAO wineCuveeDAO = copyDB.wineCuveeDAO();
-        int order = wineCuveeDAO.get(mIdWineCuvee).order_display;
-        wineCuveeDAO.updateOrder(mSwitchDisplayed.isChecked()? Math.max(order, 0) :-1,mIdWineCuvee);
-        hasCategoryWineVideoDAO.updateDisplayed(false, mIdWineCuvee);
-        hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mCategoryWineVideo.id_category_video);
+        updateDatabaseAux(copyDB);
         mConfigObserver.productsModified();
     }
 

@@ -2,7 +2,6 @@ package com.metadjioo_ds.app.fragment;
 
 import androidx.fragment.app.Fragment;
 
-import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.AppDatabase;
 
 public abstract class ConfigFragment extends Fragment{
@@ -38,11 +37,8 @@ public abstract class ConfigFragment extends Fragment{
         //nothing : base behavior
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void languagesModified(){
-        //nothing : base behavior
-    }
-
-    public void databaseReload(){
         //nothing : base behavior
     }
 

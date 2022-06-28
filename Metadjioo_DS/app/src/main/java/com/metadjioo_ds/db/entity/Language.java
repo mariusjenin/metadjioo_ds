@@ -11,25 +11,25 @@ import java.io.Serializable;
 public class Language implements Serializable {
     @NonNull
     @PrimaryKey
-    public String country_code;
+    public final String country_code;
 
     @ColumnInfo(name = "country_name")
-    public String country_name;
+    public final String country_name;
 
     @ColumnInfo(name = "lang_default")
-    public boolean lang_default;
+    public final boolean lang_default;
 
     @ColumnInfo(name = "lang_selected")
-    public boolean lang_selected;
+    public final boolean lang_selected;
 
     @ColumnInfo(name = "lang_displayed")
-    public boolean lang_displayed;
+    public final boolean lang_displayed;
 
     @ColumnInfo(name = "img_directory")
-    public String img_directory;
+    public final String img_directory;
 
     @ColumnInfo(name = "img_name")
-    public String img_name;
+    public final String img_name;
 
     public Language(@NonNull String country_code, String country_name, boolean lang_default, boolean lang_selected, boolean lang_displayed, String img_directory, String img_name) {
         this.country_code = country_code;

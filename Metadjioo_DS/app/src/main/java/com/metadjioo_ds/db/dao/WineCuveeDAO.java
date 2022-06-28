@@ -1,7 +1,5 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -10,10 +8,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.metadjioo_ds.MDSApp;
-import com.metadjioo_ds.db.entity.Language;
-import com.metadjioo_ds.db.entity.UserContact;
-import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
 import com.metadjioo_ds.utils.ImgSaver;
 
@@ -52,8 +46,8 @@ public interface WineCuveeDAO {
     List<WineCuvee> getAllNonConfigurable();
 
 
-//    @Query("UPDATE WineCuvee SET order_display = Case when :isDisplayed then 0 else -1 end WHERE WineCuvee.id_wine_cuvee =:idWineCuvee;")
-//    void updateDisplayed(boolean isDisplayed, int idWineCuvee);
+    @Query("UPDATE WineCuvee SET order_display = :order;")
+    void resetOrder(int order);
 
     @Query("UPDATE WineCuvee SET order_display = :order WHERE WineCuvee.id_wine_cuvee =:idWineCuvee;")
     void updateOrder(int order, int idWineCuvee);
@@ -65,10 +59,10 @@ public interface WineCuveeDAO {
         return wc;
     }
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insert(WineCuvee wineCuvee);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     List<Long> insertAll(List<WineCuvee> wineCuvees);
 
     @Query("DELETE FROM WineCuvee")

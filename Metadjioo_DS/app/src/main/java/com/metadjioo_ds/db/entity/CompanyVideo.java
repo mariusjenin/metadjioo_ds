@@ -17,19 +17,19 @@ public class CompanyVideo implements Serializable {
     public int id_company_video;
 
     @ColumnInfo(name = "country_code", index = true)
-    public String country_code;
+    public final String country_code;
 
     @ColumnInfo(name = "path_video")
-    public String path_video;
+    public final String path_video;
 
     @ColumnInfo(name = "title_video")
-    public String title_video;
+    public final String title_video;
 
     @ColumnInfo(name = "is_teaser")
-    public boolean is_teaser;
+    public final boolean is_teaser;
 
     @ColumnInfo(name = "displayed")
-    public boolean displayed;
+    public final boolean displayed;
 
     public CompanyVideo(String country_code,String path_video,String title_video, boolean is_teaser, boolean displayed) {
         this.country_code = country_code;

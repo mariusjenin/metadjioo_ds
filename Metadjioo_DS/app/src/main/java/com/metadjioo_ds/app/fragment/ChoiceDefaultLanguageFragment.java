@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
-import com.metadjioo_ds.app.activity.used.main_screen.ConfigurationActivity;
 import com.metadjioo_ds.app.adapter.ImageArrayAdapter;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.LanguageDAO;

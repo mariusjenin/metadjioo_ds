@@ -2,7 +2,6 @@ package com.metadjioo_ds.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -13,7 +12,7 @@ public class CategoryWineVideo implements Serializable {
     public int id_category_video;
 
     @ColumnInfo(name = "name")
-    public String name;
+    public final String name;
 
     public CategoryWineVideo(String name) {
         this.name = name;

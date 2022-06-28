@@ -1,6 +1,7 @@
 package com.metadjioo_ds.app.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.metadjioo_ds.app.FullScreenBehavior;
  * Activity of Metadjioo Display Stand App
  */
 public abstract class MDSActivity extends AppCompatActivity {
+    public static final int FINISH_ACTIVITY_CODE = 0;
     private ProgressDialog mProgDialog;
     private FullScreenBehavior mFullScreenBehavior;
     protected AppDatabase appDatabase;
@@ -38,18 +40,12 @@ public abstract class MDSActivity extends AppCompatActivity {
         actionBar.hide();
 
 
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
-                {
-
-                    @Override
-                    public void onSystemUiVisibilityChange(int visibility)
-                    {
-                        if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
-                        {
-                            mFullScreenBehavior.doFullScreen();
-                        }
-                    }
-                });
+        decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+            {
+                mFullScreenBehavior.doFullScreen();
+            }
+        });
     }
 
     @Override
@@ -66,5 +62,13 @@ public abstract class MDSActivity extends AppCompatActivity {
 
     public void hideProgress() {
         mProgDialog.dismiss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FINISH_ACTIVITY_CODE){
+            finish();
+        }
     }
 }

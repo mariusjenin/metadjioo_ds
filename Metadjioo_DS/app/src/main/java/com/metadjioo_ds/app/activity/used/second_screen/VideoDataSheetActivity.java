@@ -1,14 +1,10 @@
 package com.metadjioo_ds.app.activity.used.second_screen;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,19 +51,11 @@ public class VideoDataSheetActivity extends MDSActivitySecondScreen {
         mDatasheet = findViewById(R.id.datasheet);
         mImgViewWine = findViewById(R.id.wine_img);
         mDatasheetPlaceholder = findViewById(R.id.placeholder_datasheet);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(mIsVideoTeaser);
-            }
-        });
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                if (!mIsVideoTeaser) {
-                    stopTimer();
-                    reinitPresentation();
-                }
+        videoView.setOnPreparedListener(mp -> mp.setLooping(mIsVideoTeaser));
+        videoView.setOnCompletionListener(mediaPlayer -> {
+            if (!mIsVideoTeaser) {
+                stopTimer();
+                reinitPresentation();
             }
         });
         reinitPresentation();
@@ -135,14 +123,11 @@ public class VideoDataSheetActivity extends MDSActivitySecondScreen {
         mIsVideoTeaser = true;
         mTimer = new Timer();
         mTimerRunning = false;
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                TextView video_placholder = findViewById(R.id.video_placholder);
-                video_placholder.setText("Video at : " + mVideoTeaser.path_video);
-                Toast.makeText(getApplicationContext(), "Play " + mVideoTeaser.title_video, Toast.LENGTH_SHORT).show();
-                refreshDisplay();
-            }
+        new Handler(Looper.getMainLooper()).post(() -> {
+            TextView video_placholder = findViewById(R.id.video_placholder);
+            video_placholder.setText("Video at : " + mVideoTeaser.path_video);
+            Toast.makeText(getApplicationContext(), "Play " + mVideoTeaser.title_video, Toast.LENGTH_SHORT).show();
+            refreshDisplay();
         });
     }
 

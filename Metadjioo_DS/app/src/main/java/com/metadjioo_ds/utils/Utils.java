@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 
 import com.metadjioo_ds.MDSApp;
-import com.metadjioo_ds.app.activity.MDSActivityMainScreen;
 import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
-import com.metadjioo_ds.app.activity.used.second_screen.ExperiencePreviewActivity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

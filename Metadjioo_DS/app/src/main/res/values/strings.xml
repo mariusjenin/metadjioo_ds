@@ -16,6 +16,13 @@
     <string name="choice_default_language">Choice of the default language</string>
     <string name="database_empty">The database is empty you should reload it</string>
     <string name="choice_additionnal_video">Choice additionnal video</string>
+    <string name="validate">Validate</string>
+    <string name="order_products_presented">Order of products presented</string>
+    <string name="image">Image</string>
+    <string name="name">Name</string>
+    <string name="display">Display</string>
+    <string name="choose_video">Choose video</string>
+    <string name="language">Language</string>
     <!-- Identification -->
     <!-- Config -->
     <!-- MainPage -->

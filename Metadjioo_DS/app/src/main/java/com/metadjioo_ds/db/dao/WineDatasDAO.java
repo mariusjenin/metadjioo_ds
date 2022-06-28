@@ -1,12 +1,9 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineDatas;
 
 import java.util.List;
@@ -22,10 +19,10 @@ public interface WineDatasDAO {
     @Query("SELECT * FROM WineDatas")
     List<WineDatas> getAll();
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insert(WineDatas wineDatas);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insertAll(List<WineDatas> wineDatas);
 
     @Query("DELETE FROM WineDatas")

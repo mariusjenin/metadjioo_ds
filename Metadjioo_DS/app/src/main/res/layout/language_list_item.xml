@@ -27,6 +27,5 @@
         android:layout_margin="5dp"
         android:layout_weight="0.5"
         android:contentDescription="@string/content_description"
-        android:scaleType="fitStart"
-        app:srcCompat="@drawable/flag_uk" />
+        android:scaleType="fitStart" />
 </LinearLayout>

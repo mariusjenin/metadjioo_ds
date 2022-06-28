@@ -1,7 +1,5 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -11,7 +9,6 @@ import androidx.room.Query;
 import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.Transaction;
 
-import com.metadjioo_ds.db.entity.HasCategoryWineVideo;
 import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.utils.ImgSaver;
 
@@ -74,10 +71,10 @@ public interface LanguageDAO {
     @Query("UPDATE Language SET lang_displayed = :is_displayed WHERE Language.country_code =:code")
     void updateDisplayed(boolean is_displayed, String code);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insert(Language language);
 
-    @Insert(onConflict = ABORT)
+    @Insert()
     void insertAll(List<Language> languages);
 
     @Query("DELETE FROM Language")

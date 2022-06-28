@@ -12,26 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
-import com.metadjioo_ds.db.dao.HasCategoryWineVideoDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDatasDAO;
-import com.metadjioo_ds.db.entity.Wine;
 import com.metadjioo_ds.db.entity.WineCuvee;
 import com.metadjioo_ds.db.entity.WineCuveeDatas;
 import com.metadjioo_ds.utils.ImgSaver;
@@ -39,7 +33,6 @@ import com.metadjioo_ds.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ChoiceOrderProductsDisplayedFragment extends ConfigDirectFragment implements ConfigObserver {
     private DragLinearLayout mDragLinearLayout;
@@ -56,10 +49,6 @@ public class ChoiceOrderProductsDisplayedFragment extends ConfigDirectFragment i
         mNumberLayout = view.findViewById(R.id.number_list);
         init();
         return view;
-    }
-
-    public DragLinearLayout getDragLinearLayout() {
-        return mDragLinearLayout;
     }
 
     @Override
@@ -105,16 +94,13 @@ public class ChoiceOrderProductsDisplayedFragment extends ConfigDirectFragment i
             mDragLinearLayout.addDragView(childDraggable, childDraggable.findViewById(R.id.drag_icon));
         }
 
-        mDragLinearLayout.setOnViewSwapListener(new DragLinearLayout.OnViewSwapListener() {
-            @Override
-            public void onSwap(View firstView, int firstPosition, View secondView, int secondPosition) {
-                WineCuvee firstWineCuvee = mWineCuvees.get(firstPosition);
-                WineCuvee secondWineCuvee = mWineCuvees.get(secondPosition);
-                mWineCuvees.set(firstPosition,secondWineCuvee);
-                mWineCuvees.set(secondPosition,firstWineCuvee);
-                orderProductsModified();
-                Log.e(""+firstPosition,""+secondPosition);
-            }
+        mDragLinearLayout.setOnViewSwapListener((firstView, firstPosition, secondView, secondPosition) -> {
+            WineCuvee firstWineCuvee = mWineCuvees.get(firstPosition);
+            WineCuvee secondWineCuvee = mWineCuvees.get(secondPosition);
+            mWineCuvees.set(firstPosition,secondWineCuvee);
+            mWineCuvees.set(secondPosition,firstWineCuvee);
+            orderProductsModified();
+            Log.e(""+firstPosition,""+secondPosition);
         });
         orderProductsModified();
     }
@@ -134,6 +120,8 @@ public class ChoiceOrderProductsDisplayedFragment extends ConfigDirectFragment i
     @Override
     public void updateDatabase() {
         WineCuveeDAO wineCuveeDAO = db.wineCuveeDAO();
+        wineCuveeDAO.resetOrder(-1);
+
         mWineCuvees = copyDB.wineCuveeDAO().getDisplayed();
         int sizeWineCuvees = mWineCuvees.size();
         for (int i = 0; i < sizeWineCuvees; i++) {

@@ -6,7 +6,7 @@ import android.content.Context;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-import com.metadjioo_ds.app.activity.MDSActivity;
+
 import com.metadjioo_ds.app.activity.MDSActivityMainScreen;
 import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
 
@@ -14,6 +14,7 @@ import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
 /**
  * Application Metadjioo Display Stand
  */
+@SuppressWarnings("deprecation")
 public class MDSApp extends Application implements LifecycleObserver {
 
     private static Application MDS_APP;

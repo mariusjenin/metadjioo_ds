@@ -1,8 +1,6 @@
 package com.metadjioo_ds.app.activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 

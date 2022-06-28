@@ -11,7 +11,6 @@
         android:layout_margin="5dp"
         android:contentDescription="@string/content_description"
         android:scaleType="centerCrop"
-        android:src="@drawable/icons8_france_96"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

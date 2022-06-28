@@ -3,11 +3,9 @@ package com.metadjioo_ds.app.fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
@@ -24,7 +22,7 @@ public class CardCompanyVideoFragment extends ConfigIndirectFragment implements 
     private View mView;
     private ImageView imgTeaser;
     private RadioButton radioButton;
-    private boolean mIsTeaser;
+    private final boolean mIsTeaser;
 
     public CardCompanyVideoFragment(int idCompanyVideo, boolean isTeaser) {
         mIdCompanyVideo = idCompanyVideo;
@@ -45,15 +43,12 @@ public class CardCompanyVideoFragment extends ConfigIndirectFragment implements 
         imgTeaser = mView.findViewById(R.id.img_company_video);
         init();
 
-        radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked){
-                    if(mIsTeaser){
-                        teaserModified();
-                    }else{
-                        additionnalVideoModified();
-                    }
+        radioButton.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if(checked){
+                if(mIsTeaser){
+                    teaserModified();
+                }else{
+                    additionnalVideoModified();
                 }
             }
         });

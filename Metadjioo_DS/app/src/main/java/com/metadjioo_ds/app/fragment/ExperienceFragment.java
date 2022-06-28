@@ -1,17 +1,13 @@
 package com.metadjioo_ds.app.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +38,7 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
     public static final int SCROLL_DELTA = 300;
     public static final int MAX_CARDS_BEFORE_SCROLL = 6;
 
-    protected MDSActivity mActivity;
+    protected final MDSActivity mActivity;
     private Spinner mSpinnerLanguage;
     private boolean mLanguageChanging;
     private HorizontalScrollView mScrollView;
@@ -52,7 +48,7 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
     private ImageButton mBtnStartAdditionnalVideo;
     private final List<CardWineFragment> mCardWineFragments;
     private final boolean mIsOnMainScreen;
-    private AppDatabase mDatabase;
+    private final AppDatabase mDatabase;
 
     public ExperienceFragment(MDSActivity act, AppDatabase db, boolean ioms){
         mActivity = act;
@@ -73,26 +69,13 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
         mSpinnerLanguage = view.findViewById(R.id.spinner_language);
         mAdditionnalVideoTitle = view.findViewById(R.id.additionnal_video_title);
         mBtnStartAdditionnalVideo = view.findViewById(R.id.start_additionnal_video);
-        mBtnScrollLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scrollLeft();
-            }
-        });
+        mBtnScrollLeft.setOnClickListener(view12 -> scrollLeft());
 
-        mBtnScrollRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scrollRight();
-            }
-        });
+        mBtnScrollRight.setOnClickListener(view1 -> scrollRight());
         mScrollView.getViewTreeObserver()
-                .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                    @Override
-                    public void onScrollChanged() {
-                        mBtnScrollRight.setEnabled(mScrollView.canScrollHorizontally(1));
-                        mBtnScrollLeft.setEnabled(mScrollView.canScrollHorizontally(-1));
-                    }
+                .addOnScrollChangedListener(() -> {
+                    mBtnScrollRight.setEnabled(mScrollView.canScrollHorizontally(1));
+                    mBtnScrollLeft.setEnabled(mScrollView.canScrollHorizontally(-1));
                 });
         mSpinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -183,7 +166,7 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
 
     private void updateWineCards() {
         //RETRIEVE DATA DISPLAYED
-        List<HasCategoryWineVideo> hasCategoryWineVideos = mDatabase.hasCategoryWineVideoDAO().getDisplayed();  //TODO order
+        List<HasCategoryWineVideo> hasCategoryWineVideos = mDatabase.hasCategoryWineVideoDAO().getDisplayed();
         int sizeHCWV = hasCategoryWineVideos.size();
         if(sizeHCWV != mCardWineFragments.size()){
             initWineCards();
@@ -207,12 +190,7 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
 
         MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
         if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
-            mBtnStartAdditionnalVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((VideoDataSheetActivity) activitySecondScreen).setVideo(companyVideo.path_video, false);
-                }
-            });
+            mBtnStartAdditionnalVideo.setOnClickListener(view -> ((VideoDataSheetActivity) activitySecondScreen).setVideo(companyVideo.path_video, false));
         }
     }
 
