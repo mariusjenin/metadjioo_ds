@@ -27,6 +27,10 @@ public interface WineCuveeDAO {
     @Query("SELECT * FROM WineCuvee")
     List<WineCuvee> getAll();
 
+
+    @Query("SELECT WineCuvee.* FROM WineCuvee WHERE WineCuvee.order_display >= 0 order by WineCuvee.order_display ASC")
+    List<WineCuvee> getDisplayed();
+
     @Query("SELECT WineCuvee.* FROM WineCuvee " +
             "inner join WineCuveeDatas on WineCuvee.id_wine_cuvee = WineCuveeDatas.id_wine_cuvee " +
             "inner join WineVideo on WineCuvee.id_wine_cuvee = WineVideo.id_wine_cuvee " +
@@ -47,9 +51,16 @@ public interface WineCuveeDAO {
             "group by WineCuvee.id_wine_cuvee order by WineCuveeDatas.name ASC)")
     List<WineCuvee> getAllNonConfigurable();
 
+
+//    @Query("UPDATE WineCuvee SET order_display = Case when :isDisplayed then 0 else -1 end WHERE WineCuvee.id_wine_cuvee =:idWineCuvee;")
+//    void updateDisplayed(boolean isDisplayed, int idWineCuvee);
+
+    @Query("UPDATE WineCuvee SET order_display = :order WHERE WineCuvee.id_wine_cuvee =:idWineCuvee;")
+    void updateOrder(int order, int idWineCuvee);
+
     @Transaction
-    default WineCuvee createWineCuvee(Context context, int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name, Bitmap bmp){
-        WineCuvee wc = new WineCuvee(id_wine, ph_rate, alcohol_level, acidity_rate, img_directory, img_name);
+    default WineCuvee createWineCuvee(Context context, int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name, Bitmap bmp, int order_display){
+        WineCuvee wc = new WineCuvee(id_wine, ph_rate, alcohol_level, acidity_rate, img_directory, img_name,order_display);
         new ImgSaver(context).setDirectoryName(img_directory).setFileName(img_name).save(bmp);
         return wc;
     }

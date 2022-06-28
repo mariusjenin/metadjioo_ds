@@ -21,7 +21,9 @@ public interface HasCategoryWineVideoDAO {
     @Query("SELECT * FROM HasCategoryWineVideo")
     List<HasCategoryWineVideo> getAll();
 
-    @Query("SELECT * FROM HasCategoryWineVideo WHERE HasCategoryWineVideo.displayed = 1")
+    @Query("SELECT HasCategoryWineVideo.* FROM HasCategoryWineVideo " +
+            "INNER JOIN WineCuvee on HasCategoryWineVideo.id_wine_cuvee = WineCuvee.id_wine_cuvee " +
+            "WHERE HasCategoryWineVideo.displayed = 1 and WineCuvee.order_display >= 0 order by WineCuvee.order_display ASC")
     List<HasCategoryWineVideo> getDisplayed();
 
     @Query("UPDATE HasCategoryWineVideo SET displayed = :isDisplayed WHERE HasCategoryWineVideo.id_wine_cuvee =:idWineCuvee;")

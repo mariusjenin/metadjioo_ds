@@ -77,14 +77,14 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/choice_teaser_video"
-                    android:name="com.metadjioo_ds.app.fragment.ChoiceTeaserVideoFragment"
+                    android:name="com.metadjioo_ds.app.fragment.ChoiceCompanyVideoFragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/choice_language"
-                    tools:layout="@layout/choice_teaser_video" />
+                    tools:layout="@layout/choice_company_video" />
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/choice_products_displayed"
@@ -96,6 +96,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/choice_teaser_video"
                     tools:layout="@layout/choice_wine_displayed" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/choice_order_products_displayed"
+                    android:name="com.metadjioo_ds.app.fragment.ChoiceOrderProductsDisplayedFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/choice_products_displayed"
+                    tools:layout="@layout/choice_order_wine_displayed" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/choice_additionnal_video"
+                    android:name="com.metadjioo_ds.app.fragment.ChoiceCompanyVideoFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.733"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/choice_order_products_displayed"
+                    tools:layout="@layout/choice_company_video" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

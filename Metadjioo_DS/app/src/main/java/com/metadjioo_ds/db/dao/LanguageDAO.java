@@ -43,6 +43,12 @@ public interface LanguageDAO {
     @Query("SELECT * FROM Language WHERE Language.lang_displayed = 1 and (Language.lang_selected = 1 or Language.lang_default = 1) order by lang_default DESC LIMIT 1")
     Language getSelectedDefault();
 
+    @Query("SELECT Distinct Language.* FROM Language " +
+            "inner join WineCuveeDatas on Language.country_code = WineCuveeDatas.country_code " +
+            "inner join WineVideo on Language.country_code = WineVideo.country_code and WineCuveeDatas.country_code = WineVideo.country_code " +
+            "where WineCuveeDatas.id_wine_cuvee = :id_wine_cuvee and WineVideo.id_wine_cuvee = :id_wine_cuvee")
+    List<Language> getFromWineCuvee(int id_wine_cuvee);
+
     @Query("UPDATE Language SET lang_selected = :is_selected")
     void resetSelected(boolean is_selected);
 

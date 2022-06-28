@@ -58,7 +58,7 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
         mActivity = act;
         mDatabase = db;
         mIsOnMainScreen = ioms;
-        mLanguageChanging = true;
+        mLanguageChanging = false;
         mCardWineFragments = new ArrayList<>();
     }
 
@@ -123,7 +123,6 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
 
     private void init(){
         updateLanguage();
-        updateTeaser();
         initWineCards();
         updateAdditionnalVideo();
     }
@@ -150,10 +149,6 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
         mLanguageChanging = false;
     }
 
-    private void updateTeaser() {
-        //TODO
-    }
-
     private void initWineCards() {
         mActivity.showProgress();
         FragmentManager fragmentManager = mActivity.getSupportFragmentManager();
@@ -175,9 +170,9 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
             HasCategoryWineVideo hasCategoryWineVideo = hasCategoryWineVideos.get(i);
             CardWineFragment cardWine;
             if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
-                cardWine = new CardWineFragment((VideoDataSheetActivity) activitySecondScreen, hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+                cardWine = new CardWineFragment(mDatabase, (VideoDataSheetActivity) activitySecondScreen, hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
             } else {
-                cardWine = new CardWineFragment(hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
+                cardWine = new CardWineFragment(mDatabase, hasCategoryWineVideo.id_wine_cuvee, hasCategoryWineVideo.id_category_video);
             }
             mCardWineFragments.add(cardWine);
             fragmentManager.beginTransaction().add(R.id.wine_layout, cardWine, null).commit();
@@ -224,11 +219,12 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
     @Override
     public void onDefaultLanguageModified() {
         updateLanguage();
+        updateWineCards();
     }
 
     @Override
     public void onTeaserModified() {
-        updateTeaser();
+        //nothing : nothing has to be done
     }
 
     @Override

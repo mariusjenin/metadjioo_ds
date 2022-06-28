@@ -23,9 +23,10 @@
     <ImageView
         android:id="@+id/country_flag"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="25dp"
         android:layout_margin="5dp"
         android:layout_weight="0.5"
         android:contentDescription="@string/content_description"
-        android:scaleType="fitStart" />
+        android:scaleType="fitStart"
+        app:srcCompat="@drawable/flag_uk" />
 </LinearLayout>

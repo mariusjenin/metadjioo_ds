@@ -13,12 +13,13 @@ import androidx.annotation.Nullable;
 
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
+import com.metadjioo_ds.app.activity.used.main_screen.ConfigurationActivity;
 import com.metadjioo_ds.app.adapter.ImageArrayAdapter;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.LanguageDAO;
 import com.metadjioo_ds.db.entity.Language;
 
-public class ChoiceDefaultLanguageFragment extends ConfigObservableFragment implements ConfigObserver {
+public class ChoiceDefaultLanguageFragment extends ConfigDirectFragment implements ConfigObserver {
 
     private Spinner spinnerLanguage;
 
@@ -64,7 +65,6 @@ public class ChoiceDefaultLanguageFragment extends ConfigObservableFragment impl
         languageDAO.updateDefault(true,language.country_code);
     }
 
-    @Override
     public void defaultLanguageModified() {
         LanguageDAO languageDAO = copyDB.languageDAO();
         Language language = (Language) spinnerLanguage.getSelectedItem();

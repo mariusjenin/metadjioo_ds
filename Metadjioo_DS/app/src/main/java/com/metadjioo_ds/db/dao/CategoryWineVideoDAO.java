@@ -1,15 +1,11 @@
 package com.metadjioo_ds.db.dao;
 
-import static androidx.room.OnConflictStrategy.ABORT;
-
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.RewriteQueriesToDropUnusedColumns;
 
 import com.metadjioo_ds.db.entity.CategoryWineVideo;
-import com.metadjioo_ds.db.entity.HasCategoryWineVideo;
-import com.metadjioo_ds.db.entity.Language;
 
 import java.util.List;
 
@@ -29,10 +25,10 @@ public interface CategoryWineVideoDAO {
             "WHERE Language.lang_default = 1 and WineVideo.id_wine_cuvee = :id_wine_cuvee")
     List<CategoryWineVideo> getWithWineCuvee(int id_wine_cuvee);
 
-    @Insert(onConflict = ABORT)
+    @Insert
     void insert(CategoryWineVideo categoryWineVideo);
 
-    @Insert(onConflict = ABORT)
+    @Insert
     List<Long> insertAll(List<CategoryWineVideo> categoriesWineVideo);
 
     @Query("DELETE FROM CategoryWineVideo")

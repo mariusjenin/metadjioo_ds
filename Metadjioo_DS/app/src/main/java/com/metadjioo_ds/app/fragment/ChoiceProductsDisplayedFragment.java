@@ -1,7 +1,6 @@
 package com.metadjioo_ds.app.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +15,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
-import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.db.dao.HasCategoryWineVideoDAO;
-import com.metadjioo_ds.db.dao.LanguageDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDAO;
-import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.WineCuvee;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChoiceProductsDisplayedFragment extends ConfigObservableFragment implements ConfigObserver {
+public class ChoiceProductsDisplayedFragment extends ConfigDirectFragment implements ConfigObserver {
     private TableLayout mTableLayoutWineDisplayed;
     private List<WineConfigTupleFragment> mWineConfigTupleFragments;
 
@@ -60,10 +56,10 @@ public class ChoiceProductsDisplayedFragment extends ConfigObservableFragment im
         int sizeWineCuveesConfigurable = wineCuveesConfigurable.size();
         int sizeWineCuveesNonConfigurable = wineCuveesNonConfigurable.size();
 
-        Log.e("test",sizeWineCuveesNonConfigurable+"");
-//        for(int i = 0 ; i < sizeWineCuveesNonConfigurable;i++){
-//            hasCategoryWineVideoDAO.updateDisplayed(false,wineCuveesNonConfigurable.get(i).id_wine_cuvee);
-//        }
+        for(int i = 0 ; i < sizeWineCuveesNonConfigurable;i++){
+            hasCategoryWineVideoDAO.updateDisplayed(false,wineCuveesNonConfigurable.get(i).id_wine_cuvee);
+            wineCuveeDAO.updateOrder(-1,wineCuveesNonConfigurable.get(i).id_wine_cuvee);
+        }
 
         //Create elements and add them to the lines
         for(int i = 0 ; i < sizeWineCuveesConfigurable;i++){
@@ -74,22 +70,21 @@ public class ChoiceProductsDisplayedFragment extends ConfigObservableFragment im
         }
     }
 
-    @Override
     public void productsModified() {
-        //TODO
+        mConfigObserver.onProductsModified();
     }
 
     @Override
     public void updateDatabase() {
-        int nbTeasers = mWineConfigTupleFragments.size();
-        for(int i = 0 ; i < nbTeasers; i++){
+        int nbFragments = mWineConfigTupleFragments.size();
+        for(int i = 0 ; i < nbFragments; i++){
             mWineConfigTupleFragments.get(i).updateDatabase();
         }
     }
 
     @Override
     public void onDefaultLanguageModified() {
-        //TODO
+        init();
     }
 
     @Override
@@ -99,7 +94,10 @@ public class ChoiceProductsDisplayedFragment extends ConfigObservableFragment im
 
     @Override
     public void onProductsModified() {
-        //TODO
+        int nbFragments = mWineConfigTupleFragments.size();
+        for(int i = 0 ; i < nbFragments; i++){
+            mWineConfigTupleFragments.get(i).onProductsModified();
+        }
     }
 
     @Override

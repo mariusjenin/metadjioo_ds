@@ -18,23 +18,18 @@ public interface CompanyVideoDAO {
     CompanyVideo get(int id);
 
     @Query("SELECT CompanyVideo.* FROM CompanyVideo " +
-            "inner join Language on Language.country_code= CompanyVideo.country_code " +
             "WHERE CompanyVideo.is_teaser = :is_teaser and " +
-            "(Language.lang_selected = 1 or Language.lang_default = 1) " +
-            "ORDER BY Language.lang_selected DESC LIMIT 1")
+            "CompanyVideo.displayed = 1 LIMIT 1")
     CompanyVideo getDisplayed(boolean is_teaser);
 
-    @Query("UPDATE CompanyVideo SET displayed = :displayed")
-    void resetDisplayed(boolean displayed);
+    @Query("UPDATE CompanyVideo SET displayed = :displayed where CompanyVideo.is_teaser = :isTeaser")
+    void resetDisplayed(boolean displayed,boolean isTeaser);
 
     @Query("UPDATE CompanyVideo SET displayed = :displayed WHERE CompanyVideo.id_company_video =:id;")
     void updateDisplayed(boolean displayed, int id);
 
-    @Query("SELECT * FROM CompanyVideo WHERE CompanyVideo.is_teaser = 1")
-    List<CompanyVideo> getTeasers();
-
-    @Query("SELECT * FROM CompanyVideo WHERE CompanyVideo.is_teaser = 0")
-    List<CompanyVideo> getAdditionalVideos();
+    @Query("SELECT * FROM CompanyVideo WHERE CompanyVideo.is_teaser = :isTeaser")
+    List<CompanyVideo> getWithType(boolean isTeaser);
 
     @Query("SELECT * FROM CompanyVideo")
     List<CompanyVideo> getAll();

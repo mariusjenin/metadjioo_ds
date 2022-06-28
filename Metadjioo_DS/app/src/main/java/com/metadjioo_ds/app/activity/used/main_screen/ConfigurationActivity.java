@@ -1,6 +1,7 @@
 package com.metadjioo_ds.app.activity.used.main_screen;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -14,10 +15,10 @@ import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.app.activity.MDSActivityMainScreen;
 import com.metadjioo_ds.app.activity.MDSActivitySecondScreen;
 import com.metadjioo_ds.app.activity.used.second_screen.ExperiencePreviewActivity;
+import com.metadjioo_ds.app.fragment.ChoiceCompanyVideoFragment;
 import com.metadjioo_ds.app.fragment.ChoiceDefaultLanguageFragment;
+import com.metadjioo_ds.app.fragment.ChoiceOrderProductsDisplayedFragment;
 import com.metadjioo_ds.app.fragment.ChoiceProductsDisplayedFragment;
-import com.metadjioo_ds.app.fragment.ChoiceTeaserVideoFragment;
-import com.metadjioo_ds.app.fragment.ExperienceFragment;
 import com.metadjioo_ds.db.AppDatabase;
 import com.metadjioo_ds.utils.Utils;
 
@@ -29,6 +30,8 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
     private FragmentContainerView fcvChoiceLanguage;
     private FragmentContainerView fcvChoiceTeaserVideo;
     private FragmentContainerView fcvChoiceProductsDisplayed;
+    private FragmentContainerView fcvChoiceOrderProductsDisplayed;
+    private FragmentContainerView fcvChoiceAdditionnalVideo;
     private List<ConfigObserver> configObservers;
     private TextView databaseEmpty;
 
@@ -45,23 +48,39 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
         fcvChoiceLanguage = findViewById(R.id.choice_language);
         fcvChoiceTeaserVideo = findViewById(R.id.choice_teaser_video);
         fcvChoiceProductsDisplayed = findViewById(R.id.choice_products_displayed);
+        fcvChoiceOrderProductsDisplayed = findViewById(R.id.choice_order_products_displayed);
+        fcvChoiceAdditionnalVideo = findViewById(R.id.choice_additionnal_video);
 
         //Get the fragments
         ChoiceDefaultLanguageFragment choiceLanguage = (ChoiceDefaultLanguageFragment) getSupportFragmentManager().findFragmentById(R.id.choice_language);
-        ChoiceTeaserVideoFragment choiceTeaserVideo = (ChoiceTeaserVideoFragment) getSupportFragmentManager().findFragmentById(R.id.choice_teaser_video);
+        ChoiceCompanyVideoFragment choiceTeaserVideo = (ChoiceCompanyVideoFragment) getSupportFragmentManager().findFragmentById(R.id.choice_teaser_video);
         ChoiceProductsDisplayedFragment choiceProductsDisplayed = (ChoiceProductsDisplayedFragment) getSupportFragmentManager().findFragmentById(R.id.choice_products_displayed);
+        ChoiceOrderProductsDisplayedFragment choiceOrderProductsDisplayed = (ChoiceOrderProductsDisplayedFragment) getSupportFragmentManager().findFragmentById(R.id.choice_order_products_displayed);
+        ChoiceCompanyVideoFragment choiceAdditionnalVideo = (ChoiceCompanyVideoFragment) getSupportFragmentManager().findFragmentById(R.id.choice_additionnal_video);
 
         //Add to the list of observers
         configObservers.add(choiceLanguage);
         configObservers.add(choiceTeaserVideo);
         configObservers.add(choiceProductsDisplayed);
+        configObservers.add(choiceOrderProductsDisplayed);
+        configObservers.add(choiceAdditionnalVideo);
 
         assert choiceLanguage != null;
         choiceLanguage.setConfigObserver(this);
+
         assert choiceTeaserVideo != null;
         choiceTeaserVideo.setConfigObserver(this);
+        choiceTeaserVideo.setIsTeaser(true);
+
         assert choiceProductsDisplayed != null;
         choiceProductsDisplayed.setConfigObserver(this);
+
+        assert choiceOrderProductsDisplayed != null;
+        choiceOrderProductsDisplayed.setConfigObserver(this);
+
+        assert choiceAdditionnalVideo != null;
+        choiceAdditionnalVideo.setConfigObserver(this);
+        choiceAdditionnalVideo.setIsTeaser(false);
         refreshDisplay();
         refreshDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +130,15 @@ public class ConfigurationActivity extends MDSActivityMainScreen implements Conf
             fcvChoiceLanguage.setVisibility(View.GONE);
             fcvChoiceTeaserVideo.setVisibility(View.GONE);
             fcvChoiceProductsDisplayed.setVisibility(View.GONE);
+            fcvChoiceOrderProductsDisplayed.setVisibility(View.GONE);
+            fcvChoiceAdditionnalVideo.setVisibility(View.GONE);
             databaseEmpty.setVisibility(View.VISIBLE);
         } else {
             fcvChoiceLanguage.setVisibility(View.VISIBLE);
             fcvChoiceTeaserVideo.setVisibility(View.VISIBLE);
             fcvChoiceProductsDisplayed.setVisibility(View.VISIBLE);
+            fcvChoiceOrderProductsDisplayed.setVisibility(View.VISIBLE);
+            fcvChoiceAdditionnalVideo.setVisibility(View.VISIBLE);
             databaseEmpty.setVisibility(View.GONE);
         }
     }

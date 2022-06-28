@@ -38,12 +38,16 @@ public class WineCuvee implements Serializable {
     @ColumnInfo(name = "img_name")
     public String img_name;
 
-    public WineCuvee(int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name) {
+    @ColumnInfo(name = "order_display")
+    public int order_display;
+
+    public WineCuvee(int id_wine, float ph_rate, float alcohol_level, float acidity_rate, String img_directory, String img_name,int order_display) {
         this.id_wine = id_wine;
         this.ph_rate = ph_rate;
         this.alcohol_level = alcohol_level;
         this.acidity_rate = acidity_rate;
         this.img_directory = img_directory;
         this.img_name = img_name;
+        this.order_display = order_display;
     }
 }

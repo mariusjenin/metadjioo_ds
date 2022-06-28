@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 
 import com.metadjioo_ds.MDSApp;
@@ -94,26 +95,6 @@ public class Utils {
 
     }
 
-    /**
-     * Generate a value suitable for use in setId.
-     * This value will not collide with ID values generated at build time by aapt for R.id.
-     * <p>
-     * by omegasoft7 -> https://gist.github.com/omegasoft7/fdf7225a5b2955a1aba8
-     *
-     * @return a generated ID value
-     */
-    public static int generateViewId() {
-        for (; ; ) {
-            final int result = sNextGeneratedId.get();
-            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
-            int newValue = result + 1;
-            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
-            if (sNextGeneratedId.compareAndSet(result, newValue)) {
-                return result;
-            }
-        }
-    }
-
     public static void launchActivityOnSecondScreen(Class<?> clss) {
         MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
         if(activitySecondScreen == null ||activitySecondScreen.getClass() != clss){
@@ -123,7 +104,7 @@ public class Utils {
                 DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
                 if (dm != null) {
                     Display[] displays = dm.getDisplays();
-                    if (displays.length > 0) {
+                    if (displays.length > 1) {
                         Intent intent = new Intent(context, clss);
                         ActivityOptions activityOptions = ActivityOptions.makeBasic();
                         activityOptions.setLaunchDisplayId(displays[1].getDisplayId());
@@ -135,5 +116,11 @@ public class Utils {
         }
 
     }
+    public static int dpToPx(float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, MDSApp.getContext().getResources().getDisplayMetrics());
+    }
 
+    public static int spToPx(float sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, MDSApp.getContext().getResources().getDisplayMetrics());
+    }
 }

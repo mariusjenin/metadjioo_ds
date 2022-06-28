@@ -50,7 +50,7 @@ import java.util.List;
         WineCuvee.class,
         WineCuveeDatas.class,
         WineDatas.class,
-}, version = 3, exportSchema = false)
+}, version = 5, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     @SuppressLint("StaticFieldLeak")
@@ -160,10 +160,10 @@ public abstract class AppDatabase extends RoomDatabase {
         Bitmap wineBottle2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_2);
         Bitmap wineBottle3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_3);
         Bitmap wineBottle4 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wine_bottle_4);
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f, "companyName", "cuvee1", wineBottle1));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(1).intValue(), 3f, 9.6f, 3.41f, "companyName", "cuvee2", wineBottle2));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f, "companyName", "cuvee3", wineBottle3));
-        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(3).intValue(), 4f, 14f, 4.1f, "companyName", "cuvee4", wineBottle4));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(0).intValue(), 2.5f, 10.4f, 3.3f, "companyName", "cuvee1", wineBottle1,0));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(1).intValue(), 3f, 9.6f, 3.41f, "companyName", "cuvee2", wineBottle2,1));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(2).intValue(), 3.5f, 13.2f, 2.9f, "companyName", "cuvee3", wineBottle3,2));
+        wineCuvees.add(wineCuveeDAO.createWineCuvee(context, id_wines.get(3).intValue(), 4f, 14f, 4.1f, "companyName", "cuvee4", wineBottle4,3));
         List<Long> id_wine_cuvees = wineCuveeDAO.insertAll(wineCuvees);
 
         //WINE DATAS
@@ -248,13 +248,13 @@ public abstract class AppDatabase extends RoomDatabase {
         //HAS CATEGORY WINE VIDEO
         HasCategoryWineVideoDAO hasCategoryWineVideoDAO = hasCategoryWineVideoDAO();
         ArrayList<HasCategoryWineVideo> hasCategoryWineVideos = new ArrayList<>();
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(1).intValue(), true));
         hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(0).intValue(), id_categories_video.get(2).intValue(), false));
         hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(1).intValue(), false));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(1).intValue(), id_categories_video.get(2).intValue(), true));
         hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(1).intValue(), false));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(), false));
-        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(1).intValue(), false));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(2).intValue(), id_categories_video.get(2).intValue(), true));
+        hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(1).intValue(), true));
         hasCategoryWineVideos.add(new HasCategoryWineVideo(id_wine_cuvees.get(3).intValue(), id_categories_video.get(2).intValue(), false));
         hasCategoryWineVideoDAO.insertAll(hasCategoryWineVideos);
 

@@ -3,11 +3,13 @@ package com.metadjioo_ds.app.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,18 +24,25 @@ import com.metadjioo_ds.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements ConfigObserver {
+public class ChoiceCompanyVideoFragment extends ConfigDirectFragment implements ConfigObserver {
 
-    private RadioGroup radioGroupTeaser;
-    private List<CardCompanyVideoFragment> cardCompanyVideoFragments;
+    private RadioGroup mRadioGroupVideo;
+    private TextView mTitleChoiceCompanyVideo;
+    private List<CardCompanyVideoFragment> mCardCompanyVideoFragments;
+    private boolean mIsTeaser;
+
+    public void setIsTeaser(boolean isTeaser) {
+        this.mIsTeaser = isTeaser;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.choice_company_video, container, false);
-        cardCompanyVideoFragments = new ArrayList<>();
-        radioGroupTeaser = view.findViewById(R.id.radio_group_company_video);
+        mCardCompanyVideoFragments = new ArrayList<>();
+        mRadioGroupVideo = view.findViewById(R.id.radio_group_company_video);
+        mTitleChoiceCompanyVideo = view.findViewById(R.id.title_choice_company_video);
         init();
         return view;
     }
@@ -42,15 +51,23 @@ public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements C
     protected void init() {
         Context context = getContext();
 
+        //Title
+        if(mIsTeaser){
+            mTitleChoiceCompanyVideo.setText(getResources().getText(R.string.choice_teaser_video));
+        } else {
+            mTitleChoiceCompanyVideo.setText(getResources().getText(R.string.choice_additionnal_video));
+        }
+
         //Init
-        radioGroupTeaser.removeAllViews();
-        cardCompanyVideoFragments.clear();
+        mRadioGroupVideo.removeAllViews();
+
+        mCardCompanyVideoFragments.clear();
 
         CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-        List<CompanyVideo> companyTeasers = companyVideoDAO.getWithType(true);
-        int teasersSize = companyTeasers.size();
-        int nbByLine = Utils.organize(teasersSize,4);
-        int nbLine = (int) Math.ceil(teasersSize/(float)nbByLine);
+        List<CompanyVideo> companyVideos = companyVideoDAO.getWithType(mIsTeaser);
+        int sizeCompanyVideo = companyVideos.size();
+        int nbByLine = Utils.organize(sizeCompanyVideo,4);
+        int nbLine = (int) Math.ceil(sizeCompanyVideo /(float)nbByLine);
 
         //Create lines
         LinearLayout[] linearLayouts = new LinearLayout[nbLine];
@@ -63,20 +80,20 @@ public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements C
 
         //Add lines
         for(int i = 0 ; i < nbLine;i++){
-            radioGroupTeaser.addView(linearLayouts[i]);
+            mRadioGroupVideo.addView(linearLayouts[i]);
         }
 
         //Create elements and add them to the lines
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        for(int i = 0 ; i < teasersSize;i++){
+        for(int i = 0; i < sizeCompanyVideo; i++){
             int indexLayout = i/nbByLine;
 
-            LinearLayout linearLayout = (LinearLayout) radioGroupTeaser.getChildAt(indexLayout);
+            LinearLayout linearLayout = (LinearLayout) mRadioGroupVideo.getChildAt(indexLayout);
 
-//            CardCompanyVideoFragment cardCompanyVideo = new CardCompanyVideoFragment(companyTeasers.get(i).id_company_video,true);
-//            cardCompanyVideoFragments.add(cardCompanyVideo);
-//            cardCompanyVideo.setConfigObserver(this);
-//            fragmentManager.beginTransaction().add(linearLayout.getId(), cardCompanyVideo, null).commit();
+            CardCompanyVideoFragment cardCompanyVideo = new CardCompanyVideoFragment(companyVideos.get(i).id_company_video,mIsTeaser);
+            mCardCompanyVideoFragments.add(cardCompanyVideo);
+            cardCompanyVideo.setConfigObserver(this);
+            fragmentManager.beginTransaction().add(linearLayout.getId(), cardCompanyVideo, null).commit();
         }
     }
 
@@ -86,10 +103,15 @@ public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements C
     }
 
     @Override
+    public void additionnalVideoModified() {
+        mConfigObserver.onAdditionnalVideoModified();
+    }
+
+    @Override
     public void updateDatabase() {
-        int nbTeasers = cardCompanyVideoFragments.size();
+        int nbTeasers = mCardCompanyVideoFragments.size();
         for(int i = 0 ; i < nbTeasers; i++){
-            cardCompanyVideoFragments.get(i).updateDatabase();
+            mCardCompanyVideoFragments.get(i).updateDatabase();
         }
     }
 
@@ -100,9 +122,12 @@ public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements C
 
     @Override
     public void onTeaserModified() {
-        int nbTeasers = cardCompanyVideoFragments.size();
-        for(int i = 0 ; i < nbTeasers; i++){
-            cardCompanyVideoFragments.get(i).onTeaserModified();
+        Log.e("ChoiceCompany","onTeaserModified");
+        if(mIsTeaser){
+            int nbTeasers = mCardCompanyVideoFragments.size();
+            for(int i = 0 ; i < nbTeasers; i++){
+                mCardCompanyVideoFragments.get(i).onTeaserModified();
+            }
         }
     }
 
@@ -118,7 +143,12 @@ public class ChoiceTeaserVideoFragment extends ConfigDirectFragment implements C
 
     @Override
     public void onAdditionnalVideoModified() {
-        //nothing : not affected
+        if(!mIsTeaser) {
+            int nbTeasers = mCardCompanyVideoFragments.size();
+            for (int i = 0; i < nbTeasers; i++) {
+                mCardCompanyVideoFragments.get(i).onAdditionnalVideoModified();
+            }
+        }
     }
 
     @Override

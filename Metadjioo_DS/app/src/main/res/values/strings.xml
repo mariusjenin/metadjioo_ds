@@ -15,6 +15,7 @@
     <string name="choice_teaser_video">Choice of teaser video</string>
     <string name="choice_default_language">Choice of the default language</string>
     <string name="database_empty">The database is empty you should reload it</string>
+    <string name="choice_additionnal_video">Choice additionnal video</string>
     <!-- Identification -->
     <!-- Config -->
     <!-- MainPage -->

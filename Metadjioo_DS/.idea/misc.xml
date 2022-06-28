@@ -52,7 +52,10 @@
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/drawable/ic_refresh.xml" value="0.2795" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/drawable/table_divider.xml" value="0.311" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/card_company_video.xml" value="0.12714543812104787" />
+        <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/card_wine_displayed_draggable.xml" value="0.1565040650406504" />
+        <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/choice_company_video.xml" value="0.15898825654923215" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/choice_default_language.xml" value="0.15898825654923215" />
+        <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/choice_order_wine_displayed.xml" value="0.22" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/choice_teaser_video.xml" value="0.15853658536585366" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/choice_wine_displayed.xml" value="0.15898825654923215" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/configuration.xml" value="0.15" />
@@ -66,6 +69,7 @@
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/language_item_spinner_config.xml" value="0.15898825654923215" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/language_list_item.xml" value="0.15853658536585366" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/logging_in.xml" value="0.15898825654923215" />
+        <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/number_item.xml" value="0.1565040650406504" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/radio_button.xml" value="0.15853658536585366" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/video_datasheet_presentation.xml" value="0.1" />
         <entry key="..\:/Users/Marius/OneDrive/Documents/Etudes/Master/metadjioo/metadjioo_ds/Metadjioo_DS/app/src/main/res/layout/video_presentation.xml" value="0.15898825654923215" />

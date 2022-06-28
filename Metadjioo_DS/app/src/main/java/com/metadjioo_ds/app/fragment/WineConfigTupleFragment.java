@@ -1,9 +1,8 @@
 package com.metadjioo_ds.app.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -21,27 +21,25 @@ import com.metadjioo_ds.MDSApp;
 import com.metadjioo_ds.R;
 import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.dao.CategoryWineVideoDAO;
-import com.metadjioo_ds.db.dao.CompanyVideoDAO;
 import com.metadjioo_ds.db.dao.HasCategoryWineVideoDAO;
+import com.metadjioo_ds.db.dao.LanguageDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDAO;
 import com.metadjioo_ds.db.dao.WineCuveeDatasDAO;
 import com.metadjioo_ds.db.entity.CategoryWineVideo;
-import com.metadjioo_ds.db.entity.CompanyVideo;
+import com.metadjioo_ds.db.entity.Language;
 import com.metadjioo_ds.db.entity.WineCuvee;
 import com.metadjioo_ds.db.entity.WineCuveeDatas;
-import com.metadjioo_ds.db.entity.WineDatas;
 import com.metadjioo_ds.utils.ImgSaver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WineConfigTupleFragment extends ConfigObservableFragment implements ConfigObserver {
+public class WineConfigTupleFragment extends ConfigIndirectFragment implements ConfigObserver {
     private final int mIdWineCuvee;
+    private CategoryWineVideo mCategoryWineVideo;
     private View mView;
-    private ImageView mImgWIne;
-    private TextView mTitleWine;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch mSwitchDisplayed;
-    private LinearLayout mLinearLayoutCategories;
 
     public WineConfigTupleFragment(int idWineCuvee) {
         mIdWineCuvee = idWineCuvee;
@@ -57,92 +55,121 @@ public class WineConfigTupleFragment extends ConfigObservableFragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSwitchDisplayed = mView.findViewById(R.id.wine_displayed);
-        mImgWIne = mView.findViewById(R.id.wine_img);
-        mTitleWine = mView.findViewById(R.id.wine_title);
-        mLinearLayoutCategories = mView.findViewById(R.id.radio_group_type_video);
-        init();
 
-        mSwitchDisplayed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked){
-                    onProductsModified();
-                }
-            }
-        });
+        init();
     }
 
     @Override
     protected void init() {
-        //Entity
+        mSwitchDisplayed = mView.findViewById(R.id.wine_displayed);
+        ImageView imgWine = mView.findViewById(R.id.wine_img);
+        TextView titleWine = mView.findViewById(R.id.wine_title);
+        LinearLayout linearLayoutCategories = mView.findViewById(R.id.radio_group_type_video);
+        LinearLayout linearLayoutCountryFlags = mView.findViewById(R.id.language_list);
+        List<RadioButton> radioButtons = new ArrayList<>();
+
+        //DAO
+        CategoryWineVideoDAO categoryWineVideoDAO = copyDB.categoryWineVideoDAO();
+        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = copyDB.hasCategoryWineVideoDAO();
         WineCuveeDAO wineCuveeDAO = copyDB.wineCuveeDAO();
         WineCuveeDatasDAO wineCuveeDatasDAO = copyDB.wineCuveeDatasDAO();
+        LanguageDAO languageDAO = copyDB.languageDAO();
+
+        //Entity
         WineCuvee wineCuvee = wineCuveeDAO.get(mIdWineCuvee);
         WineCuveeDatas wineCuveeDatas = wineCuveeDatasDAO.get(mIdWineCuvee);
-        CategoryWineVideoDAO categoryWineVideoDAO = copyDB.categoryWineVideoDAO();
+
+        //Switch
+        boolean displayed = wineCuveeDAO.get(mIdWineCuvee).order_display >= 0;
+        mSwitchDisplayed.setChecked(displayed);
+        mSwitchDisplayed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productsModified();
+            }
+        });
+
+        //bitmap
+        Bitmap bm = new ImgSaver(MDSApp.getContext()).setDirectoryName(wineCuvee.img_directory).setFileName(wineCuvee.img_name).load();
+        imgWine.setImageBitmap(bm);
+
+        //title
+        titleWine.setText(wineCuveeDatas.name);
+
+        //Categories
         List<CategoryWineVideo> categoryWineVideos = categoryWineVideoDAO.getWithWineCuvee(mIdWineCuvee);
 
-        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = copyDB.hasCategoryWineVideoDAO();
+        linearLayoutCategories.removeAllViews();
+        linearLayoutCategories.removeAllViewsInLayout();
 
-        mLinearLayoutCategories.removeAllViews();
         int sizeCategories = categoryWineVideos.size();
 
-        int idSelected = 0;
+        int indexSelected = 0;
         for (int i = 0; i < sizeCategories; i++) {
-            if(hasCategoryWineVideoDAO.get(mIdWineCuvee,categoryWineVideos.get(i).id_category_video).displayed){
-                idSelected = i;
+            if (hasCategoryWineVideoDAO.get(mIdWineCuvee, categoryWineVideos.get(i).id_category_video).displayed) {
+                indexSelected = i;
                 break;
             }
         }
+        mCategoryWineVideo = categoryWineVideos.get(indexSelected);
 
-        List<RadioButton> radioButtons = new ArrayList<>();
         for (int i = 0; i < sizeCategories; i++) {
             CategoryWineVideo categoryWineVideo = categoryWineVideos.get(i);
             RadioButton radioButton = new RadioButton(getContext());
+            radioButton.setEnabled(displayed);
             radioButton.setText(categoryWineVideo.name);
+            radioButton.setChecked(i == indexSelected);
             radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(b){
-                        hasCategoryWineVideoDAO.updateDisplayed(false,mIdWineCuvee);
-                        hasCategoryWineVideoDAO.updateDisplayed(true,mIdWineCuvee,categoryWineVideo.id_category_video);
-                        mConfigObserver.onTeaserModified();
+                    if (b) {
+                        mCategoryWineVideo = categoryWineVideo;
+                        productsModified();
                     }
                 }
             });
             radioButtons.add(radioButton);
         }
 
-        radioButtons.get(idSelected).setChecked(true);
-
         int sizeRadioButtons = radioButtons.size();
         for (int i = 0; i < sizeRadioButtons; i++) {
-            mLinearLayoutCategories.addView(radioButtons.get(i));
+            linearLayoutCategories.addView(radioButtons.get(i));
         }
 
-        //bitmap
-        Bitmap bm = new ImgSaver(MDSApp.getContext()).setDirectoryName(wineCuvee.img_directory).setFileName(wineCuvee.img_name).load();
-        mImgWIne.setImageBitmap(bm);
-        mTitleWine.setText(wineCuveeDatas.name);
-
-        onTeaserModified();
+        //Flags
+        linearLayoutCountryFlags.removeAllViews();
+        List<Language> languages = languageDAO.getFromWineCuvee(mIdWineCuvee);
+        int sizeLanguages = languages.size();
+        for (int i = 0; i < sizeLanguages; i++) {
+            Language language = languages.get(i);
+            View child = getLayoutInflater().inflate(R.layout.language_list_item, null);
+            linearLayoutCountryFlags.addView(child);
+            TextView textView = child.findViewById(R.id.country_code);
+            textView.setText(language.country_code);
+            Bitmap bmp = new ImgSaver(getContext()).setDirectoryName(language.img_directory).setFileName(language.img_name).load();
+            ImageView imageView = (ImageView) child.findViewById(R.id.country_flag);
+            imageView.setImageBitmap(bmp);
+        }
     }
+
 
     @Override
     public void updateDatabase() {
         HasCategoryWineVideoDAO hasCategoryWineVideoDAO = db.hasCategoryWineVideoDAO();
-        //TODO
-        // hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mIdCateg);
+        WineCuveeDAO wineCuveeDAO = db.wineCuveeDAO();
+        wineCuveeDAO.updateOrder(mSwitchDisplayed.isChecked()?wineCuveeDAO.get(mIdWineCuvee).order_display:-1,mIdWineCuvee);
+        hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mCategoryWineVideo.id_category_video);
+        mConfigObserver.onProductsModified();
     }
 
-    @Override
     public void productsModified() {
-//        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-//        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-//        companyVideoDAO.resetDisplayed(false);
-//        companyVideoDAO.updateDisplayed(true,companyVideo.id_company_video);
-//        mConfigObserver.onTeaserModified();
+        HasCategoryWineVideoDAO hasCategoryWineVideoDAO = copyDB.hasCategoryWineVideoDAO();
+        WineCuveeDAO wineCuveeDAO = copyDB.wineCuveeDAO();
+        int order = wineCuveeDAO.get(mIdWineCuvee).order_display;
+        wineCuveeDAO.updateOrder(mSwitchDisplayed.isChecked()? Math.max(order, 0) :-1,mIdWineCuvee);
+        hasCategoryWineVideoDAO.updateDisplayed(false, mIdWineCuvee);
+        hasCategoryWineVideoDAO.updateDisplayed(true, mIdWineCuvee, mCategoryWineVideo.id_category_video);
+        mConfigObserver.productsModified();
     }
 
     @Override
@@ -157,11 +184,7 @@ public class WineConfigTupleFragment extends ConfigObservableFragment implements
 
     @Override
     public void onProductsModified() {
-//        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-//        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-//
-//        radioButton.setText(companyVideo.title_video);
-//        radioButton.setChecked(companyVideo.displayed);
+       init();
     }
 
     @Override

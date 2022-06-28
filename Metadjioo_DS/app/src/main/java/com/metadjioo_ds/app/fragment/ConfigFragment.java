@@ -5,18 +5,13 @@ import androidx.fragment.app.Fragment;
 import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.AppDatabase;
 
-public abstract class ConfigObservableFragment extends Fragment{
+public abstract class ConfigFragment extends Fragment{
     protected final AppDatabase db;
     protected final AppDatabase copyDB;
-    protected ConfigObserver mConfigObserver;
 
-    public ConfigObservableFragment(){
+    public ConfigFragment(){
         db = AppDatabase.getInstance1(getContext());
         copyDB = AppDatabase.getInstance2(getContext());
-    }
-
-    public void setConfigObserver(ConfigObserver configObserver){
-        mConfigObserver = configObserver;
     }
 
     protected abstract void init();

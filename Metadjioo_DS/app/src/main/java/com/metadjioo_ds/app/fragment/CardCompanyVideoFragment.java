@@ -3,6 +3,7 @@ package com.metadjioo_ds.app.fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,16 @@ import com.metadjioo_ds.app.ConfigObserver;
 import com.metadjioo_ds.db.dao.CompanyVideoDAO;
 import com.metadjioo_ds.db.entity.CompanyVideo;
 
-public class CardCompanyVideoFragment extends ConfigObservableFragment implements ConfigObserver {
+public class CardCompanyVideoFragment extends ConfigIndirectFragment implements ConfigObserver {
     private final int mIdCompanyVideo;
     private View mView;
     private ImageView imgTeaser;
     private RadioButton radioButton;
+    private boolean mIsTeaser;
 
-    public CardCompanyVideoFragment(int idCompanyVideo) {
+    public CardCompanyVideoFragment(int idCompanyVideo, boolean isTeaser) {
         mIdCompanyVideo = idCompanyVideo;
+        mIsTeaser = isTeaser;
     }
 
     @Nullable
@@ -46,7 +49,11 @@ public class CardCompanyVideoFragment extends ConfigObservableFragment implement
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if(checked){
-                    teaserModified();
+                    if(mIsTeaser){
+                        teaserModified();
+                    }else{
+                        additionnalVideoModified();
+                    }
                 }
             }
         });
@@ -64,23 +71,37 @@ public class CardCompanyVideoFragment extends ConfigObservableFragment implement
         Bitmap bm = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.black);
 
         imgTeaser.setImageBitmap(bm);
-        onTeaserModified();
+        onCompanyVideoModified();
     }
 
     @Override
     public void updateDatabase() {
         CompanyVideoDAO companyVideoDAO = db.companyVideoDAO();
-        companyVideoDAO.updateDisplayed(true,mIdCompanyVideo);
+        companyVideoDAO.updateDisplayed(radioButton.isChecked(),mIdCompanyVideo);
+    }
+
+    public void companyVideoModified(){
+        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
+        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
+        companyVideoDAO.resetDisplayed(false,mIsTeaser);
+        companyVideoDAO.updateDisplayed(true,companyVideo.id_company_video);
+        if(mIsTeaser){
+            mConfigObserver.teaserModified();
+        }else{
+            mConfigObserver.additionnalVideoModified();
+        }
     }
 
     @Override
     public void teaserModified() {
-        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-        companyVideoDAO.resetDisplayed(false);
-        companyVideoDAO.updateDisplayed(true,companyVideo.id_company_video);
-        mConfigObserver.onTeaserModified();
+        companyVideoModified();
     }
+
+    @Override
+    public void additionnalVideoModified() {
+        companyVideoModified();
+    }
+
 
     @Override
     public void onDefaultLanguageModified() {
@@ -89,11 +110,7 @@ public class CardCompanyVideoFragment extends ConfigObservableFragment implement
 
     @Override
     public void onTeaserModified() {
-        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
-        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
-
-        radioButton.setText(companyVideo.title_video);
-        radioButton.setChecked(companyVideo.displayed);
+        onCompanyVideoModified();
     }
 
     @Override
@@ -108,8 +125,18 @@ public class CardCompanyVideoFragment extends ConfigObservableFragment implement
 
     @Override
     public void onAdditionnalVideoModified() {
-        //nothing : not affected
+        onCompanyVideoModified();
     }
+
+    public void onCompanyVideoModified() {
+        CompanyVideoDAO companyVideoDAO = copyDB.companyVideoDAO();
+        CompanyVideo companyVideo = companyVideoDAO.get(mIdCompanyVideo);
+
+        radioButton.setText(companyVideo.title_video);
+        radioButton.setChecked(companyVideo.displayed);
+    }
+
+
 
     @Override
     public void onLanguagesModified() {
