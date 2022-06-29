@@ -133,11 +133,12 @@ public class WineConfigTupleFragment extends ConfigIndirectFragment implements C
         int sizeLanguages = languages.size();
         for (int i = 0; i < sizeLanguages; i++) {
             Language language = languages.get(i);
-            View child = getLayoutInflater().inflate(R.layout.language_list_item, linearLayoutCountryFlags,true);
+            View child = getLayoutInflater().inflate(R.layout.language_list_item, linearLayoutCountryFlags,false);
+            linearLayoutCountryFlags.addView(child);
             TextView textView = child.findViewById(R.id.country_code);
             textView.setText(language.country_code);
             Bitmap bmp = new ImgSaver(getContext()).setDirectoryName(language.img_directory).setFileName(language.img_name).load();
-            ImageView imageView = (ImageView) child.findViewById(R.id.country_flag);
+            ImageView imageView = child.findViewById(R.id.country_flag);
             imageView.setImageBitmap(bmp);
         }
     }
