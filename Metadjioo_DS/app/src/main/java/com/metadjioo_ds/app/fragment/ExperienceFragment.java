@@ -186,11 +186,13 @@ public class ExperienceFragment extends Fragment implements ConfigObserver {
     private void updateAdditionnalVideo() {
         //Get the video
         CompanyVideo companyVideo = mDatabase.companyVideoDAO().getDisplayed(false);
-        mAdditionnalVideoTitle.setText(companyVideo.title_video);
+        if(companyVideo !=null){
+            mAdditionnalVideoTitle.setText(companyVideo.title_video);
 
-        MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
-        if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
-            mBtnStartAdditionnalVideo.setOnClickListener(view -> ((VideoDataSheetActivity) activitySecondScreen).setVideo(companyVideo.path_video, false));
+            MDSActivitySecondScreen activitySecondScreen = MDSApp.getCurrentSecondScreenAct();
+            if(mIsOnMainScreen && activitySecondScreen instanceof VideoDataSheetActivity) {
+                mBtnStartAdditionnalVideo.setOnClickListener(view -> ((VideoDataSheetActivity) activitySecondScreen).setVideo(companyVideo.path_video, false));
+            }
         }
     }
 
