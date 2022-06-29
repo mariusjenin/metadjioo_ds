@@ -56,7 +56,7 @@ public class ImageArrayAdapter extends ArrayAdapter<Language> {
         Bitmap bmp = new ImgSaver(getContext()).setDirectoryName(l.img_directory).setFileName(l.img_name).load();
 
         @SuppressLint("InflateParams") View view = inflter.inflate(layout, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.flag_img);
+        ImageView imageView = view.findViewById(R.id.flag_img);
         imageView.setImageBitmap(bmp);
         return view;
     }
